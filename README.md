@@ -7,9 +7,7 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 **Stage: clickable prototype only.** None of the real app has been built yet.
 
 - `prototype/index.html` is one self-contained HTML/JS file with mock data. It has no build step.
-- It is published as a private claude.ai Artifact: https://claude.ai/artifact/D2RobHXGmDy9LAhqgsaVi5
-  - Only the owner can open it until it's shared.
-  - To update it, edit the file and republish it to that URL.
+- It is local only; it is not hosted anywhere. Open `prototype/index.html` in a browser to run it.
 - **How it was checked:** the inline script passed a `node --check` syntax check. Nobody has clicked through it in a browser yet.
 
 ### What's mocked in the prototype
