@@ -1,3 +1,9 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="BioCity prototype: scan your yard and find native plants that bring in pollinators.">
 <title>BioCity</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +29,10 @@
   --invasive:#f08f7b;--invasive-soft:#3e211b;--nonnative:#aeb3ec;--nonnative-soft:#272a45;
   --sky:#1f3236;--grass:#2f4d2f;--grass2:#3b5f39;--water:#23414d;--road:#2a352c;color-scheme:dark}
 html,body{height:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{margin:0;-webkit-text-size-adjust:100%;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
 *{box-sizing:border-box}
 .app{max-width:440px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
 header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
@@ -100,7 +109,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,label:focus-within{outl
 .hero-ill{width:100%;max-width:100%;border-radius:22px;display:block}
 .brand{font-family:var(--display);font-weight:800;font-size:3rem;line-height:1;letter-spacing:-.02em;color:var(--moss)}
 </style>
-
+</head>
+<body>
 <div class="app" id="app"></div>
 
 <script>
@@ -410,3 +420,6 @@ document.addEventListener("submit",e=>{
 });
 render();
 </script>
+
+</body>
+</html>

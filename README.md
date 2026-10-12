@@ -7,7 +7,10 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 **Stage: clickable prototype only.** None of the real app has been built yet.
 
 - `prototype/index.html` is one self-contained HTML/JS file with mock data. It has no build step.
-- It is local only; it is not hosted anywhere. Open `prototype/index.html` in a browser to run it.
+- Run it locally by opening `prototype/index.html` in a browser.
+- It is set up for Netlify: `netlify.toml` publishes the `prototype/` folder as a static site with no build step. Two ways to deploy:
+  - **Netlify UI:** Add new site → Import from GitHub → `aklose/biocity`. Netlify reads `netlify.toml`, and each push to `main` redeploys.
+  - **CLI:** run `netlify deploy --prod` from the repo root.
 - **How it was checked:** the inline script passed a `node --check` syntax check. Nobody has clicked through it in a browser yet.
 
 ### What's mocked in the prototype
