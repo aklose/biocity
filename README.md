@@ -11,7 +11,10 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 - **Live:** https://bob-squad-biocity.netlify.app (Netlify project `bob-squad-biocity`).
 - `netlify.toml` publishes the `prototype/` folder as a static site with no build step.
 - **Deploys are manual on purpose:** run `netlify deploy --prod` from the repo root. Pushing to GitHub does not redeploy, and the owner does not want GitHub linked to Netlify.
-- **How it was checked:** the inline script passed a `node --check` syntax check. Nobody has clicked through it in a browser yet.
+- **How it was checked:**
+  - The inline script passes `node --check`.
+  - Home, a project page and Shops were screenshotted in dark mode at 390px and 1440px wide; none of them scrolled sideways.
+  - Not yet checked: light mode, tablet widths (560–960px), and a full click-through on a real phone.
 
 ### What's mocked in the prototype
 - **Plant ID:** it picks 3 random plants from `YARD_POOL`, one tree, one bush and one small plant. There is no real AI or database lookup.
@@ -80,6 +83,7 @@ This was drafted with the user, but they chose to start with the prototype.
   - `SHOPS`: fictional shops and their map pins.
   - `YARD_POOL`: plants the mock scan can "find".
 - **Routing:** an in-memory `stack` of `{v, ...params}`. Each view is a function `V.<view>` that returns HTML.
+- **Navigation:** the sidebar and tab bar use `ACT.nav`, which resets the stack to `[home, section]`. `section()` decides which nav item is highlighted.
 - **Event handling:** delegated through `data-act` attributes, which map to handlers in `ACT`.
 - **Forms:** `data-form` = `zip` or `light`.
 - **Uploads:** file inputs marked `data-upload`.
@@ -89,3 +93,8 @@ This was drafted with the user, but they chose to start with the prototype.
   - **Phone (under 960px):** a single column with a bottom tab bar.
   - **Web (960px and up):** a left sidebar for navigation (`sidebar()`) and wider content. Lists use `.list` grids, and detail pages use the two-column `.split` layout.
   - Onboarding and the scan flow show neither the sidebar nor the tab bar (see `chrome()`).
+
+## Checking layout changes
+Headless Chrome won't render a window narrower than 500px, so a 390px `--window-size` screenshot is just a cropped 500px page. To see a real phone width:
+- Open the page inside a 390px-wide `<iframe>`, and run Chrome with `--allow-file-access-from-files`.
+- To skip onboarding, add a script after the app's own script that sets `S.zip`, `S.projects` and `stack`, then calls `render()`.
