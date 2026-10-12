@@ -85,3 +85,7 @@ This was drafted with the user, but they chose to start with the prototype.
 - **Uploads:** file inputs marked `data-upload`.
 - **New project flow:** state lives in `scan`, which moves through the steps `photo → analyzing → closeup (loop) → light`. Submitting the light form saves the project.
 - **Suggestions:** `suggestions(found, light)` returns at most 3 per category. It excludes plants already found and all invasives, and puts natives first.
+- **Responsive layouts:**
+  - **Phone (under 960px):** a single column with a bottom tab bar.
+  - **Web (960px and up):** a left sidebar for navigation (`sidebar()`) and wider content. Lists use `.list` grids, and detail pages use the two-column `.split` layout.
+  - Onboarding and the scan flow show neither the sidebar nor the tab bar (see `chrome()`).

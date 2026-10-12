@@ -29,17 +29,19 @@
   --invasive:#f08f7b;--invasive-soft:#3e211b;--nonnative:#aeb3ec;--nonnative-soft:#272a45;
   --sky:#1f3236;--grass:#2f4d2f;--grass2:#3b5f39;--water:#23414d;--road:#2a352c;color-scheme:dark}
 html,body{height:100%}
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{padding-top:env(safe-area-inset-top,0px)}
 [hidden]{display:none!important}
 img{max-width:100%}
 body{margin:0;-webkit-text-size-adjust:100%;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
 *{box-sizing:border-box}
-.app{max-width:440px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+.app{min-height:100%;display:flex;flex-direction:column}
+.content{flex:1;min-width:0;width:100%;max-width:560px;margin:0 auto;display:flex;flex-direction:column}
 header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
 header.bar h1{font-family:var(--display);font-weight:800;font-size:1.25rem;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .iconbtn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:40px;height:40px;border-radius:12px;display:grid;place-items:center;cursor:pointer;flex:none}
 .chip{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:.85rem;cursor:pointer;white-space:nowrap}
-main{flex:1;padding:20px 16px 40px;display:flex;flex-direction:column;gap:20px}
+main{flex:1;padding:20px 16px calc(40px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:20px}
+.has-tabs main{padding-bottom:24px}
 h2{font-family:var(--display);font-weight:800;font-size:1.75rem;line-height:1.15;margin:0;text-wrap:balance}
 h3{font-family:var(--display);font-weight:600;font-size:1.15rem;margin:0}
 p{margin:0}
@@ -55,6 +57,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,label:focus-within{outl
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .tile{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:18px;padding:16px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;font:inherit;min-height:140px}
 .tile .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--moss-soft);color:var(--moss)}
+.tile.wide{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center}
 .tile.feature{grid-column:1/-1;flex-direction:row;align-items:center;min-height:0;background:var(--moss);color:var(--moss-ink);border-color:var(--moss)}
 .tile.feature .ic{background:color-mix(in srgb,var(--moss-ink) 18%,transparent);color:var(--moss-ink)}
 .tile b{font-family:var(--display);font-weight:800;font-size:1.1rem}
@@ -108,6 +111,46 @@ button:focus-visible,a:focus-visible,input:focus-visible,label:focus-within{outl
 .proto{font-size:.75rem;text-align:center;color:var(--muted);padding:0 16px 16px}
 .hero-ill{width:100%;max-width:100%;border-radius:22px;display:block}
 .brand{font-family:var(--display);font-weight:800;font-size:3rem;line-height:1;letter-spacing:-.02em;color:var(--moss)}
+/* Shared layout helpers: single column on phones, grids on wide screens */
+.list{display:grid;gap:12px}
+.split{display:flex;flex-direction:column;gap:20px}
+.split>div{display:flex;flex-direction:column;gap:20px;min-width:0}
+.side{display:none}
+.side-brand{font-family:var(--display);font-weight:800;font-size:1.75rem;letter-spacing:-.02em;color:var(--moss);padding:4px 12px 20px}
+.navitem{appearance:none;border:0;background:transparent;color:var(--ink);font:inherit;font-weight:700;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;cursor:pointer;text-align:left;width:100%}
+.navitem svg{color:var(--muted);flex:none}
+.navitem[aria-current="page"]{background:var(--moss-soft);color:var(--moss)}
+.navitem[aria-current="page"] svg{color:var(--moss)}
+.navitem:hover{background:var(--sunken)}
+.navitem[aria-current="page"]:hover{background:var(--moss-soft)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:6px;padding:12px}
+.tabbar{position:sticky;bottom:0;z-index:5;display:flex;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+.tabbar .navitem{flex:1;flex-direction:column;gap:2px;padding:6px 2px;font-size:.7rem;text-align:center;justify-content:center;border-radius:10px}
+.tabbar .navitem[aria-current="page"]{background:transparent}
+.tabbar .navitem svg{padding:3px 14px;box-sizing:content-box;border-radius:999px}
+.tabbar .navitem[aria-current="page"] svg{background:var(--moss-soft)}
+.onboard{justify-content:center}
+.narrow{max-width:560px}
+@media (min-width:960px){
+  .app.chrome{flex-direction:row}
+  .side{display:flex;flex-direction:column;gap:2px;width:256px;flex:none;position:sticky;top:0;height:100vh;height:100dvh;padding:24px 12px;background:var(--surface);border-right:1px solid var(--line)}
+  .tabbar,.hdr-zip,.iconbtn.top{display:none}
+  .content{max-width:1180px}
+  .content.narrow{max-width:680px}
+  header.bar{padding:18px 40px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px)}
+  header.bar h1{font-size:1.5rem}
+  main{padding:32px 40px 64px;gap:28px}
+  h2{font-size:2.25rem}
+  .list{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  .list.tight{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+  .split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px;align-items:start}
+  .split>.pin-top{position:sticky;top:100px}
+  .tiles{grid-template-columns:repeat(4,1fr);gap:16px}
+  .tile,.tile.feature,.tile.wide{grid-column:auto;flex-direction:column;align-items:flex-start;min-height:180px;padding:20px}
+  .lede{max-width:62ch}
+  .onboard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center;max-width:1080px;margin:0 auto;width:100%;min-height:100vh;padding-block:48px}
+  .onboard .brand{font-size:4rem}
+}
 </style>
 </head>
 <body>
@@ -175,6 +218,7 @@ const LIGHT={full:"Full sun (6+ hours)",part:"Part sun (3–6 hours)",shade:"Mos
 const REGIONS=["Northeast","Northeast","Mid-Atlantic","Southeast","Great Lakes","Upper Midwest","Central Plains","South Central","Mountain West","West Coast"];
 
 const ICON={
+home:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
 back:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
 yard:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M7 21v-5"/><circle cx="7" cy="11" r="4"/><path d="M15 21c0-4 2-6 5-7-3 0-5 1-5 3"/><path d="M15 21c0-3-1-5-4-6"/></svg>',
 shop:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>',
@@ -222,41 +266,52 @@ function suggestions(found,light){
 }
 
 function header(title,right=""){
-  const b=stack.length>1?`<button class="iconbtn" data-act="back" aria-label="Back">${ICON.back}</button>`:"";
+  const b=stack.length>1?`<button class="iconbtn${stack.length===2&&chrome()?" top":""}" data-act="back" aria-label="Back">${ICON.back}</button>`:"";
   return `<header class="bar">${b}<h1>${esc(title)}</h1>${right}</header>`;
 }
 
+const NAV=[["home","Home","Home",ICON.home],["yard","My Yard","My Yard",ICON.yard],["shops","Shops","Shops",ICON.shop],["plants","Plant Library","Plants",ICON.plant],["pollinators","Pollinator Library","Pollinators",ICON.bee]];
+const SECTION={project:"yard",scan:"yard",plant:"plants",pollinator:"pollinators",zip:"home"};
+function section(){const v=(stack[1]||stack[0]).v;return SECTION[v]||v}
+function chrome(){const v=cur().v;return !(v==="welcome"||v==="scan"||(v==="zip"&&!S.zip))}
+function navItems(short){const s=section();return NAV.map(([v,long,sh,ic])=>`<button class="navitem" data-act="nav" data-v="${v}"${s===v?' aria-current="page"':""}>${ic}<span>${short?sh:long}</span></button>`).join("")}
+function sidebar(){return `<nav class="side" aria-label="Main"><div class="side-brand">BioCity</div>${navItems(false)}<div class="side-foot"><span class="eyebrow">Your area</span><span>${esc(S.zip)} · ${esc(region())} US</span><button class="chip" data-act="changezip" style="align-self:flex-start">Change zip code</button></div></nav>`}
+
 const V={};
-V.welcome=()=>`<main style="justify-content:center">
+V.welcome=()=>`<main class="onboard">
   <img class="hero-ill" alt="Illustrated backyard with a tree, shrubs and flowers" src="${yardSVG(3)}">
-  <div class="stack"><div class="brand">BioCity</div>
+  <div class="stack" style="gap:20px"><div class="stack"><div class="brand">BioCity</div>
   <h2>Turn your yard into habitat.</h2>
-  <p class="muted">Scan your yard, find out what's growing there, and get a list of native plants that bring in more bees, butterflies and birds.</p></div>
-  <button class="btn primary" data-act="next">Next</button></main>`;
+  <p class="muted lede">Scan your yard, find out what's growing there, and get a list of native plants that bring in more bees, butterflies and birds.</p></div>
+  <button class="btn primary" data-act="next">Next</button></div></main>`;
 
 V.zip=()=>`${header(S.zip?"Change zip code":"Your area")}<main>
   <div class="stack"><h2>What's your zip code?</h2>
-  <p class="muted">BioCity uses it to find plant shops near you and to work out which plants are native or invasive in your region.</p></div>
-  <form class="stack" data-form="zip">
+  <p class="muted lede">BioCity uses it to find plant shops near you and to work out which plants are native or invasive in your region.</p></div>
+  <form class="stack" data-form="zip" style="max-width:420px">
     <label for="zip" class="eyebrow">Zip code</label>
     <input class="input" id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="02139" value="${esc(S.zip)}">
     <div class="err" role="alert">${esc(zipErr)}</div>
     <button class="btn primary" type="submit">${S.zip?"Save":"Continue"}</button>
   </form></main>`;
 
-V.home=()=>`${header("BioCity",`<button class="chip" data-act="changezip" aria-label="Change zip code">${esc(S.zip)} · change</button>`)}<main>
+function projectRow(p){return `<button class="row" data-act="project" data-id="${p.id}"><img class="thumb" alt="" src="${p.photo||yardSVG(p.seed||1)}"><div class="txt"><b>${esc(p.name)}</b><span class="muted small">${fmtDate(p.date)} · ${p.found.length} plants found · ${esc(LIGHT[p.light].split(" (")[0])}</span>${p.example?'<div class="tags"><span class="tag example">Example</span></div>':""}</div></button>`}
+
+V.home=()=>`${header("BioCity",`<button class="chip hdr-zip" data-act="changezip" aria-label="Change zip code">${esc(S.zip)} · change</button>`)}<main>
   <div class="stack"><span class="eyebrow">${esc(region())} US</span><h2>What would you like to do?</h2></div>
   <div class="tiles">
     <button class="tile feature" data-act="go" data-v="yard"><div class="ic">${ICON.yard}</div><div><b>My Yard</b><br><span>${S.projects.length?`${S.projects.length} saved project${S.projects.length>1?"s":""}`:"Scan your yard"}</span></div></button>
     <button class="tile" data-act="go" data-v="shops"><div class="ic">${ICON.shop}</div><b>Shops</b><span>Plant shops near you</span></button>
     <button class="tile" data-act="go" data-v="plants"><div class="ic">${ICON.plant}</div><b>Plant Library</b><span>Native and invasive plants</span></button>
-    <button class="tile" data-act="go" data-v="pollinators" style="grid-column:1/-1;min-height:0;flex-direction:row;align-items:center"><div class="ic">${ICON.bee}</div><div><b>Pollinator Library</b><br><span>Local pollinators and the plants they need</span></div></button>
-  </div></main>`;
+    <button class="tile wide" data-act="go" data-v="pollinators"><div class="ic">${ICON.bee}</div><div><b>Pollinator Library</b><br><span>Local pollinators and the plants they need</span></div></button>
+  </div>
+  ${S.projects.length?`<section class="group"><h3>Recent projects<small>${S.projects.length}</small></h3><div class="list">${S.projects.slice(0,3).map(projectRow).join("")}</div></section>`:""}
+  </main>`;
 
 V.yard=()=>`${header("My Yard")}<main>
-  <button class="btn primary" data-act="newscan">Start new project</button>
+  <button class="btn primary" data-act="newscan" style="max-width:360px">Start new project</button>
   <div class="stack"><span class="eyebrow">Saved projects</span>
-  ${S.projects.length?S.projects.map(p=>`<button class="row" data-act="project" data-id="${p.id}"><img class="thumb" alt="" src="${p.photo||yardSVG(p.seed||1)}"><div class="txt"><b>${esc(p.name)}</b><span class="muted small">${fmtDate(p.date)} · ${p.found.length} plants found · ${esc(LIGHT[p.light].split(" (")[0])}</span>${p.example?'<div class="tags"><span class="tag example">Example</span></div>':""}</div></button>`).join(""):`<p class="muted">No projects yet. Start one to scan your yard.</p>`}
+  ${S.projects.length?`<div class="list">${S.projects.map(projectRow).join("")}</div>`:`<p class="muted">No projects yet. Start one to scan your yard.</p>`}
   </div></main>`;
 
 function progress(){const steps=["photo","closeup","light"];const i=scan.step==="analyzing"?0:scan.step==="closeup"?1:scan.step==="light"?2:0;return `<div class="progress" aria-label="Step ${i+1} of 3">${steps.map((_,k)=>`<i class="${k<=i?"on":""}"></i>`).join("")}</div>`}
@@ -295,20 +350,25 @@ V.project=({id})=>{
   const all=Object.values(sug).flat();
   const nat=all.filter(i=>PLANTS[i].st==="native").length,pol=all.filter(i=>PLANTS[i].p).length;
   const inv=pr.found.filter(i=>PLANTS[i].st==="invasive");
-  return `${header(pr.name)}<main>
+  return `${header(pr.name)}<main><div class="split">
+    <div>
     <img class="photo" alt="Yard photo" src="${pr.photo||yardSVG(pr.seed||1)}">
     <div class="stack"><span class="eyebrow">Improve biodiversity</span><h2>${all.length} plants to add to your yard</h2>
     <p class="muted">Picked for ${esc(LIGHT[pr.light].toLowerCase())} in the ${esc(region())}. ${nat} are native and ${pol} feed pollinators. None of them are already in your yard.</p></div>
     ${inv.length?`<div class="notice"><b>${inv.length} invasive plant${inv.length>1?"s":""} found:</b> ${inv.map(i=>esc(PLANTS[i].n)).join(", ")}. Replacing ${inv.length>1?"them":"it"} with plants from this list helps the most.</div>`:""}
-    ${CATS.filter(c=>sug[c]).map(c=>`<section class="group"><h3>${c}<small>${sug[c].length}</small></h3>${sug[c].map(i=>{const p=PLANTS[i];return `<button class="row" data-act="plant" data-id="${i}" style="align-items:flex-start"><img class="thumb" alt="" src="${leafSVG(p.h)}"><div class="txt stack" style="gap:6px"><div><b>${esc(p.n)}</b><span class="muted small"><i>${esc(p.s)}</i></span></div>${tags(p)}<p class="small">${esc(p.b)}</p><p class="small muted">${esc(p.d)}</p><dl class="facts"><dt>Sun</dt><dd>${p.sun.map(x=>LIGHT[x].split(" (")[0]).join(", ")}</dd><dt>Water</dt><dd>${p.w}</dd></dl></div></button>`}).join("")}</section>`).join("")}
-    <section class="group"><h3>Already in your yard<small>${pr.found.length}</small></h3>${pr.found.map(i=>plantRow(i)).join("")}</section>
+    </div>
+    <div>
+    ${CATS.filter(c=>sug[c]).map(c=>`<section class="group"><h3>${c}<small>${sug[c].length}</small></h3><div class="list tight">${sug[c].map(i=>{const p=PLANTS[i];return `<button class="row" data-act="plant" data-id="${i}" style="align-items:flex-start"><img class="thumb" alt="" src="${leafSVG(p.h)}"><div class="txt stack" style="gap:6px"><div><b>${esc(p.n)}</b><span class="muted small"><i>${esc(p.s)}</i></span></div>${tags(p)}<p class="small">${esc(p.b)}</p><p class="small muted">${esc(p.d)}</p><dl class="facts"><dt>Sun</dt><dd>${p.sun.map(x=>LIGHT[x].split(" (")[0]).join(", ")}</dd><dt>Water</dt><dd>${p.w}</dd></dl></div></button>`}).join("")}</div></section>`).join("")}
+    <section class="group"><h3>Already in your yard<small>${pr.found.length}</small></h3><div class="list tight">${pr.found.map(i=>plantRow(i)).join("")}</div></section>
     <button class="btn ghost" data-act="go" data-v="shops">Find these at local shops</button>
-  </main>`;
+    </div>
+  </div></main>`;
 };
 
 V.shops=()=>{
   const sel=SHOPS.find(s=>s.id===selShop);
-  return `${header("Shops near "+S.zip)}<main>
+  return `${header("Shops near "+S.zip)}<main><div class="split">
+  <div class="pin-top">
   <svg class="map" viewBox="0 0 360 300" role="img" aria-label="Map of plant shops near you">
     <rect width="360" height="300" fill="var(--grass)"/>
     <path d="M0 140 Q90 120 150 150 T360 130 V170 Q260 190 150 185 T0 175Z" fill="var(--water)"/>
@@ -317,44 +377,50 @@ V.shops=()=>{
     <circle cx="180" cy="150" r="8" fill="var(--pollen)" stroke="var(--surface)" stroke-width="3"/>
     ${SHOPS.map((s,i)=>`<g class="pin ${s.id===selShop?"sel":""}" data-act="shop" data-id="${s.id}" tabindex="0" role="button" aria-label="${esc(s.n)}" transform="translate(${s.x} ${s.y})"><path d="M0 0 C-12 -14 -14 -20 -14 -26 A14 14 0 1 1 14 -26 C14 -20 12 -14 0 0Z"/><text x="0" y="-22" text-anchor="middle">${i+1}</text></g>`).join("")}
   </svg>
-  ${sel?`<div class="card"><h3>${esc(sel.n)}</h3><p class="muted small">${sel.mi} · ${sel.h}</p><p class="small">${esc(sel.t)}</p><a class="btn primary" href="https://example.com/" target="_blank" rel="noopener">Visit website</a><p class="muted small">Prototype: this opens a placeholder site.</p></div>`:`<p class="muted small">Tap a pin to see the shop. The yellow dot is you.</p>`}
+  </div>
+  <div>
+  ${sel?`<div class="card"><h3>${esc(sel.n)}</h3><p class="muted small">${sel.mi} · ${sel.h}</p><p class="small">${esc(sel.t)}</p><a class="btn primary" href="https://example.com/" target="_blank" rel="noopener">Visit website</a><p class="muted small">Prototype: this opens a placeholder site.</p></div>`:`<p class="muted small">Tap a pin or a shop to see details. The yellow dot is you.</p>`}
   <div class="stack">${SHOPS.map((s,i)=>`<button class="row" data-act="shop" data-id="${s.id}"><span class="ic" style="width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:${s.id===selShop?"var(--pollen)":"var(--moss)"};color:${s.id===selShop?"#1c2a1f":"var(--moss-ink)"};font-weight:700;flex:none">${i+1}</span><div class="txt"><b>${esc(s.n)}</b><span class="muted small">${s.mi} · ${esc(s.t)}</span></div></button>`).join("")}</div>
-  </main>`;
+  </div>
+  </div></main>`;
 };
 
 V.plants=()=>{
   const list=Object.entries(PLANTS).filter(([,p])=>p.st===libTab).sort((a,b)=>CATS.indexOf(a[1].c)-CATS.indexOf(b[1].c));
   return `${header("Plant Library")}<main>
   <p class="muted">Common plants in the ${esc(region())}.</p>
-  <div class="tabs" role="tablist"><button role="tab" aria-selected="${libTab==="native"}" data-act="tab" data-t="native">Native</button><button role="tab" aria-selected="${libTab==="invasive"}" data-act="tab" data-t="invasive">Invasive</button></div>
-  <div class="stack">${list.map(([id,p])=>plantRow(id,`<span class="muted small"> · ${p.c}</span>`)).join("")}</div></main>`;
+  <div class="tabs" role="tablist" style="max-width:420px"><button role="tab" aria-selected="${libTab==="native"}" data-act="tab" data-t="native">Native</button><button role="tab" aria-selected="${libTab==="invasive"}" data-act="tab" data-t="invasive">Invasive</button></div>
+  <div class="list">${list.map(([id,p])=>plantRow(id,`<span class="muted small"> · ${p.c}</span>`)).join("")}</div></main>`;
 };
 
 V.plant=({id})=>{
   const p=PLANTS[id];
   const pol=Object.entries(POLL).filter(([,x])=>x.pl.includes(id));
-  return `${header(p.n)}<main>
-  <img class="photo" alt="" src="${leafSVG(p.h)}">
+  return `${header(p.n)}<main><div class="split">
+  <div class="pin-top"><img class="photo" alt="" src="${leafSVG(p.h)}"></div>
+  <div>
   <div class="stack"><h2>${esc(p.n)}</h2><p class="muted"><i>${esc(p.s)}</i> · ${p.c}</p>${tags(p)}</div>
-  <p>${esc(p.d)}</p>
+  <p class="lede">${esc(p.d)}</p>
   ${p.st==="invasive"?`<div class="notice"><b>What to do:</b> ${esc(p.x)}</div>`:`<div class="card"><span class="eyebrow">Benefits</span><p>${esc(p.b)}</p><dl class="facts"><dt>Sun</dt><dd>${p.sun.map(x=>LIGHT[x]).join("; ")}</dd><dt>Water</dt><dd>${p.w}</dd></dl></div>`}
   ${pol.length?`<div class="stack"><span class="eyebrow">Pollinators it supports</span>${pol.map(([pid,x])=>`<button class="row" data-act="pollinator" data-id="${pid}"><div class="txt"><b>${esc(x.n)}</b><span class="muted small">${x.k}</span></div></button>`).join("")}</div>`:""}
-  </main>`;
+  </div>
+  </div></main>`;
 };
 
 V.pollinators=()=>`${header("Pollinator Library")}<main>
   <p class="muted">Pollinators found in the ${esc(region())} and the plants they rely on.</p>
-  <div class="stack">${Object.entries(POLL).map(([id,x])=>`<button class="row" data-act="pollinator" data-id="${id}"><div class="ic" style="width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--pollen-soft);color:var(--pollen);flex:none">${ICON.bee}</div><div class="txt"><b>${esc(x.n)}</b><span class="muted small">${x.k} · helps ${x.pl.length} plants</span></div></button>`).join("")}</div></main>`;
+  <div class="list">${Object.entries(POLL).map(([id,x])=>`<button class="row" data-act="pollinator" data-id="${id}"><div class="ic" style="width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--pollen-soft);color:var(--pollen);flex:none">${ICON.bee}</div><div class="txt"><b>${esc(x.n)}</b><span class="muted small">${x.k} · helps ${x.pl.length} plants</span></div></button>`).join("")}</div></main>`;
 
 V.pollinator=({id})=>{const x=POLL[id];return `${header(x.n)}<main>
   <div class="stack"><span class="eyebrow">${x.k}</span><h2>${esc(x.n)}</h2><p class="muted"><i>${esc(x.s)}</i></p></div>
-  <p>${esc(x.d)}</p>
-  <div class="stack"><span class="eyebrow">Plants it helps</span>${x.pl.map(i=>plantRow(i)).join("")}</div></main>`};
+  <p class="lede">${esc(x.d)}</p>
+  <div class="stack"><span class="eyebrow">Plants it helps</span><div class="list">${x.pl.map(i=>plantRow(i)).join("")}</div></div></main>`};
 
 const app=document.getElementById("app");
 function render(top){
-  const c=cur();
-  app.innerHTML=V[c.v](c)+`<p class="proto">Prototype · sample data, no real plant identification</p>`;
+  const c=cur(),ch=chrome();
+  app.className="app"+(ch?" chrome has-tabs":"");
+  app.innerHTML=(ch?sidebar():"")+`<div class="content${c.v==="scan"||c.v==="zip"?" narrow":""}">${V[c.v](c)}<p class="proto">Prototype · sample data, no real plant identification</p>${ch?`<nav class="tabbar" aria-label="Main">${navItems(true)}</nav>`:""}</div>`;
   if(top)window.scrollTo(0,0);
   const z=document.getElementById("zip");if(z&&!S.zip)z.focus();
 }
@@ -378,6 +444,7 @@ const ACT={
   next:()=>go("zip"),
   changezip:()=>{zipErr="";go("zip")},
   go:el=>go(el.dataset.v),
+  nav:el=>{const v=el.dataset.v;stack=v==="home"?[{v:"home"}]:[{v:"home"},{v}];render(true)},
   newscan:()=>{scan={step:"photo",photo:"",seed:1+Math.floor(Math.random()*9)};go("scan")},
   sampleyard:()=>{scan.photo=yardSVG(scan.seed);scan.sample=true;render()},
   analyze:startAnalyze,
