@@ -131,10 +131,51 @@ button:focus-visible,a:focus-visible,input:focus-visible,label:focus-within{outl
 .tabbar .navitem[aria-current="page"] svg{background:var(--moss-soft)}
 .onboard{justify-content:center}
 .narrow{max-width:560px}
+.item{min-width:0;display:flex;flex-direction:column}
+.item>.row .chev{flex:none;color:var(--muted);transition:transform .2s}
+.item.open{grid-column:1/-1;background:var(--surface);border:1.5px solid var(--moss);border-radius:18px;overflow:hidden}
+.item.open>.row{border:0;border-radius:0;background:var(--moss-soft)}
+.item.open>.row .chev{transform:rotate(180deg);color:var(--moss)}
+.item-body{padding:16px;display:grid;gap:16px}
+figure{margin:0}
+figcaption{font-size:.75rem;color:var(--muted);margin-top:6px}
+figcaption a{color:inherit}
+.chip.static{cursor:default}
+.minis{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.mini{display:flex;gap:10px;align-items:center;padding:6px;border:1px solid var(--line);border-radius:12px;background:var(--bg);min-width:0}
+.mini img{width:40px;height:40px;border-radius:8px;object-fit:cover;flex:none;background:var(--sunken)}
+.mini span{display:flex;flex-direction:column;min-width:0;font-size:.85rem;line-height:1.3}
+.strip{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.strip img{width:64px;height:64px;border-radius:10px;object-fit:cover;flex:none;background:var(--sunken)}
+.meter{height:8px;border-radius:4px;background:var(--sunken);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--moss);border-radius:4px;transition:width .4s}
+.placeholder{display:grid;place-items:center;color:var(--muted)}
+.map.sat{aspect-ratio:18/13;background:#4f6b3a}
+.map .pin.proj path{fill:var(--pollen)}
+.map .pin.proj text{fill:#1c2a1f}
+.map .pin.near.sel path{stroke:var(--ink);stroke-width:3}
+.map .pin.near.sel:not(.proj) path{fill:var(--moss)}
+.map .pin.near.sel:not(.proj) text{fill:var(--moss-ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:1.5px solid var(--ink)}
+details summary{cursor:pointer;font-weight:700}
+details ol{margin:8px 0 0;padding-left:22px;display:grid;gap:4px}
+.field{display:flex;flex-direction:column;gap:6px}
+.text{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.check{display:flex;gap:10px;align-items:center;cursor:pointer}
+.check input{accent-color:var(--moss);width:20px;height:20px}
+.linkbtn{appearance:none;border:0;background:none;padding:0;font:inherit;color:var(--moss);font-weight:700;text-decoration:underline;cursor:pointer}
+.switch{display:inline-flex;align-items:center;gap:10px;font-weight:700;cursor:pointer;flex:none}
+.switch input{appearance:none;width:52px;height:30px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;margin:0;transition:background .2s;flex:none}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.switch input:checked{background:var(--moss)}
+.switch input:checked::after{transform:translateX(22px)}
+.optin.first{border-color:var(--pollen);background:var(--pollen-soft)}
+@media (min-width:720px){.item-body{grid-template-columns:minmax(0,2fr) minmax(0,3fr);align-items:start}}
 @media (min-width:960px){
   .app.chrome{flex-direction:row}
   .side{display:flex;flex-direction:column;gap:2px;width:256px;flex:none;position:sticky;top:0;height:100vh;height:100dvh;padding:24px 12px;background:var(--surface);border-right:1px solid var(--line)}
-  .tabbar,.hdr-zip,.iconbtn.top{display:none}
+  .tabbar,.hdr-zip,.hdr-acct,.iconbtn.top{display:none}
   .content{max-width:1180px}
   .content.narrow{max-width:680px}
   header.bar{padding:18px 40px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px)}
@@ -145,7 +186,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,label:focus-within{outl
   .list.tight{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
   .split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px;align-items:start}
   .split>.pin-top{position:sticky;top:100px}
-  .tiles{grid-template-columns:repeat(4,1fr);gap:16px}
+  .tiles{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
   .tile,.tile.feature,.tile.wide{grid-column:auto;flex-direction:column;align-items:flex-start;min-height:180px;padding:20px}
   .lede{max-width:62ch}
   .onboard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center;max-width:1080px;margin:0 auto;width:100%;min-height:100vh;padding-block:48px}
@@ -158,51 +199,52 @@ button:focus-visible,a:focus-visible,input:focus-visible,label:focus-within{outl
 
 <script>
 const PLANTS={
-"red-maple":{n:"Red maple",s:"Acer rubrum",c:"Tree",st:"native",p:1,sun:["full","part"],w:"Medium–high",b:"Very early pollen for bees; hosts hundreds of moth and butterfly caterpillars.",d:"Fast-growing shade tree with brilliant red fall color. 40–60 ft.",sg:1,h:8},
-"white-oak":{n:"White oak",s:"Quercus alba",c:"Tree",st:"native",p:0,sun:["full"],w:"Medium",b:"Supports more caterpillar species than almost any other tree, which feeds nesting birds. Acorns feed wildlife.",d:"Long-lived canopy tree, 60–80 ft. Plant where it has room to spread.",sg:1,h:95},
-"arborvitae":{n:"Northern white cedar",s:"Thuja occidentalis",c:"Tree",st:"native",p:0,sun:["full","part"],w:"Medium",b:"Dense evergreen cover for nesting and roosting birds.",d:"Narrow evergreen often planted as a screen. 20–40 ft.",h:140},
-"redbud":{n:"Eastern redbud",s:"Cercis canadensis",c:"Small tree",st:"native",p:1,sun:["full","part"],w:"Medium",b:"Early spring nectar for bees; seeds for birds.",d:"Magenta-pink blossoms line bare branches in April, then heart-shaped leaves. 20–30 ft.",sg:1,h:320},
-"serviceberry":{n:"Serviceberry",s:"Amelanchier canadensis",c:"Small tree",st:"native",p:1,sun:["full","part"],w:"Medium",b:"One of the first bloomers for native bees; June berries feed 40+ bird species.",d:"White spring flowers, edible berries, orange-red fall color. 15–25 ft.",sg:1,h:20},
-"dogwood":{n:"Flowering dogwood",s:"Cornus florida",c:"Small tree",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Spring flowers for bees; fall berries rich in fat for migrating birds.",d:"Understory tree with white bracts in May and red fall foliage. 15–30 ft.",sg:1,h:350},
-"witch-hazel":{n:"American witch hazel",s:"Hamamelis virginiana",c:"Small tree",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Blooms Oct–Nov, when almost nothing else feeds late pollinators.",d:"Spidery yellow flowers after the leaves drop. 15–20 ft, multi-stemmed.",sg:1,h:50},
-"blueberry":{n:"Highbush blueberry",s:"Vaccinium corymbosum",c:"Bush",st:"native",p:1,sun:["full","part"],w:"Medium",b:"Bumble bees buzz-pollinate the flowers; berries for birds and people.",d:"White bell flowers, summer fruit, scarlet fall color. 6–10 ft. Likes acidic soil.",sg:1,h:230},
-"buttonbush":{n:"Buttonbush",s:"Cephalanthus occidentalis",c:"Bush",st:"native",p:1,sun:["full","part"],w:"High",b:"Round flower heads draw swallowtails, bees and hummingbirds.",d:"Thrives in wet spots and rain gardens. 5–10 ft.",sg:1,h:60},
-"arrowwood":{n:"Arrowwood viburnum",s:"Viburnum dentatum",c:"Bush",st:"native",p:1,sun:["full","part","shade"],w:"Medium",b:"Flat flower clusters feed small bees; blue berries for birds in fall.",d:"Tough, adaptable shrub for hedges and borders. 6–10 ft.",sg:1,h:110},
-"spicebush":{n:"Spicebush",s:"Lindera benzoin",c:"Bush",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Host plant for the spicebush swallowtail; early flowers for bees.",d:"Yellow blooms in March, aromatic leaves, red berries. 6–12 ft.",sg:1,h:70},
-"lilac":{n:"Common lilac",s:"Syringa vulgaris",c:"Bush",st:"nonnative",p:1,sun:["full"],w:"Medium",b:"Spring nectar for butterflies, but hosts few native caterpillars.",d:"Fragrant European shrub common in older yards.",h:280},
-"nj-tea":{n:"New Jersey tea",s:"Ceanothus americanus",c:"Small bush",st:"native",p:1,sun:["full","part"],w:"Low",b:"Clouds of white flowers draw many small native bees and butterflies.",d:"Drought-tolerant once established; deep roots. 2–3 ft.",sg:1,h:90},
-"sweetspire":{n:"Virginia sweetspire",s:"Itea virginica",c:"Small bush",st:"native",p:1,sun:["full","part","shade"],w:"Medium–high",b:"Fragrant flower spikes in June feed bees and butterflies.",d:"Arching shrub with red-purple fall color. 3–5 ft.",sg:1,h:340},
-"diervilla":{n:"Northern bush honeysuckle",s:"Diervilla lonicera",c:"Small bush",st:"native",p:1,sun:["full","part","shade"],w:"Low",b:"Long bloom season for bumble bees. Not one of the invasive honeysuckles.",d:"Yellow tubular flowers through summer; good on slopes. 2–4 ft.",sg:1,h:55},
-"boxwood":{n:"Boxwood",s:"Buxus sempervirens",c:"Small bush",st:"nonnative",p:0,sun:["full","part","shade"],w:"Medium",b:"Evergreen structure, but little food for wildlife.",d:"Clipped European evergreen used for hedges.",h:120},
-"butterfly-weed":{n:"Butterfly weed",s:"Asclepias tuberosa",c:"Small plant",st:"native",p:1,sun:["full"],w:"Low",b:"Monarch caterpillar host plant; bright nectar for butterflies.",d:"Orange flower clusters in July. Loves dry, sunny spots. 1–2 ft.",sg:1,h:28},
-"coneflower":{n:"Purple coneflower",s:"Echinacea purpurea",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Low",b:"Bees in summer; goldfinches eat the seeds in fall.",d:"Long-blooming purple daisies. 2–4 ft.",sg:1,h:310},
-"bergamot":{n:"Wild bergamot",s:"Monarda fistulosa",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Low",b:"Top nectar plant for bumble bees, hummingbirds and hummingbird moths.",d:"Lavender pom-pom flowers, minty leaves. 2–4 ft.",sg:1,h:290},
-"aster":{n:"New England aster",s:"Symphyotrichum novae-angliae",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Medium",b:"Late-season fuel for migrating monarchs and bees.",d:"Purple flowers Sept–Oct. 3–6 ft.",sg:1,h:270},
-"wild-geranium":{n:"Wild geranium",s:"Geranium maculatum",c:"Small plant",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Spring nectar for mason bees and early bumble bee queens.",d:"Pink-lavender flowers in woodland shade. 1–2 ft.",sg:1,h:300},
-"foamflower":{n:"Foamflower",s:"Tiarella cordifolia",c:"Small plant",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Shade-garden flowers for small native bees.",d:"Frothy white spikes in spring; spreads as a groundcover. 6–12 in.",sg:1,h:150},
-"black-eyed-susan":{n:"Black-eyed Susan",s:"Rudbeckia hirta",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Low",b:"Summer nectar for bees and butterflies; seeds for birds.",d:"Golden daisies with dark centers. 1–3 ft.",h:45},
-"lavender":{n:"Lavender",s:"Lavandula angustifolia",c:"Small plant",st:"nonnative",p:1,sun:["full"],w:"Low",b:"Heavily visited by bumble bees; not invasive.",d:"Mediterranean herb; needs sun and good drainage. 1–2 ft.",sg:1,h:265},
-"catmint":{n:"Catmint",s:"Nepeta × faassenii",c:"Small plant",st:"nonnative",p:1,sun:["full","part"],w:"Low",b:"Long bloom season that bees visit heavily. A sterile hybrid, so it won't spread.",d:"Blue-violet flowers May–Sept. 1–2 ft.",sg:1,h:250},
-"hosta":{n:"Hosta",s:"Hosta spp.",c:"Small plant",st:"nonnative",p:0,sun:["part","shade"],w:"Medium",b:"Some nectar for hummingbirds, but little value for native insects.",d:"East Asian foliage plant common in shady yards.",h:100},
-"norway-maple":{n:"Norway maple",s:"Acer platanoides",c:"Tree",st:"invasive",p:0,sun:[],w:"",b:"",d:"Casts dense shade and spreads seedlings into woods, crowding out native trees.",x:"Replace over time with red maple or white oak. Pull seedlings while small.",h:75},
-"tree-of-heaven":{n:"Tree of heaven",s:"Ailanthus altissima",c:"Tree",st:"invasive",p:0,sun:[],w:"",b:"",d:"Fast-spreading tree and a favored host of the spotted lanternfly.",x:"Get professional help. Cutting alone causes root sprouts.",h:85},
-"burning-bush":{n:"Burning bush",s:"Euonymus alatus",c:"Bush",st:"invasive",p:0,sun:[],w:"",b:"",d:"Birds spread its seeds into forests, where it forms dense thickets.",x:"Cut and dig out. For red fall color, try arrowwood viburnum or highbush blueberry.",h:5},
-"multiflora":{n:"Multiflora rose",s:"Rosa multiflora",c:"Bush",st:"invasive",p:0,sun:[],w:"",b:"",d:"Arching thorny canes form thickets along fields and yard edges.",x:"Cut back and dig out the roots; mow any regrowth.",h:340},
-"knotweed":{n:"Japanese knotweed",s:"Reynoutria japonica",c:"Bush",st:"invasive",p:0,sun:[],w:"",b:"",d:"Bamboo-like stems reach 10 ft and spread from tough roots, even through pavement.",x:"Very hard to remove. Cut repeatedly through the season and ask your local extension office.",h:100},
-"barberry":{n:"Japanese barberry",s:"Berberis thunbergii",c:"Small bush",st:"invasive",p:0,sun:[],w:"",b:"",d:"Forms thorny thickets and is linked to higher tick numbers.",x:"Dig out with gloves on. Replace with Virginia sweetspire.",h:15},
-"bittersweet":{n:"Oriental bittersweet",s:"Celastrus orbiculatus",c:"Vine",st:"invasive",p:0,sun:[],w:"",b:"",d:"Climbing vine that girdles and topples trees.",x:"Cut vines at the base and dig out the roots.",h:35},
-"garlic-mustard":{n:"Garlic mustard",s:"Alliaria petiolata",c:"Small plant",st:"invasive",p:0,sun:[],w:"",b:"",d:"Releases chemicals that harm the soil fungi native trees depend on.",x:"Pull before it seeds in May. Bag it; don't compost.",h:80}
+"red-maple":{n:"Red maple",s:"Acer rubrum",c:"Tree",st:"native",p:1,sun:["full","part"],w:"Medium–high",b:"Very early pollen for bees; hosts hundreds of moth and butterfly caterpillars.",d:"Fast-growing shade tree with brilliant red fall color. 40–60 ft.",loc:"Swamps, stream banks and street plantings; also dry upland woods.",sg:1,h:8,i:"3/36/Acer_rubrum_15-p.bot-a.rubrum-114.jpg"},
+"white-oak":{n:"White oak",s:"Quercus alba",c:"Tree",st:"native",p:0,sun:["full"],w:"Medium",b:"Supports more caterpillar species than almost any other tree, which feeds nesting birds. Acorns feed wildlife.",d:"Long-lived canopy tree, 60–80 ft. Plant where it has room to spread.",loc:"Dry to moist upland forests, old fields and large parks.",sg:1,h:95,i:"e/e6/Keeler_Oak_Tree_-_distance_photo%2C_May_2013.jpg"},
+"arborvitae":{n:"Northern white cedar",s:"Thuja occidentalis",c:"Tree",st:"native",p:0,sun:["full","part"],w:"Medium",b:"Dense evergreen cover for nesting and roosting birds.",d:"Narrow evergreen often planted as a screen. 20–40 ft.",loc:"Cedar swamps, lakeshores and limestone cliffs; hedges in yards.",h:140,i:"a/a7/Thuja_occidentalis.jpg"},
+"redbud":{n:"Eastern redbud",s:"Cercis canadensis",c:"Small tree",st:"native",p:1,sun:["full","part"],w:"Medium",b:"Early spring nectar for bees; seeds for birds.",d:"Magenta-pink blossoms line bare branches in April, then heart-shaped leaves. 20–30 ft.",loc:"Woodland edges, roadsides and limestone hillsides.",sg:1,h:320,i:"e/ea/RedbudOhio02.jpg"},
+"serviceberry":{n:"Serviceberry",s:"Amelanchier canadensis",c:"Small tree",st:"native",p:1,sun:["full","part"],w:"Medium",b:"One of the first bloomers for native bees; June berries feed 40+ bird species.",d:"White spring flowers, edible berries, orange-red fall color. 15–25 ft.",loc:"Forest edges, wet thickets and coastal swamps.",sg:1,h:20,i:"2/28/Amelanchier_canadensis_flower.jpg"},
+"dogwood":{n:"Flowering dogwood",s:"Cornus florida",c:"Small tree",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Spring flowers for bees; fall berries rich in fat for migrating birds.",d:"Understory tree with white bracts in May and red fall foliage. 15–30 ft.",loc:"Under oaks and hickories in upland forests, and along woodland edges.",sg:1,h:350,i:"b/b3/Cornus_florida_Arkansas.jpg"},
+"witch-hazel":{n:"American witch hazel",s:"Hamamelis virginiana",c:"Small tree",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Blooms Oct–Nov, when almost nothing else feeds late pollinators.",d:"Spidery yellow flowers after the leaves drop. 15–20 ft, multi-stemmed.",loc:"Moist forest understories and stream banks.",sg:1,h:50,i:"e/ea/Hamamelis_virginiana_FlowersLeaves_BotGardBln0906.JPG"},
+"blueberry":{n:"Highbush blueberry",s:"Vaccinium corymbosum",c:"Bush",st:"native",p:1,sun:["full","part"],w:"Medium",b:"Bumble bees buzz-pollinate the flowers; berries for birds and people.",d:"White bell flowers, summer fruit, scarlet fall color. 6–10 ft. Likes acidic soil.",loc:"Bogs, swamp edges and acidic open woods.",sg:1,h:230,i:"1/17/Vaccinium_corymbosum%2801%29.jpg"},
+"buttonbush":{n:"Buttonbush",s:"Cephalanthus occidentalis",c:"Bush",st:"native",p:1,sun:["full","part"],w:"High",b:"Round flower heads draw swallowtails, bees and hummingbirds.",d:"Thrives in wet spots and rain gardens. 5–10 ft.",loc:"Pond and lake margins, swamps and stream banks.",sg:1,h:60,i:"0/0b/Cephalanthus_occidentalis_occidentalis1.jpg"},
+"arrowwood":{n:"Arrowwood viburnum",s:"Viburnum dentatum",c:"Bush",st:"native",p:1,sun:["full","part","shade"],w:"Medium",b:"Flat flower clusters feed small bees; blue berries for birds in fall.",d:"Tough, adaptable shrub for hedges and borders. 6–10 ft.",loc:"Moist woods, thickets and stream banks.",sg:1,h:110,i:"9/95/Viburnum_dentatum_flowers.jpg"},
+"spicebush":{n:"Spicebush",s:"Lindera benzoin",c:"Bush",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Host plant for the spicebush swallowtail; early flowers for bees.",d:"Yellow blooms in March, aromatic leaves, red berries. 6–12 ft.",loc:"Moist, rich woodlands and floodplains.",sg:1,h:70,i:"6/69/Spicebush_%284506720062%29.jpg"},
+"lilac":{n:"Common lilac",s:"Syringa vulgaris",c:"Bush",st:"nonnative",p:1,sun:["full"],w:"Medium",b:"Spring nectar for butterflies, but hosts few native caterpillars.",d:"Fragrant European shrub common in older yards.",loc:"Old farmsteads, cemeteries and older yards.",h:280,i:"3/35/Lilac_Flower%26Leaves%2C_SC%2C_Vic%2C_13.10.2007.jpg"},
+"nj-tea":{n:"New Jersey tea",s:"Ceanothus americanus",c:"Small bush",st:"native",p:1,sun:["full","part"],w:"Low",b:"Clouds of white flowers draw many small native bees and butterflies.",d:"Drought-tolerant once established; deep roots. 2–3 ft.",loc:"Dry prairies, open woods and sandy or rocky slopes.",sg:1,h:90,i:"e/ee/Ceanothus_americanus1.jpg"},
+"sweetspire":{n:"Virginia sweetspire",s:"Itea virginica",c:"Small bush",st:"native",p:1,sun:["full","part","shade"],w:"Medium–high",b:"Fragrant flower spikes in June feed bees and butterflies.",d:"Arching shrub with red-purple fall color. 3–5 ft.",loc:"Swamps, wet woods and stream banks.",sg:1,h:340,i:"8/8c/Itea_virginica_flowers_001.JPG"},
+"diervilla":{n:"Northern bush honeysuckle",s:"Diervilla lonicera",c:"Small bush",st:"native",p:1,sun:["full","part","shade"],w:"Low",b:"Long bloom season for bumble bees. Not one of the invasive honeysuckles.",d:"Yellow tubular flowers through summer; good on slopes. 2–4 ft.",loc:"Dry rocky woods, forest edges and roadside banks.",sg:1,h:55,i:"3/30/Northern_bush_honeysuckle.jpg"},
+"boxwood":{n:"Boxwood",s:"Buxus sempervirens",c:"Small bush",st:"nonnative",p:0,sun:["full","part","shade"],w:"Medium",b:"Evergreen structure, but little food for wildlife.",d:"Clipped European evergreen used for hedges.",loc:"Formal gardens and foundation plantings.",h:120,i:"f/fd/Buxus_sempervirens.jpg"},
+"butterfly-weed":{n:"Butterfly weed",s:"Asclepias tuberosa",c:"Small plant",st:"native",p:1,sun:["full"],w:"Low",b:"Monarch caterpillar host plant; bright nectar for butterflies.",d:"Orange flower clusters in July. Loves dry, sunny spots. 1–2 ft.",loc:"Dry fields, roadsides and sandy prairies.",sg:1,h:28,i:"2/26/Asclepias_tuberosa_interior.jpg"},
+"coneflower":{n:"Purple coneflower",s:"Echinacea purpurea",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Low",b:"Bees in summer; goldfinches eat the seeds in fall.",d:"Long-blooming purple daisies. 2–4 ft.",loc:"Prairies and open woodlands; widely planted in gardens.",sg:1,h:310,i:"8/8e/Echinacea_purpurea_Grandview_Prairie.jpg"},
+"bergamot":{n:"Wild bergamot",s:"Monarda fistulosa",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Low",b:"Top nectar plant for bumble bees, hummingbirds and hummingbird moths.",d:"Lavender pom-pom flowers, minty leaves. 2–4 ft.",loc:"Meadows, prairies, roadsides and woodland edges.",sg:1,h:290,i:"a/a8/Monarda_fistulosa_Arkansas.jpg"},
+"aster":{n:"New England aster",s:"Symphyotrichum novae-angliae",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Medium",b:"Late-season fuel for migrating monarchs and bees.",d:"Purple flowers Sept–Oct. 3–6 ft.",loc:"Wet meadows, fields, roadsides and ditches.",sg:1,h:270,i:"b/bd/Symphyotrichum_novae-angliae3.jpg"},
+"wild-geranium":{n:"Wild geranium",s:"Geranium maculatum",c:"Small plant",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Spring nectar for mason bees and early bumble bee queens.",d:"Pink-lavender flowers in woodland shade. 1–2 ft.",loc:"Deciduous woods and shady woodland edges.",sg:1,h:300,i:"b/bd/Geranium_maculatum_Leatherwood_Lake.jpg"},
+"foamflower":{n:"Foamflower",s:"Tiarella cordifolia",c:"Small plant",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Shade-garden flowers for small native bees.",d:"Frothy white spikes in spring; spreads as a groundcover. 6–12 in.",loc:"Rich, moist forests and shaded stream banks.",sg:1,h:150,i:"5/5d/Heartleaved_foamflower_%28Tiarella_cordifolia%29.jpg"},
+"black-eyed-susan":{n:"Black-eyed Susan",s:"Rudbeckia hirta",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Low",b:"Summer nectar for bees and butterflies; seeds for birds.",d:"Golden daisies with dark centers. 1–3 ft.",loc:"Fields, roadsides, meadows and disturbed ground.",h:45,i:"1/1f/Rudbeckia_hirta_kz03.jpg"},
+"lavender":{n:"Lavender",s:"Lavandula angustifolia",c:"Small plant",st:"nonnative",p:1,sun:["full"],w:"Low",b:"Heavily visited by bumble bees; not invasive.",d:"Mediterranean herb; needs sun and good drainage. 1–2 ft.",loc:"Herb gardens and sunny, dry borders.",sg:1,h:265,i:"7/7e/Single_lavender_flower02.jpg"},
+"catmint":{n:"Catmint",s:"Nepeta × faassenii",c:"Small plant",st:"nonnative",p:1,sun:["full","part"],w:"Low",b:"Long bloom season that bees visit heavily. A sterile hybrid, so it won't spread.",d:"Blue-violet flowers May–Sept. 1–2 ft.",loc:"Perennial borders and cottage gardens.",sg:1,h:250,i:"3/3f/Nepeta_faassenii6.jpg"},
+"hosta":{n:"Hosta",s:"Hosta spp.",c:"Small plant",st:"nonnative",p:0,sun:["part","shade"],w:"Medium",b:"Some nectar for hummingbirds, but little value for native insects.",d:"East Asian foliage plant common in shady yards.",loc:"Shady yards and foundation plantings.",h:100,i:"7/7d/Hosta_Bressingham_Blue.JPG"},
+"norway-maple":{n:"Norway maple",s:"Acer platanoides",c:"Tree",st:"invasive",p:0,sun:[],w:"",b:"",d:"Casts dense shade and spreads seedlings into woods, crowding out native trees.",x:"Replace over time with red maple or white oak. Pull seedlings while small.",loc:"Street trees, city parks and woods near towns.",h:75,i:"6/60/Spitz-Ahorn%28mbo%29.jpg"},
+"tree-of-heaven":{n:"Tree of heaven",s:"Ailanthus altissima",c:"Tree",st:"invasive",p:0,sun:[],w:"",b:"",d:"Fast-spreading tree and a favored host of the spotted lanternfly.",x:"Get professional help. Cutting alone causes root sprouts.",loc:"Vacant lots, rail lines, highway edges and cracks in pavement.",h:85,i:"e/eb/G%C3%B6tterbaum_%28Ailanthus_altissima%29.jpg"},
+"burning-bush":{n:"Burning bush",s:"Euonymus alatus",c:"Bush",st:"invasive",p:0,sun:[],w:"",b:"",d:"Birds spread its seeds into forests, where it forms dense thickets.",x:"Cut and dig out. For red fall color, try arrowwood viburnum or highbush blueberry.",loc:"Yards, forest edges and woods near suburbs.",h:5,i:"7/73/Euonymous_alatus.jpg"},
+"multiflora":{n:"Multiflora rose",s:"Rosa multiflora",c:"Bush",st:"invasive",p:0,sun:[],w:"",b:"",d:"Arching thorny canes form thickets along fields and yard edges.",x:"Cut back and dig out the roots; mow any regrowth.",loc:"Old fields, pastures, roadsides and forest edges.",h:340,i:"4/40/2020-05-20_08_05_42_Multiflora_Rose_flowers_along_a_walking_path_within_Horsepen_Run_Stream_Valley_Park_in_Oak_Hill%2C_Fairfax_County%2C_Virginia.jpg"},
+"knotweed":{n:"Japanese knotweed",s:"Reynoutria japonica",c:"Bush",st:"invasive",p:0,sun:[],w:"",b:"",d:"Bamboo-like stems reach 10 ft and spread from tough roots, even through pavement.",x:"Very hard to remove. Cut repeatedly through the season and ask your local extension office.",loc:"Stream banks, roadsides and disturbed ground.",h:100,i:"0/0a/Reynoutria_japonica_in_Brastad_1.jpg"},
+"barberry":{n:"Japanese barberry",s:"Berberis thunbergii",c:"Small bush",st:"invasive",p:0,sun:[],w:"",b:"",d:"Forms thorny thickets and is linked to higher tick numbers.",x:"Dig out with gloves on. Replace with Virginia sweetspire.",loc:"Forest understories, yards and hedgerows.",h:15,i:"e/ef/Berberis_thunb_frt.jpg"},
+"bittersweet":{n:"Oriental bittersweet",s:"Celastrus orbiculatus",c:"Vine",st:"invasive",p:0,sun:[],w:"",b:"",d:"Climbing vine that girdles and topples trees.",x:"Cut vines at the base and dig out the roots.",loc:"Forest edges, hedgerows and roadsides, climbing over trees.",h:35,i:"b/b0/Celastrus_orbiculatus.jpg"},
+"garlic-mustard":{n:"Garlic mustard",s:"Alliaria petiolata",c:"Small plant",st:"invasive",p:0,sun:[],w:"",b:"",d:"Releases chemicals that harm the soil fungi native trees depend on.",x:"Pull before it seeds in May. Bag it; don't compost.",loc:"Shady woodlands, trail edges and floodplains.",h:80,i:"5/5f/Alliaria_petiolata_marais-belloy-sur-somme_80_26042007_3.jpg"}
 };
+const NEONIC=["Neonicotinoid-treated plants","Some nursery plants are pre-treated with these insecticides, which get into pollen and nectar. Ask the shop before you buy."];
 const POLL={
-"monarch":{n:"Monarch butterfly",s:"Danaus plexippus",k:"Butterfly",d:"Migrates up to 3,000 miles to Mexico each fall. Caterpillars eat only milkweeds.",pl:["butterfly-weed","aster","bergamot","coneflower","buttonbush"]},
-"bumble":{n:"Common eastern bumble bee",s:"Bombus impatiens",k:"Bee",d:"Fuzzy ground-nesting bee that buzz-pollinates blueberries and tomatoes.",pl:["blueberry","bergamot","coneflower","diervilla","wild-geranium","catmint"]},
-"mason":{n:"Blue orchard mason bee",s:"Osmia lignaria",k:"Bee",d:"Gentle spring bee that nests in hollow stems. A superb fruit-tree pollinator.",pl:["serviceberry","redbud","blueberry","wild-geranium"]},
-"sweat":{n:"Sweat bees",s:"Family Halictidae",k:"Bee",d:"Tiny, often metallic-green bees. Among the most common native pollinators.",pl:["coneflower","black-eyed-susan","aster","nj-tea","foamflower"]},
-"hummingbird":{n:"Ruby-throated hummingbird",s:"Archilochus colubris",k:"Bird",d:"The only hummingbird that nests in the East. Drawn to tubular red and purple flowers.",pl:["bergamot","buttonbush","diervilla"]},
-"tiger":{n:"Eastern tiger swallowtail",s:"Papilio glaucus",k:"Butterfly",d:"Large yellow-and-black butterfly of gardens and woodland edges.",pl:["buttonbush","bergamot","butterfly-weed","coneflower"]},
-"spicebush-sw":{n:"Spicebush swallowtail",s:"Papilio troilus",k:"Butterfly",d:"Caterpillars mimic tiny snakes and depend on spicebush.",pl:["spicebush","bergamot","buttonbush"]},
-"clearwing":{n:"Hummingbird clearwing",s:"Hemaris thysbe",k:"Moth",d:"Day-flying moth that hovers at flowers like a tiny hummingbird.",pl:["bergamot","blueberry","diervilla","butterfly-weed"]},
-"azure":{n:"Spring azure",s:"Celastrina ladon",k:"Butterfly",d:"Small sky-blue butterfly of early spring. Caterpillars eat dogwood and viburnum flowers.",pl:["dogwood","arrowwood","nj-tea"]}
+"monarch":{n:"Monarch butterfly",s:"Danaus plexippus",k:"Butterfly",d:"Migrates up to 3,000 miles to Mexico each fall. Caterpillars eat only milkweeds.",pl:["butterfly-weed","aster","bergamot","coneflower","buttonbush"],hm:[["Black swallow-wort","An invasive vine related to milkweed. Monarchs lay eggs on it, but the caterpillars can't survive."],["Tropical milkweed","A non-native milkweed that keeps blooming into fall. It can delay migration and spread a monarch parasite."]],i:"7/73/Monarch_Butterfly_Danaus_plexippus_Male_2664px.jpg"},
+"bumble":{n:"Common eastern bumble bee",s:"Bombus impatiens",k:"Bee",d:"Fuzzy ground-nesting bee that buzz-pollinates blueberries and tomatoes.",pl:["blueberry","bergamot","coneflower","diervilla","wild-geranium","catmint"],hm:[["garlic-mustard","Crowds out the spring wildflowers that queens need when they first wake up."],NEONIC],i:"a/a5/Bombus_impatiens%2C_f%2C_queen%2C_charles_co_%2818239590966%29.jpg"},
+"mason":{n:"Blue orchard mason bee",s:"Osmia lignaria",k:"Bee",d:"Gentle spring bee that nests in hollow stems. A superb fruit-tree pollinator.",pl:["serviceberry","redbud","blueberry","wild-geranium"],hm:[["garlic-mustard","Takes over the woodland edges where its early spring flowers bloom."],NEONIC],i:"9/94/Blue_Orchard_Bee_imported_from_iNaturalist_photo_118675601_on_16_July_2024.jpg"},
+"sweat":{n:"Sweat bees",s:"Family Halictidae",k:"Bee",d:"Tiny, often metallic-green bees. Among the most common native pollinators.",pl:["coneflower","black-eyed-susan","aster","nj-tea","foamflower"],hm:[["barberry","Dense thickets shade out the low flowers and bare ground these bees use to feed and nest."],NEONIC],i:"f/f6/Augochlora_pura_f.jpg"},
+"hummingbird":{n:"Ruby-throated hummingbird",s:"Archilochus colubris",k:"Bird",d:"The only hummingbird that nests in the East. Drawn to tubular red and purple flowers.",pl:["bergamot","buttonbush","diervilla"],hm:[["bittersweet","Smothers and topples the native trees and shrubs hummingbirds nest in."],["Neonicotinoid-treated plants","They cut down the small insects hummingbirds feed their chicks."]],i:"7/7c/Archilochus_colubris_-flying_-male-8.jpg"},
+"tiger":{n:"Eastern tiger swallowtail",s:"Papilio glaucus",k:"Butterfly",d:"Large yellow-and-black butterfly of gardens and woodland edges.",pl:["buttonbush","bergamot","butterfly-weed","coneflower"],hm:[["norway-maple","Its dense shade crowds out native host trees like tulip tree and black cherry."],["tree-of-heaven","Spreads along woodland edges and replaces native host trees."]],i:"9/90/Pristine_Eastern_Tiger_Swallowtail.jpg"},
+"spicebush-sw":{n:"Spicebush swallowtail",s:"Papilio troilus",k:"Butterfly",d:"Caterpillars mimic tiny snakes and depend on spicebush.",pl:["spicebush","bergamot","buttonbush"],hm:[["barberry","Takes over the forest understories where spicebush, its host plant, grows."],["burning-bush","Forms thickets that crowd out spicebush."]],i:"6/60/Spicebush02.jpg"},
+"clearwing":{n:"Hummingbird clearwing",s:"Hemaris thysbe",k:"Moth",d:"Day-flying moth that hovers at flowers like a tiny hummingbird.",pl:["bergamot","blueberry","diervilla","butterfly-weed"],hm:[["burning-bush","Crowds out the viburnums and native honeysuckles its caterpillars eat."],["multiflora","Thorny thickets replace native shrubs along yard and field edges."]],i:"a/ad/Hummingbird_Clearwing_Moth_-_Hemaris_thysbe%2C_Merrimac_Farm_Wildlife_Management_Area%2C_Aden%2C_Virginia.jpg"},
+"azure":{n:"Spring azure",s:"Celastrina ladon",k:"Butterfly",d:"Small sky-blue butterfly of early spring. Caterpillars eat dogwood and viburnum flowers.",pl:["dogwood","arrowwood","nj-tea"],hm:[["burning-bush","Replaces the dogwoods and viburnums its caterpillars eat."],["barberry","Crowds out native understory shrubs."]],i:"c/c1/Celastrina_ladon_03745.JPG"}
 };
 const SHOPS=[
 {id:"fernway",n:"Fernway Native Nursery",x:92,y:78,mi:"0.8 mi",h:"Open today 9–5",t:"Native trees and shrubs"},
@@ -211,11 +253,27 @@ const SHOPS=[
 {id:"pathway",n:"Pollinator Path Plants",x:66,y:220,mi:"2.9 mi",h:"Weekends only",t:"Native plugs and seed mixes"},
 {id:"riverside",n:"Riverside Garden Supply",x:300,y:236,mi:"3.6 mi",h:"Open today 7–7",t:"Soil, mulch and shrubs"}
 ];
+const NEARBY=[
+{id:"u1",k:"yard",n:"Maria's yard",x:124,y:86,mi:"0.3 mi",d:"Front-yard meadow with 18 plants, 14 of them native.",pl:["bergamot","butterfly-weed","aster"]},
+{id:"j1",k:"proj",n:"Elm Street pollinator strip",x:206,y:58,mi:"0.4 mi",by:"Neighbors on Elm St",d:"Turning a 200 ft median into native wildflowers. Planting day is the first Saturday in May.",pl:["butterfly-weed","bergamot","black-eyed-susan"]},
+{id:"u2",k:"yard",n:"The Okafor yard",x:236,y:112,mi:"0.5 mi",d:"Shady backyard that swapped out burning bush for arrowwood viburnum.",pl:["arrowwood","foamflower","wild-geranium"]},
+{id:"j2",k:"proj",n:"Riverside knotweed pull",x:282,y:172,mi:"0.8 mi",by:"Friends of the River",d:"Clearing Japanese knotweed from the riverbank and replanting with buttonbush.",pl:["buttonbush","sweetspire"]},
+{id:"u3",k:"yard",n:"Sam's yard",x:72,y:208,mi:"0.9 mi",d:"Small city lot with a rain garden by the downspout.",pl:["buttonbush","sweetspire","blueberry"]},
+{id:"j3",k:"proj",n:"Lincoln School monarch garden",x:40,y:116,mi:"1.1 mi",by:"Lincoln School 4th grade",d:"Milkweed and asters for monarchs, planted and tended by students.",pl:["butterfly-weed","aster","coneflower"]},
+{id:"u4",k:"yard",n:"Lee family yard",x:312,y:76,mi:"1.2 mi",d:"Corner lot with a new serviceberry and redbud.",pl:["serviceberry","redbud","coneflower"]},
+{id:"u5",k:"yard",n:"Priya's yard",x:150,y:262,mi:"1.6 mi",d:"Sunny slope planted with drought-tolerant natives.",pl:["nj-tea","black-eyed-susan","witch-hazel"]}
+];
 const CATS=["Tree","Small tree","Bush","Small bush","Small plant"];
 const YARD_POOL={Tree:["norway-maple","red-maple","arborvitae"],Bush:["burning-bush","lilac","boxwood","barberry"],"Small plant":["hosta","black-eyed-susan"]};
 const SPOT={Tree:"the tall tree near the back of the yard",Bush:"the shrub along the fence","Small bush":"the low shrub by the house","Small plant":"the low plants along the path"};
+const SHOT_TIPS=["The whole plant, from a few steps back","Leaves, up close","Flowers, fruit or buds","Bark or stems","The underside of a leaf","Any angle you haven't tried yet"];
 const LIGHT={full:"Full sun (6+ hours)",part:"Part sun (3–6 hours)",shade:"Mostly shade (under 3 hours)"};
 const REGIONS=["Northeast","Northeast","Mid-Atlantic","Southeast","Great Lakes","Upper Midwest","Central Plains","South Central","Mountain West","West Coast"];
+const YARD_PIC="9/9b/Natural-garden.JPG";
+const COMMONS="https://upload.wikimedia.org/wikipedia/commons/";
+const fileName=i=>i.split("/").pop();
+const pic=(i,w=330)=>`${COMMONS}thumb/${i}/${w}px-${fileName(i)}`;
+const credit=i=>`<a href="https://commons.wikimedia.org/wiki/File:${fileName(i)}" target="_blank" rel="noopener">Photo: Wikimedia Commons</a>`;
 
 const ICON={
 home:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
@@ -224,7 +282,10 @@ yard:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="curren
 shop:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>',
 plant:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c0-9 5-15 15-16-1 10-7 15-15 16z"/><path d="M5 21l8-8"/></svg>',
 bee:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="14" rx="5" ry="6"/><path d="M7.5 12h9M7.5 16h9"/><path d="M10 8.5C8 5 4 5 4 8s4 3 6 2M14 8.5C16 5 20 5 20 8s-4 3-6 2"/></svg>',
-cam:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>'
+cam:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+people:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.6 0 4.5 1.8 4.5 4.5"/></svg>',
+user:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>',
+chev:'<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>'
 };
 
 function yardSVG(seed=1){
@@ -235,34 +296,104 @@ function leafSVG(h){
   return 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="hsl(${h},25%,86%)"/><g transform="translate(200 150) rotate(-25)"><path d="M0 -120 C80 -80 80 80 0 120 C-80 80 -80 -80 0 -120Z" fill="hsl(${h},45%,40%)"/><path d="M0 -115 V115" stroke="hsl(${h},35%,75%)" stroke-width="4"/>${[-70,-35,0,35,70].map(y=>`<path d="M0 ${y} L45 ${y-35} M0 ${y} L-45 ${y-35}" stroke="hsl(${h},35%,72%)" stroke-width="3"/>`).join('')}</g></svg>`);
 }
 
-const KEY="biocity.v1";
-let S={zip:"",projects:[]};
-try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const LOTS=[[0,90],[90,215],[215,300],[300,360]];
+const BASE=[42.3736,-71.1097];
+function latlng(x,y){return [+(BASE[0]-(y-100)*1.9e-6).toFixed(6),+(BASE[1]+(x-150)*2.6e-6).toFixed(6)]}
+function newShot(kind,label,x=104+Math.random()*98,y=30+Math.random()*90,t=Date.now()){x=Math.round(x);y=Math.round(y);const [lat,lng]=latlng(x,y);return {kind,label,x,y,lat,lng,t}}
+function satMap(pr){
+  const r=n=>((Math.sin((pr.seed||3)*99+n*7.13)+1)/2);
+  const roofs=["#7d6f63","#8a8f94","#6e5a4c","#9a8a78"];
+  const patches=Array.from({length:36},(_,k)=>`<circle cx="${r(k)*360}" cy="${r(k+50)*184}" r="${6+r(k+100)*16}" fill="${k%3?"#46622f":"#5f7d45"}" opacity=".7"/>`).join("");
+  const houses=LOTS.map(([a,b],k)=>{const w=b-a-30;return `<rect x="${b-20}" y="136" width="14" height="48" fill="#a3a197"/><rect x="${a+8}" y="128" width="${w}" height="38" rx="2" fill="${roofs[k%4]}"/><path d="M${a+8} 147 H${a+8+w}" stroke="rgba(0,0,0,.25)"/>`}).join("")
+    +[[0,70],[70,180],[180,280],[280,360]].map(([a,b],k)=>`<rect x="${a+10}" y="230" width="${b-a-24}" height="34" rx="2" fill="${roofs[(k+2)%4]}"/>`).join("");
+  const trees=Array.from({length:24},(_,k)=>{const x=r(k+7)*360,y=r(k+40)*112+6,rad=7+r(k+80)*12;return `<circle cx="${x}" cy="${y}" r="${rad}" fill="#2f4a26"/><circle cx="${x-rad*.25}" cy="${y-rad*.25}" r="${rad*.6}" fill="#3f6332"/>`}).join("");
+  const shots=(pr.shots||[]).map((s,k)=>`<g transform="translate(${s.x} ${s.y})"><title>${esc(s.label)} · ${s.lat}, ${s.lng}</title><circle r="8" fill="${s.kind==="yard"?"#ffd640":"#ffffff"}" stroke="#1c2a1f" stroke-width="1.5"/><text y="3.2" text-anchor="middle" style="font:700 9px var(--body);fill:#1c2a1f">${k+1}</text></g>`).join("");
+  return `<svg class="map sat" viewBox="0 0 360 260" role="img" aria-label="Satellite view of your property with ${(pr.shots||[]).length} saved photo locations">
+    <rect width="360" height="260" fill="#4f6b3a"/>${patches}
+    <rect y="184" width="360" height="38" fill="#a9a79d"/><rect y="190" width="360" height="26" fill="#5c5f5a"/><path d="M0 203 H360" stroke="#d8c46a" stroke-width="1.5" stroke-dasharray="10 8"/>
+    ${houses}${trees}
+    <g stroke="rgba(255,255,255,.55)" stroke-width="1" fill="none">${[90,215,300].map(x=>`<path d="M${x} 0 V184"/>`).join("")}<path d="M0 184 H360"/><path d="M0 222 H360"/>${[70,180,280].map(x=>`<path d="M${x} 222 V260"/>`).join("")}</g>
+    <rect x="90" y="2" width="125" height="182" fill="rgba(255,214,64,.12)" stroke="#ffd640" stroke-width="2.5" stroke-dasharray="7 4"/>
+    <text x="96" y="16" style="font:700 10px var(--body);fill:#fff;paint-order:stroke;stroke:rgba(0,0,0,.6);stroke-width:3px">Your property</text>
+    ${shots}</svg>`;
+}
+function geojson(pr){return "data:application/geo+json;charset=utf-8,"+encodeURIComponent(JSON.stringify({type:"FeatureCollection",features:pr.shots.map(s=>({type:"Feature",geometry:{type:"Point",coordinates:[s.lng,s.lat]},properties:{label:s.label,kind:s.kind,taken:new Date(s.t).toISOString()}}))}))}
 
-let stack=[S.zip?{v:"home"}:{v:"welcome"}];
-let scan=null,libTab="native",selShop=null,zipErr="";
+function baseMap(label,pins,you){return `<svg class="map" viewBox="0 0 360 300" role="img" aria-label="${esc(label)}">
+    <rect width="360" height="300" fill="var(--grass)"/>
+    <path d="M0 140 Q90 120 150 150 T360 130 V170 Q260 190 150 185 T0 175Z" fill="var(--water)"/>
+    <rect x="20" y="20" width="90" height="60" rx="14" fill="var(--grass2)"/><rect x="240" y="200" width="100" height="70" rx="14" fill="var(--grass2)"/>
+    <g stroke="var(--road)" stroke-width="7" fill="none" stroke-linecap="round"><path d="M0 110 H360"/><path d="M180 0 V300"/><path d="M40 300 L320 20"/><path d="M0 250 H360"/></g>
+    ${you}${pins}</svg>`}
+function pinSVG(x,i,act,sel,cls=""){return `<g class="pin ${cls}${sel?" sel":""}" data-act="${act}" data-id="${x.id}" tabindex="0" role="button" aria-label="${esc(x.n)}" transform="translate(${x.x} ${x.y})${sel&&act==="near"?" scale(1.25)":""}"><path d="M0 0 C-12 -14 -14 -20 -14 -26 A14 14 0 1 1 14 -26 C14 -20 12 -14 0 0Z"/><text x="0" y="-22" text-anchor="middle">${i+1}</text></g>`}
+const YOU_DOT='<circle cx="180" cy="150" r="8" fill="var(--pollen)" stroke="var(--surface)" stroke-width="3"/>';
+
+const KEY="biocity.v2";
+let D={users:{},me:"",seen:false};
+try{const raw=localStorage.getItem(KEY);if(raw)D=Object.assign(D,JSON.parse(raw))}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
+const user=()=>D.users[D.me]||null;
+
+let zip=user()?.zip||"";
+let stack=[!D.seen?{v:"welcome"}:zip?{v:"home"}:{v:"zip"}];
+let scan=null,guest=null,libTab="native",selShop=null,selNear=null,nearFilter="all",zipErr="",acctErr="",acctDraft={},openKey=null,focusK=null,idTimer=0;
 const cur=()=>stack[stack.length-1];
-function go(v,p={}){stack.push({v,...p});render(true)}
-function back(){if(stack.length>1){stack.pop();render(true)}}
-function reset(v,p={}){stack=[{v,...p}];render(true)}
+function go(v,p={}){openKey=null;stack.push({v,...p});render(true)}
+function back(){if(stack.length>1){openKey=null;stack.pop();render(true)}}
+function reset(v,p={}){openKey=null;stack=[{v,...p}];render(true)}
 
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const region=()=>REGIONS[+S.zip[0]]||"Northeast";
+const region=()=>REGIONS[+zip[0]]||"Northeast";
 const fmtDate=t=>new Date(t).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+const fmtTime=t=>new Date(t).toLocaleString(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});
 const stLabel={native:"Native",nonnative:"Non-native",invasive:"Invasive"};
 function tags(p){return `<div class="tags"><span class="tag ${p.st}">${stLabel[p.st]}</span>${p.p?'<span class="tag pollinator">Good for pollinators</span>':''}</div>`}
-function plantRow(id,extra=""){const p=PLANTS[id];return `<button class="row" data-act="plant" data-id="${id}"><img class="thumb" alt="" src="${leafSVG(p.h)}"><div class="txt"><b>${esc(p.n)}</b><span class="muted small"><i>${esc(p.s)}</i></span>${extra}${tags(p)}</div></button>`}
+const thumb=p=>`<img class="thumb" alt="" loading="lazy" src="${pic(p.i)}" data-h="${p.h||100}">`;
+function mini(id){const p=PLANTS[id];return `<div class="mini"><img alt="" loading="lazy" src="${pic(p.i)}" data-h="${p.h}"><span><b>${esc(p.n)}</b><span class="muted">${stLabel[p.st]}</span></span></div>`}
+function strip(a){return a.length>1?`<div class="strip">${a.map(u=>`<img alt="" src="${u}">`).join("")}</div>`:""}
 
-function suggestions(found,light){
+function plantItem(id,extra=""){
+  const p=PLANTS[id],k="p:"+id,open=openKey===k;
+  const head=`<button class="row" data-act="toggle" data-k="${k}" aria-expanded="${open}">${thumb(p)}<div class="txt"><b>${esc(p.n)}</b><span class="muted small"><i>${esc(p.s)}</i> · ${p.c}</span>${open?"":extra}${tags(p)}</div>${ICON.chev}</button>`;
+  if(!open)return `<article class="item">${head}</article>`;
+  const pol=Object.values(POLL).filter(x=>x.pl.includes(id));
+  return `<article class="item open">${head}<div class="item-body">
+    <figure><img class="photo" alt="${esc(p.n)}" src="${pic(p.i,500)}" data-h="${p.h}"><figcaption>${credit(p.i)}</figcaption></figure>
+    <div class="stack" style="gap:16px">
+      <p class="lede">${esc(p.d)}</p>
+      ${p.st==="invasive"?`<div class="notice"><b>What to do:</b> ${esc(p.x)}</div>`:`<div class="card"><span class="eyebrow">Benefits</span><p>${esc(p.b)}</p><dl class="facts"><dt>Sun</dt><dd>${p.sun.map(x=>LIGHT[x]).join("; ")}</dd><dt>Water</dt><dd>${p.w}</dd></dl></div>`}
+      <div class="stack" style="gap:4px"><span class="eyebrow">Commonly found in</span><p>${esc(p.loc)}</p></div>
+      ${pol.length?`<div class="stack" style="gap:8px"><span class="eyebrow">Pollinators it supports</span><div class="tags">${pol.map(x=>`<span class="chip static">${esc(x.n)}</span>`).join("")}</div></div>`:""}
+    </div></div></article>`;
+}
+function pollItem(id){
+  const x=POLL[id],k="b:"+id,open=openKey===k;
+  const head=`<button class="row" data-act="toggle" data-k="${k}" aria-expanded="${open}">${thumb(x)}<div class="txt"><b>${esc(x.n)}</b><span class="muted small">${x.k} · helps ${x.pl.length} plants</span></div>${ICON.chev}</button>`;
+  if(!open)return `<article class="item">${head}</article>`;
+  return `<article class="item open">${head}<div class="item-body">
+    <figure><img class="photo" alt="${esc(x.n)}" src="${pic(x.i,500)}" data-h="45"><figcaption>${credit(x.i)}</figcaption></figure>
+    <div class="stack" style="gap:16px">
+      <div class="stack" style="gap:2px"><p class="muted"><i>${esc(x.s)}</i></p><p class="lede">${esc(x.d)}</p></div>
+      <div class="stack" style="gap:8px"><span class="eyebrow">Plants that help it</span><div class="minis">${x.pl.map(mini).join("")}</div></div>
+      <div class="stack" style="gap:8px"><span class="eyebrow">Plants that harm it</span>${x.hm.map(([h,why])=>`<div class="notice"><b>${esc(PLANTS[h]?PLANTS[h].n:h)}.</b> ${esc(why)}</div>`).join("")}</div>
+    </div></div></article>`;
+}
+
+function suggestions(found){
   const have=new Set(found);
   const out={};
   CATS.forEach(c=>{
-    const list=Object.entries(PLANTS).filter(([id,p])=>p.sg&&p.c===c&&p.st!=="invasive"&&!have.has(id)&&p.sun.includes(light))
+    const list=Object.entries(PLANTS).filter(([id,p])=>p.sg&&p.c===c&&p.st!=="invasive"&&!have.has(id))
       .sort((a,b)=>(a[1].st==="native"?0:1)-(b[1].st==="native"?0:1)||b[1].p-a[1].p).slice(0,3);
     if(list.length)out[c]=list.map(x=>x[0]);
   });
   return out;
+}
+
+function exampleProject(){
+  const t=Date.now()-14*864e5;
+  const shots=[["yard","Yard photo 1",122,108],["yard","Yard photo 2",192,40],["yard","Yard photo 3",108,36],["closeup","Norway maple close-up 1",140,58],["closeup","Norway maple close-up 2",150,66],["closeup","Boxwood close-up 1",184,114],["closeup","Black-eyed Susan close-up 1",112,84],["closeup","Black-eyed Susan close-up 2",120,94]].map(([k,l,x,y],i)=>newShot(k,l,x,y,t+i*45e3));
+  return {id:"example",name:"Backyard (example)",date:t,seed:5,photo:"",found:["norway-maple","boxwood","black-eyed-susan"],shots,example:true};
 }
 
 function header(title,right=""){
@@ -270,96 +401,128 @@ function header(title,right=""){
   return `<header class="bar">${b}<h1>${esc(title)}</h1>${right}</header>`;
 }
 
-const NAV=[["home","Home","Home",ICON.home],["yard","My Yard","My Yard",ICON.yard],["shops","Shops","Shops",ICON.shop],["plants","Plant Library","Plants",ICON.plant],["pollinators","Pollinator Library","Pollinators",ICON.bee]];
-const SECTION={project:"yard",scan:"yard",plant:"plants",pollinator:"pollinators",zip:"home"};
-function section(){const v=(stack[1]||stack[0]).v;return SECTION[v]||v}
-function chrome(){const v=cur().v;return !(v==="welcome"||v==="scan"||(v==="zip"&&!S.zip))}
-function navItems(short){const s=section();return NAV.map(([v,long,sh,ic])=>`<button class="navitem" data-act="nav" data-v="${v}"${s===v?' aria-current="page"':""}>${ic}<span>${short?sh:long}</span></button>`).join("")}
-function sidebar(){return `<nav class="side" aria-label="Main"><div class="side-brand">BioCity</div>${navItems(false)}<div class="side-foot"><span class="eyebrow">Your area</span><span>${esc(S.zip)} · ${esc(region())} US</span><button class="chip" data-act="changezip" style="align-self:flex-start">Change zip code</button></div></nav>`}
+function navList(){const u=user();return [["home","Home","Home",ICON.home],u?["yard","My Yard","My Yard",ICON.yard]:["scan","Scan a yard","Scan",ICON.cam],u&&["nearby","Yards near me","Nearby",ICON.people,1],["shops","Shops","Shops",ICON.shop],["plants","Plant Library","Plants",ICON.plant],["pollinators","Pollinator Library","Pollinators",ICON.bee]].filter(Boolean)}
+function section(){const v=(stack[1]||stack[0]).v;if(v==="scan"||v==="project")return user()?"yard":"scan";return {zip:"home",account:"home"}[v]||v}
+function chrome(){const v=cur().v;return !(v==="welcome"||v==="scan"||(!zip&&(v==="zip"||v==="account")))}
+function navItems(short){const s=section();return navList().filter(n=>!(short&&n[4])).map(([v,long,sh,ic])=>`<button class="navitem" data-act="nav" data-v="${v}"${s===v?' aria-current="page"':""}>${ic}<span>${short?sh:long}</span></button>`).join("")}
+function sidebar(){const u=user();return `<nav class="side" aria-label="Main"><div class="side-brand">BioCity</div>${navItems(false)}<div class="side-foot">
+  <span class="eyebrow">Your area</span><span>${esc(zip)} · ${esc(region())} US</span><button class="chip" data-act="changezip" style="align-self:flex-start">Change zip code</button>
+  <span class="eyebrow" style="margin-top:12px">Account</span>${u?`<span class="small" style="overflow-wrap:anywhere">${esc(u.email)}</span><button class="chip" data-act="account" style="align-self:flex-start">Account</button>`:`<span class="small muted">Browsing as a guest</span><button class="chip" data-act="account" style="align-self:flex-start">Sign in or sign up</button>`}
+  </div></nav>`}
 
 const V={};
 V.welcome=()=>`<main class="onboard">
-  <img class="hero-ill" alt="Illustrated backyard with a tree, shrubs and flowers" src="${yardSVG(3)}">
+  <img class="hero-ill" alt="A garden full of native plants" src="${pic(YARD_PIC,960)}" data-y="3">
   <div class="stack" style="gap:20px"><div class="stack"><div class="brand">BioCity</div>
   <h2>Turn your yard into habitat.</h2>
   <p class="muted lede">Scan your yard, find out what's growing there, and get a list of native plants that bring in more bees, butterflies and birds.</p></div>
-  <button class="btn primary" data-act="next">Next</button></div></main>`;
+  <button class="btn primary" data-act="next">Next</button>
+  <button class="btn ghost" data-act="welcomeacct">Sign in or create an account</button></div></main>`;
 
-V.zip=()=>`${header(S.zip?"Change zip code":"Your area")}<main>
+V.zip=()=>{const u=user(),ch=!!zip;return `${header(ch?"Change zip code":"Your area")}<main>
   <div class="stack"><h2>What's your zip code?</h2>
-  <p class="muted lede">BioCity uses it to find plant shops near you and to work out which plants are native or invasive in your region.</p></div>
+  <p class="muted lede">BioCity uses it to find plant shops near you and to work out which plants are native or invasive in your region.</p>
+  ${ch?"":u?`<p class="small muted">Tick "Save to my account" and BioCity won't ask again.</p>`:`<p class="small muted">Guests enter a zip code each visit. <button class="linkbtn" data-act="account">Sign in or create an account</button> to save it.</p>`}</div>
   <form class="stack" data-form="zip" style="max-width:420px">
     <label for="zip" class="eyebrow">Zip code</label>
-    <input class="input" id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="02139" value="${esc(S.zip)}">
+    <input class="input" id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="02139" value="${esc(zip)}">
+    ${u?`<label class="check"><input type="checkbox" name="keep" ${u.zip?"checked":""}>Save to my account</label>`:""}
     <div class="err" role="alert">${esc(zipErr)}</div>
-    <button class="btn primary" type="submit">${S.zip?"Save":"Continue"}</button>
+    <button class="btn primary" type="submit">${ch?"Save":"Continue"}</button>
+  </form></main>`};
+
+V.account=()=>{const u=user();
+  if(u)return `${header("Account")}<main>
+  <div class="stack"><span class="eyebrow">Signed in</span><h2 style="overflow-wrap:anywhere">${esc(u.email)}</h2></div>
+  <div class="card" style="max-width:520px"><dl class="facts"><dt>Zip code</dt><dd>${u.zip?esc(u.zip):"Not saved, asked each visit"}</dd><dt>Saved yards</dt><dd>${u.projects.length}</dd><dt>Yards near me</dt><dd>${u.optIn?"Opted in":"Opted out"}</dd></dl>
+  <button class="chip" data-act="changezip" style="align-self:flex-start">Change zip code</button></div>
+  <button class="btn ghost" data-act="signout" style="max-width:360px">Sign out</button></main>`;
+  return `${header("Sign in or sign up")}<main>
+  <div class="stack"><h2>Save your yards</h2><p class="muted lede">An account keeps your yard scans and photo locations, and unlocks Yards near me. All you need is an email address: no phone number and no password.</p></div>
+  <form class="stack" data-form="account" style="max-width:420px" novalidate>
+    <div class="field"><label for="email" class="eyebrow">Email</label><input class="text" id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" value="${esc(acctDraft.email||"")}"></div>
+    <div class="field"><label for="azip" class="eyebrow">Zip code <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label><input class="text" id="azip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="02139" value="${esc(acctDraft.zip??zip)}"><span class="small muted">Skip it and BioCity will ask each visit.</span></div>
+    <div class="err" role="alert">${esc(acctErr)}</div>
+    <button class="btn primary" type="submit">Continue</button>
+    <p class="small muted">New email? We'll create your account. Already have one? We'll sign you in with a link by email. Prototype: no email is sent.</p>
   </form></main>`;
+};
 
-function projectRow(p){return `<button class="row" data-act="project" data-id="${p.id}"><img class="thumb" alt="" src="${p.photo||yardSVG(p.seed||1)}"><div class="txt"><b>${esc(p.name)}</b><span class="muted small">${fmtDate(p.date)} · ${p.found.length} plants found · ${esc(LIGHT[p.light].split(" (")[0])}</span>${p.example?'<div class="tags"><span class="tag example">Example</span></div>':""}</div></button>`}
+function projectRow(p){return `<button class="row" data-act="project" data-id="${p.id}"><img class="thumb" alt="" src="${p.photo||pic(YARD_PIC)}" data-y="${p.seed||1}"><div class="txt"><b>${esc(p.name)}</b><span class="muted small">${fmtDate(p.date)} · ${p.found.length} plants found · ${p.shots.length} photos</span>${p.example?'<div class="tags"><span class="tag example">Example</span></div>':""}</div></button>`}
 
-V.home=()=>`${header("BioCity",`<button class="chip hdr-zip" data-act="changezip" aria-label="Change zip code">${esc(S.zip)} · change</button>`)}<main>
+V.home=()=>{const u=user(),n=u?u.projects.length:0;return `${header("BioCity",`<button class="chip hdr-zip" data-act="changezip" aria-label="Change zip code">${esc(zip)} · change</button><button class="iconbtn hdr-acct" data-act="account" aria-label="${u?"Account":"Sign in or sign up"}">${ICON.user}</button>`)}<main>
   <div class="stack"><span class="eyebrow">${esc(region())} US</span><h2>What would you like to do?</h2></div>
   <div class="tiles">
-    <button class="tile feature" data-act="go" data-v="yard"><div class="ic">${ICON.yard}</div><div><b>My Yard</b><br><span>${S.projects.length?`${S.projects.length} saved project${S.projects.length>1?"s":""}`:"Scan your yard"}</span></div></button>
+    ${u?`<button class="tile feature" data-act="go" data-v="yard"><div class="ic">${ICON.yard}</div><div><b>My Yard</b><br><span>${n?`${n} saved project${n>1?"s":""}`:"Scan your yard"}</span></div></button>
+    <button class="tile wide" data-act="go" data-v="nearby"><div class="ic">${ICON.people}</div><div><b>Yards near me</b><br><span>${u.optIn?"Your yard is on the map":"Nearby yards and projects"}</span></div></button>`
+    :`<button class="tile feature" data-act="newscan"><div class="ic">${ICON.cam}</div><div><b>Scan a yard</b><br><span>Sign up to save your scans</span></div></button>`}
     <button class="tile" data-act="go" data-v="shops"><div class="ic">${ICON.shop}</div><b>Shops</b><span>Plant shops near you</span></button>
     <button class="tile" data-act="go" data-v="plants"><div class="ic">${ICON.plant}</div><b>Plant Library</b><span>Native and invasive plants</span></button>
     <button class="tile wide" data-act="go" data-v="pollinators"><div class="ic">${ICON.bee}</div><div><b>Pollinator Library</b><br><span>Local pollinators and the plants they need</span></div></button>
   </div>
-  ${S.projects.length?`<section class="group"><h3>Recent projects<small>${S.projects.length}</small></h3><div class="list">${S.projects.slice(0,3).map(projectRow).join("")}</div></section>`:""}
-  </main>`;
+  ${u?(n?`<section class="group"><h3>Recent projects<small>${n}</small></h3><div class="list">${u.projects.slice(0,3).map(projectRow).join("")}</div></section>`:"")
+  :`<div class="card" style="max-width:560px"><b>Browsing as a guest</b><p class="small muted">You can scan a yard, but scans aren't saved and you'll enter your zip code each visit. An account adds My Yard and Yards near me.</p><button class="btn primary" data-act="account" style="max-width:320px">Create a free account</button></div>`}
+  </main>`};
 
-V.yard=()=>`${header("My Yard")}<main>
+V.yard=()=>{const u=user();if(!u)return V.account();return `${header("My Yard")}<main>
   <button class="btn primary" data-act="newscan" style="max-width:360px">Start new project</button>
   <div class="stack"><span class="eyebrow">Saved projects</span>
-  ${S.projects.length?`<div class="list">${S.projects.map(projectRow).join("")}</div>`:`<p class="muted">No projects yet. Start one to scan your yard.</p>`}
-  </div></main>`;
+  ${u.projects.length?`<div class="list">${u.projects.map(projectRow).join("")}</div>`:`<p class="muted">No projects yet. Start one to scan your yard.</p>`}
+  </div>
+  <button class="row" data-act="go" data-v="nearby" style="max-width:480px"><div class="ic" style="width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--moss-soft);color:var(--moss);flex:none">${ICON.people}</div><div class="txt"><b>Yards near me</b><span class="muted small">See nearby BioCity yards and projects</span></div></button>
+  </main>`};
 
-function progress(){const steps=["photo","closeup","light"];const i=scan.step==="analyzing"?0:scan.step==="closeup"?1:scan.step==="light"?2:0;return `<div class="progress" aria-label="Step ${i+1} of 3">${steps.map((_,k)=>`<i class="${k<=i?"on":""}"></i>`).join("")}</div>`}
+function progress(){const i=scan.step==="closeup"?1:0;return `<div class="progress" aria-label="Step ${i+1} of 2"><i class="on"></i><i class="${i?"on":""}"></i></div>`}
+function idCard(p,c){return `<div class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><h3>${esc(p.n)}</h3><span class="conf">${c.conf}% match</span></div>
+  <div class="meter" role="meter" aria-valuenow="${c.conf}" aria-valuemin="0" aria-valuemax="100" aria-label="Match confidence"><i style="width:${c.conf}%"></i></div>
+  <p class="muted small"><i>${esc(p.s)}</i> · ${p.c} · from ${c.photos.length} photo${c.photos.length>1?"s":""}</p>${tags(p)}
+  <div class="match"><span><em>✓</em> AI vision</span><span><em>✓</em> Plant database</span><span><em>✓</em> ${esc(region())} species list</span></div>
+  ${p.st==="invasive"?`<div class="notice"><b>Invasive here.</b> ${esc(p.x)}</div>`:`<p class="small">${esc(p.b)}</p>`}
+  <p class="small muted">${c.conf<92?"Add another angle to make the ID clearer.":"That's a clear ID. Add more photos, or tap I'm done."}</p></div>`}
 V.scan=()=>{
   const s=scan;
-  if(s.step==="photo")return `${header("New project")}<main>${progress()}
-    <div class="stack"><h2>Take a picture of your yard</h2><p class="muted">Stand back so the whole yard fits in the frame.</p></div>
-    ${s.photo?`<img class="photo" alt="Your yard" src="${s.photo}">`:`<div class="photo" style="display:grid;place-items:center;color:var(--muted)">${ICON.cam}</div>`}
-    <div class="stack"><label class="btn ${s.photo?"ghost":"primary"} upload">${s.photo?"Retake photo":"Take photo"}<input type="file" accept="image/*" capture="environment" data-upload="yard" aria-label="Take yard photo"></label>
-    ${s.photo?`<button class="btn primary" data-act="analyze">Use this photo</button>`:`<button class="btn ghost" data-act="sampleyard">Use a sample photo</button>`}</div></main>`;
-  if(s.step==="analyzing")return `${header("New project")}<main>${progress()}<img class="photo" alt="" src="${s.photo}"><div class="spinner" role="status" aria-label="Analyzing"></div><div class="stack" style="text-align:center"><h3>Looking for plants…</h3><p class="muted small">Checking with AI vision and plant databases</p></div></main>`;
-  if(s.step==="closeup"){
-    const id=s.found[s.i],p=PLANTS[id],c=s.cu;
-    const body=!c.photo?`<div class="photo" style="display:grid;place-items:center;color:var(--muted)">${ICON.cam}</div>
-      <div class="stack"><label class="btn primary upload">Take close-up<input type="file" accept="image/*" capture="environment" data-upload="closeup" aria-label="Take close-up photo"></label><button class="btn ghost" data-act="samplecu">Use a sample close-up</button></div>`
-      :c.busy?`<img class="photo" alt="" src="${c.photo}"><div class="spinner" role="status" aria-label="Identifying"></div><p class="muted small" style="text-align:center">Cross-checking AI vision with plant databases…</p>`
-      :`<img class="photo" alt="Close-up of ${esc(p.n)}" src="${c.photo}"><div class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><h3>${esc(p.n)}</h3><span class="conf">${c.conf}% match</span></div><p class="muted small"><i>${esc(p.s)}</i> · ${p.c}</p>${tags(p)}
-        <div class="match"><span><em>✓</em> AI vision</span><span><em>✓</em> Plant database</span><span><em>✓</em> ${esc(region())} species list</span></div>
-        ${p.st==="invasive"?`<div class="notice"><b>Invasive here.</b> ${esc(p.x)}</div>`:`<p class="small">${esc(p.b)}</p>`}</div>
-        <button class="btn primary" data-act="nextcu">${s.i<s.found.length-1?"Next plant":"Done with plants"}</button>`;
-    return `${header("New project")}<main>${progress()}<div class="stack"><span class="eyebrow">Plant ${s.i+1} of ${s.found.length}</span><h2>Take a closer picture</h2><p class="muted">Get close to ${SPOT[p.c]||SPOT["Small plant"]}. Fill the frame with leaves, and flowers if there are any.</p></div>${body}</main>`;
-  }
-  if(s.step==="light")return `${header("New project")}<main>${progress()}
-    <div class="stack"><h2>How much sun does your yard get?</h2><p class="muted">Think about where you'd add new plants.</p></div>
-    <form class="stack" data-form="light">
-      <fieldset class="choice" style="border:0;padding:0;margin:0"><legend class="eyebrow" style="margin-bottom:8px">Direct sun per day</legend>
-      ${Object.entries(LIGHT).map(([k,v])=>`<label><input type="radio" name="light" id="light-${k}" value="${k}" ${s.light===k?"checked":""}>${v}</label>`).join("")}</fieldset>
-      <fieldset class="choice" style="border:0;padding:0;margin:0"><legend class="eyebrow" style="margin-bottom:8px">When is it sunniest?</legend>
-      ${["Morning","Afternoon","All day"].map(v=>`<label><input type="radio" name="when" id="when-${v}" value="${v}" ${s.when===v?"checked":""}>${v}</label>`).join("")}</fieldset>
-      <button class="btn primary" type="submit">See my plan</button></form></main>`;
+  if(s.step==="photo"){const n=s.photos.length;return `${header("New project")}<main>${progress()}
+    <div class="stack"><h2>Take pictures of your yard</h2><p class="muted">Take as many as you can: from each corner, from the house and from the back fence. The more photos, the clearer the picture BioCity gets of what's growing.</p></div>
+    ${n?`<img class="photo" alt="Your latest yard photo" src="${s.photos[n-1]}" data-y="${s.seed}">${strip(s.photos)}<p class="small"><b>${n} photo${n>1?"s":""}</b> · <span class="muted">${n<3?"Try a few more angles for a better scan.":"Great coverage. Add more, or tap I'm done."}</span></p>`:`<div class="photo placeholder">${ICON.cam}</div>`}
+    <div class="stack"><label class="btn ${n?"ghost":"primary"} upload">${n?"Take another photo":"Take photo"}<input type="file" accept="image/*" capture="environment" multiple data-upload="yard" aria-label="Take yard photo"></label>
+    <button class="btn ghost" data-act="sampleyard">${n?"Add a sample photo":"Use a sample photo"}</button>
+    ${n?`<button class="btn primary" data-act="analyze">I'm done</button>`:""}</div></main>`}
+  if(s.step==="analyzing")return `${header("New project")}<main>${progress()}<img class="photo" alt="" src="${s.photos[0]}" data-y="${s.seed}"><div class="spinner" role="status" aria-label="Analyzing"></div><div class="stack" style="text-align:center"><h3>Looking for plants…</h3><p class="muted small">Checking ${s.photos.length} photo${s.photos.length>1?"s":""} with AI vision and plant databases</p></div></main>`;
+  const p=PLANTS[s.found[s.i]],c=s.cu,n=c.photos.length;
+  return `${header("New project")}<main>${progress()}
+    <div class="stack"><span class="eyebrow">Plant ${s.i+1} of ${s.found.length}</span><h2>${n?"Keep the close-ups coming":"Take close-up pictures"}</h2>
+    <p class="muted">Get close to ${SPOT[p.c]||SPOT["Small plant"]}. Take as many photos as you can; each one gives BioCity a clearer look for identifying it.</p></div>
+    ${n?`<img class="photo" alt="Your latest close-up" src="${c.photos[n-1]}" data-h="${p.h}">${strip(c.photos)}`:`<div class="photo placeholder">${ICON.cam}</div>`}
+    ${c.busy?`<div class="spinner" role="status" aria-label="Identifying"></div><p class="muted small" style="text-align:center">Cross-checking ${n} photo${n>1?"s":""} with AI vision and plant databases…</p>`:n?idCard(p,c):""}
+    <div class="card" style="gap:2px"><span class="eyebrow">Next photo to take</span><p><b>${SHOT_TIPS[Math.min(n,SHOT_TIPS.length-1)]}</b></p></div>
+    <div class="stack"><label class="btn ${n?"ghost":"primary"} upload">${n?"Take another photo":"Take close-up"}<input type="file" accept="image/*" capture="environment" multiple data-upload="closeup" aria-label="Take close-up photo"></label>
+    <button class="btn ghost" data-act="samplecu">${n?"Add a sample close-up":"Use a sample close-up"}</button>
+    ${n?`<button class="btn primary" data-act="nextcu"${c.busy?" disabled":""}>I'm done</button>`:""}</div></main>`;
 };
 
 V.project=({id})=>{
-  const pr=S.projects.find(p=>p.id===id);if(!pr)return V.yard();
-  const sug=suggestions(pr.found,pr.light);
+  const u=user(),isGuest=id==="guest",pr=isGuest?guest:u&&u.projects.find(p=>p.id===id);if(!pr)return V.home();
+  const sug=suggestions(pr.found);
   const all=Object.values(sug).flat();
   const nat=all.filter(i=>PLANTS[i].st==="native").length,pol=all.filter(i=>PLANTS[i].p).length;
   const inv=pr.found.filter(i=>PLANTS[i].st==="invasive");
   return `${header(pr.name)}<main><div class="split">
     <div>
-    <img class="photo" alt="Yard photo" src="${pr.photo||yardSVG(pr.seed||1)}">
+    <img class="photo" alt="Yard photo" src="${pr.photo||pic(YARD_PIC,960)}" data-y="${pr.seed||1}">
+    ${isGuest?`<div class="card" style="border-color:var(--pollen)"><b>This scan isn't saved.</b><p class="small muted">Guests can scan, but nothing is kept after you leave. Create a free account to save it to My Yard.</p><button class="btn primary" data-act="account">Create account to save</button></div>`:""}
     <div class="stack"><span class="eyebrow">Improve biodiversity</span><h2>${all.length} plants to add to your yard</h2>
-    <p class="muted">Picked for ${esc(LIGHT[pr.light].toLowerCase())} in the ${esc(region())}. ${nat} are native and ${pol} feed pollinators. None of them are already in your yard.</p></div>
+    <p class="muted">Picked for the ${esc(region())}. ${nat} are native and ${pol} feed pollinators. None of them are already in your yard. Tap a plant to see more.</p></div>
     ${inv.length?`<div class="notice"><b>${inv.length} invasive plant${inv.length>1?"s":""} found:</b> ${inv.map(i=>esc(PLANTS[i].n)).join(", ")}. Replacing ${inv.length>1?"them":"it"} with plants from this list helps the most.</div>`:""}
+    <section class="group"><h3>Photo locations<small>${pr.shots.length}</small></h3>${satMap(pr)}
+      <div class="legend"><span><i style="background:#ffd640"></i>Yard photos</span><span><i style="background:#fff"></i>Close-ups</span><span><i style="background:transparent;border:2px dashed #c9a400;border-radius:3px"></i>Property line</span></div>
+      <p class="small muted">${isGuest?"Sign up to keep these. ":""}BioCity saves where and when each photo was taken, so a light-level app can reuse these pictures instead of you retaking them.</p>
+      <details class="small"><summary>${pr.shots.length} saved locations</summary><ol>${pr.shots.map(s=>`<li>${esc(s.label)} <span class="muted">· ${s.lat}, ${s.lng} · ${fmtTime(s.t)}</span></li>`).join("")}</ol></details>
+      ${isGuest?"":`<a class="btn ghost" download="biocity-${pr.id}-photos.geojson" href="${geojson(pr)}">Export locations for a light app</a>`}
+    </section>
     </div>
     <div>
-    ${CATS.filter(c=>sug[c]).map(c=>`<section class="group"><h3>${c}<small>${sug[c].length}</small></h3><div class="list tight">${sug[c].map(i=>{const p=PLANTS[i];return `<button class="row" data-act="plant" data-id="${i}" style="align-items:flex-start"><img class="thumb" alt="" src="${leafSVG(p.h)}"><div class="txt stack" style="gap:6px"><div><b>${esc(p.n)}</b><span class="muted small"><i>${esc(p.s)}</i></span></div>${tags(p)}<p class="small">${esc(p.b)}</p><p class="small muted">${esc(p.d)}</p><dl class="facts"><dt>Sun</dt><dd>${p.sun.map(x=>LIGHT[x].split(" (")[0]).join(", ")}</dd><dt>Water</dt><dd>${p.w}</dd></dl></div></button>`}).join("")}</div></section>`).join("")}
-    <section class="group"><h3>Already in your yard<small>${pr.found.length}</small></h3><div class="list tight">${pr.found.map(i=>plantRow(i)).join("")}</div></section>
+    ${CATS.filter(c=>sug[c]).map(c=>`<section class="group"><h3>${c}<small>${sug[c].length}</small></h3><div class="list tight">${sug[c].map(i=>plantItem(i,`<p class="small" style="margin:4px 0">${esc(PLANTS[i].b)}</p>`)).join("")}</div></section>`).join("")}
+    <section class="group"><h3>Already in your yard<small>${pr.found.length}</small></h3><div class="list tight">${pr.found.map(i=>plantItem(i)).join("")}</div></section>
     <button class="btn ghost" data-act="go" data-v="shops">Find these at local shops</button>
     </div>
   </div></main>`;
@@ -367,17 +530,8 @@ V.project=({id})=>{
 
 V.shops=()=>{
   const sel=SHOPS.find(s=>s.id===selShop);
-  return `${header("Shops near "+S.zip)}<main><div class="split">
-  <div class="pin-top">
-  <svg class="map" viewBox="0 0 360 300" role="img" aria-label="Map of plant shops near you">
-    <rect width="360" height="300" fill="var(--grass)"/>
-    <path d="M0 140 Q90 120 150 150 T360 130 V170 Q260 190 150 185 T0 175Z" fill="var(--water)"/>
-    <rect x="20" y="20" width="90" height="60" rx="14" fill="var(--grass2)"/><rect x="240" y="200" width="100" height="70" rx="14" fill="var(--grass2)"/>
-    <g stroke="var(--road)" stroke-width="7" fill="none" stroke-linecap="round"><path d="M0 110 H360"/><path d="M180 0 V300"/><path d="M40 300 L320 20"/><path d="M0 250 H360"/></g>
-    <circle cx="180" cy="150" r="8" fill="var(--pollen)" stroke="var(--surface)" stroke-width="3"/>
-    ${SHOPS.map((s,i)=>`<g class="pin ${s.id===selShop?"sel":""}" data-act="shop" data-id="${s.id}" tabindex="0" role="button" aria-label="${esc(s.n)}" transform="translate(${s.x} ${s.y})"><path d="M0 0 C-12 -14 -14 -20 -14 -26 A14 14 0 1 1 14 -26 C14 -20 12 -14 0 0Z"/><text x="0" y="-22" text-anchor="middle">${i+1}</text></g>`).join("")}
-  </svg>
-  </div>
+  return `${header("Shops near "+zip)}<main><div class="split">
+  <div class="pin-top">${baseMap("Map of plant shops near you",SHOPS.map((s,i)=>pinSVG(s,i,"shop",s.id===selShop)).join(""),YOU_DOT)}</div>
   <div>
   ${sel?`<div class="card"><h3>${esc(sel.n)}</h3><p class="muted small">${sel.mi} · ${sel.h}</p><p class="small">${esc(sel.t)}</p><a class="btn primary" href="https://example.com/" target="_blank" rel="noopener">Visit website</a><p class="muted small">Prototype: this opens a placeholder site.</p></div>`:`<p class="muted small">Tap a pin or a shop to see details. The yellow dot is you.</p>`}
   <div class="stack">${SHOPS.map((s,i)=>`<button class="row" data-act="shop" data-id="${s.id}"><span class="ic" style="width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:${s.id===selShop?"var(--pollen)":"var(--moss)"};color:${s.id===selShop?"#1c2a1f":"var(--moss-ink)"};font-weight:700;flex:none">${i+1}</span><div class="txt"><b>${esc(s.n)}</b><span class="muted small">${s.mi} · ${esc(s.t)}</span></div></button>`).join("")}</div>
@@ -385,44 +539,53 @@ V.shops=()=>{
   </div></main>`;
 };
 
-V.plants=()=>{
-  const list=Object.entries(PLANTS).filter(([,p])=>p.st===libTab).sort((a,b)=>CATS.indexOf(a[1].c)-CATS.indexOf(b[1].c));
-  return `${header("Plant Library")}<main>
-  <p class="muted">Common plants in the ${esc(region())}.</p>
-  <div class="tabs" role="tablist" style="max-width:420px"><button role="tab" aria-selected="${libTab==="native"}" data-act="tab" data-t="native">Native</button><button role="tab" aria-selected="${libTab==="invasive"}" data-act="tab" data-t="invasive">Invasive</button></div>
-  <div class="list">${list.map(([id,p])=>plantRow(id,`<span class="muted small"> · ${p.c}</span>`)).join("")}</div></main>`;
-};
-
-V.plant=({id})=>{
-  const p=PLANTS[id];
-  const pol=Object.entries(POLL).filter(([,x])=>x.pl.includes(id));
-  return `${header(p.n)}<main><div class="split">
-  <div class="pin-top"><img class="photo" alt="" src="${leafSVG(p.h)}"></div>
+V.nearby=()=>{
+  const u=user();if(!u)return V.account();
+  const first=u.optIn==null,on=!!u.optIn;
+  const list=NEARBY.filter(x=>nearFilter==="all"||x.k===nearFilter);
+  const sel=list.find(x=>x.id===selNear);
+  const you=on?`<g transform="translate(180 150)"><circle r="12" fill="var(--pollen)" stroke="var(--surface)" stroke-width="3"/><text y="3.5" text-anchor="middle" style="font:700 9px var(--body);fill:#1c2a1f">You</text></g>`:`<circle cx="180" cy="150" r="9" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="3 3"/>`;
+  const badge=(x,i)=>`<span class="ic" style="width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:${x.k==="proj"?"var(--pollen)":"var(--moss)"};color:${x.k==="proj"?"#1c2a1f":"var(--moss-ink)"};font-weight:700;flex:none${x.id===selNear?";outline:3px solid var(--ink);outline-offset:1px":""}">${i+1}</span>`;
+  return `${header("Yards near me")}<main><div class="split">
+  <div class="pin-top">${baseMap("Map of BioCity yards and projects near you",list.map((x,i)=>pinSVG(x,i,"near",x.id===selNear,"near"+(x.k==="proj"?" proj":""))).join(""),you)}
+    <div class="legend" style="margin-top:10px"><span><i style="background:var(--moss)"></i>Yards</span><span><i style="background:var(--pollen)"></i>Projects</span><span><i style="background:${on?"var(--pollen)":"transparent"};border-style:${on?"solid":"dashed"}"></i>You${on?"":" (hidden)"}</span></div>
+  </div>
   <div>
-  <div class="stack"><h2>${esc(p.n)}</h2><p class="muted"><i>${esc(p.s)}</i> · ${p.c}</p>${tags(p)}</div>
-  <p class="lede">${esc(p.d)}</p>
-  ${p.st==="invasive"?`<div class="notice"><b>What to do:</b> ${esc(p.x)}</div>`:`<div class="card"><span class="eyebrow">Benefits</span><p>${esc(p.b)}</p><dl class="facts"><dt>Sun</dt><dd>${p.sun.map(x=>LIGHT[x]).join("; ")}</dd><dt>Water</dt><dd>${p.w}</dd></dl></div>`}
-  ${pol.length?`<div class="stack"><span class="eyebrow">Pollinators it supports</span>${pol.map(([pid,x])=>`<button class="row" data-act="pollinator" data-id="${pid}"><div class="txt"><b>${esc(x.n)}</b><span class="muted small">${x.k}</span></div></button>`).join("")}</div>`:""}
+    <div class="card optin${first?" first":""}">
+      ${first?`<span class="eyebrow">New</span><h3>Share your yard with neighbors?</h3>`:""}
+      <div style="display:flex;gap:16px;align-items:center;justify-content:space-between">
+        <p class="small">${on?"Your yard is on the map. Nearby BioCity members can see its pin and what you're growing.":"Your yard is hidden. You can still see everyone who has opted in."}</p>
+        <label class="switch">Opt in<input type="checkbox" role="switch" data-toggle="optin"${on?" checked":""}></label>
+      </div>
+      <p class="small muted">It's optional and you can change it any time. Pins show your general area, never your address.</p>
+    </div>
+    <div class="tabs" role="tablist">${[["all","All"],["yard","Yards"],["proj","Projects"]].map(([k,l])=>`<button role="tab" aria-selected="${nearFilter===k}" data-act="nfilter" data-f="${k}">${l}</button>`).join("")}</div>
+    ${sel?`<div class="card"><span class="eyebrow">${sel.k==="proj"?"Community project":"BioCity yard"} · ${sel.mi}</span><h3>${esc(sel.n)}</h3>${sel.by?`<p class="small muted">Organized by ${esc(sel.by)}</p>`:""}<p class="small">${esc(sel.d)}</p><span class="eyebrow">Growing here</span><div class="minis">${sel.pl.map(mini).join("")}</div></div>`:`<p class="muted small">Tap a pin or a row to see a yard or project. Only people who opted in are shown.</p>`}
+    <div class="stack">${list.map((x,i)=>`<button class="row" data-act="near" data-id="${x.id}">${badge(x,i)}<div class="txt"><b>${esc(x.n)}</b><span class="muted small">${x.mi} · ${x.k==="proj"?"Project":"Yard"}</span></div></button>`).join("")}</div>
   </div>
   </div></main>`;
 };
 
-V.pollinators=()=>`${header("Pollinator Library")}<main>
-  <p class="muted">Pollinators found in the ${esc(region())} and the plants they rely on.</p>
-  <div class="list">${Object.entries(POLL).map(([id,x])=>`<button class="row" data-act="pollinator" data-id="${id}"><div class="ic" style="width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--pollen-soft);color:var(--pollen);flex:none">${ICON.bee}</div><div class="txt"><b>${esc(x.n)}</b><span class="muted small">${x.k} · helps ${x.pl.length} plants</span></div></button>`).join("")}</div></main>`;
+V.plants=()=>{
+  const list=Object.entries(PLANTS).filter(([,p])=>p.st===libTab).sort((a,b)=>CATS.indexOf(a[1].c)-CATS.indexOf(b[1].c));
+  return `${header("Plant Library")}<main>
+  <p class="muted">Common plants in the ${esc(region())}. Tap one to see more.</p>
+  <div class="tabs" role="tablist" style="max-width:420px"><button role="tab" aria-selected="${libTab==="native"}" data-act="tab" data-t="native">Native</button><button role="tab" aria-selected="${libTab==="invasive"}" data-act="tab" data-t="invasive">Invasive</button></div>
+  <div class="list">${list.map(([id])=>plantItem(id)).join("")}</div></main>`;
+};
 
-V.pollinator=({id})=>{const x=POLL[id];return `${header(x.n)}<main>
-  <div class="stack"><span class="eyebrow">${x.k}</span><h2>${esc(x.n)}</h2><p class="muted"><i>${esc(x.s)}</i></p></div>
-  <p class="lede">${esc(x.d)}</p>
-  <div class="stack"><span class="eyebrow">Plants it helps</span><div class="list">${x.pl.map(i=>plantRow(i)).join("")}</div></div></main>`};
+V.pollinators=()=>`${header("Pollinator Library")}<main>
+  <p class="muted">Pollinators found in the ${esc(region())}, the plants that help them and the ones that harm them.</p>
+  <div class="list">${Object.keys(POLL).map(pollItem).join("")}</div></main>`;
 
 const app=document.getElementById("app");
 function render(top){
   const c=cur(),ch=chrome();
   app.className="app"+(ch?" chrome has-tabs":"");
-  app.innerHTML=(ch?sidebar():"")+`<div class="content${c.v==="scan"||c.v==="zip"?" narrow":""}">${V[c.v](c)}<p class="proto">Prototype · sample data, no real plant identification</p>${ch?`<nav class="tabbar" aria-label="Main">${navItems(true)}</nav>`:""}</div>`;
+  app.innerHTML=(ch?sidebar():"")+`<div class="content${["scan","zip","account"].includes(c.v)?" narrow":""}">${V[c.v](c)}<p class="proto">Prototype · sample data, no real plant identification · plant and pollinator photos from Wikimedia Commons</p>${ch?`<nav class="tabbar" aria-label="Main">${navItems(true)}</nav>`:""}</div>`;
   if(top)window.scrollTo(0,0);
-  const z=document.getElementById("zip");if(z&&!S.zip)z.focus();
+  const z=document.getElementById("zip");if(z&&!zip)z.focus();
+  if(focusK){const b=app.querySelector(`[data-k="${focusK}"]`);if(b){b.focus({preventScroll:true});if(b.parentElement.classList.contains("open"))b.parentElement.scrollIntoView({block:"nearest",behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}focusK=null}
 }
 
 function pick(a){return a[Math.floor(Math.random()*a.length)]}
@@ -430,59 +593,83 @@ function startAnalyze(){
   scan.step="analyzing";render(true);
   setTimeout(()=>{
     scan.found=[pick(YARD_POOL.Tree),pick(YARD_POOL.Bush),pick(YARD_POOL["Small plant"])];
-    scan.i=0;scan.cu={};scan.step="closeup";render(true);
+    scan.i=0;scan.cu={photos:[]};scan.step="closeup";render(true);
   },1800);
 }
-function identify(photo){
-  scan.cu={photo,busy:true};render();
-  setTimeout(()=>{scan.cu.busy=false;scan.cu.conf=88+Math.floor(Math.random()*11);render()},1400);
+function addYard(urls){urls.forEach(u=>{scan.photos.push(u);scan.shots.push(newShot("yard","Yard photo "+scan.photos.length))});render()}
+function identify(urls){
+  const c=scan.cu,p=PLANTS[scan.found[scan.i]];
+  urls.forEach(u=>{c.photos.push(u);scan.shots.push(newShot("closeup",`${p.n} close-up ${c.photos.length}`))});
+  c.busy=true;render();
+  clearTimeout(idTimer);idTimer=setTimeout(()=>{c.busy=false;c.conf=Math.min(99,62+c.photos.length*9+Math.floor(Math.random()*5));render()},1200);
+}
+function finish(){
+  const u=user();
+  const pr={id:"p"+Date.now(),name:"",date:Date.now(),photo:scan.photos[0],seed:scan.seed,found:scan.found,shots:scan.shots};
+  scan=null;openKey=null;
+  if(u){pr.name="Yard scan "+(u.projects.filter(p=>!p.example).length+1);u.projects.unshift(pr);save();stack=[{v:"home"},{v:"yard"},{v:"project",id:pr.id}]}
+  else{pr.name="Your yard scan";guest=pr;stack=[{v:"home"},{v:"project",id:"guest"}]}
+  render(true);
 }
 function shrink(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{const k=Math.min(1,640/Math.max(img.width,img.height));const cv=document.createElement("canvas");cv.width=Math.round(img.width*k);cv.height=Math.round(img.height*k);cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);res(cv.toDataURL("image/jpeg",.72))};img.onerror=rej;img.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
 
 const ACT={
   back,
-  next:()=>go("zip"),
+  next:()=>{D.seen=true;save();go("zip")},
+  welcomeacct:()=>{D.seen=true;save();acctErr="";go("account")},
+  account:()=>{acctErr="";acctDraft={};go("account")},
+  signout:()=>{D.me="";save();guest=null;reset(zip?"home":"zip")},
   changezip:()=>{zipErr="";go("zip")},
   go:el=>go(el.dataset.v),
-  nav:el=>{const v=el.dataset.v;stack=v==="home"?[{v:"home"}]:[{v:"home"},{v}];render(true)},
-  newscan:()=>{scan={step:"photo",photo:"",seed:1+Math.floor(Math.random()*9)};go("scan")},
-  sampleyard:()=>{scan.photo=yardSVG(scan.seed);scan.sample=true;render()},
+  nav:el=>{const v=el.dataset.v;openKey=null;if(v==="scan"){stack=[{v:"home"}];ACT.newscan();return}stack=v==="home"?[{v:"home"}]:[{v:"home"},{v}];render(true)},
+  newscan:()=>{scan={step:"photo",photos:[],shots:[],seed:1+Math.floor(Math.random()*9)};go("scan")},
+  sampleyard:()=>addYard([pic(YARD_PIC,960)]),
   analyze:startAnalyze,
-  samplecu:()=>identify(leafSVG(PLANTS[scan.found[scan.i]].h)),
-  nextcu:()=>{if(scan.i<scan.found.length-1){scan.i++;scan.cu={}}else scan.step="light";render(true)},
+  samplecu:()=>identify([pic(PLANTS[scan.found[scan.i]].i,500)]),
+  nextcu:()=>{if(scan.i<scan.found.length-1){scan.i++;scan.cu={photos:[]};render(true)}else finish()},
   project:el=>go("project",{id:el.dataset.id}),
-  plant:el=>go("plant",{id:el.dataset.id}),
-  pollinator:el=>go("pollinator",{id:el.dataset.id}),
+  toggle:el=>{const k=el.dataset.k;openKey=openKey===k?null:k;focusK=k;render()},
   shop:el=>{selShop=el.dataset.id;render()},
-  tab:el=>{libTab=el.dataset.t;render()}
+  near:el=>{selNear=el.dataset.id;render()},
+  nfilter:el=>{nearFilter=el.dataset.f;render()},
+  tab:el=>{libTab=el.dataset.t;openKey=null;render()}
 };
 document.addEventListener("click",e=>{const el=e.target.closest("[data-act]");if(el&&ACT[el.dataset.act]){e.preventDefault();ACT[el.dataset.act](el)}});
 document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("g[data-act]")){e.preventDefault();ACT[e.target.dataset.act](e.target)}});
+document.addEventListener("error",e=>{const t=e.target;if(t.tagName!=="IMG")return;if(t.dataset.h){t.src=leafSVG(+t.dataset.h);delete t.dataset.h}else if(t.dataset.y){t.src=yardSVG(+t.dataset.y);delete t.dataset.y}},true);
 document.addEventListener("change",async e=>{
   const t=e.target;
-  if(t.matches("[data-upload]")&&t.files[0]){
-    let url;try{url=await shrink(t.files[0])}catch(err){return}
-    if(t.dataset.upload==="yard"){scan.photo=url;scan.sample=false;render()}else identify(url);
+  if(t.matches("[data-upload]")&&t.files.length){
+    const urls=[];for(const f of t.files){try{urls.push(await shrink(f))}catch(err){}}
+    if(!urls.length)return;
+    if(t.dataset.upload==="yard")addYard(urls);else identify(urls);
   }
-  if(t.name==="light"&&scan)scan.light=t.value;
-  if(t.name==="when"&&scan)scan.when=t.value;
+  if(t.dataset.toggle==="optin"){const u=user();if(u){u.optIn=t.checked;save();render();app.querySelector('[data-toggle="optin"]')?.focus()}}
 });
 document.addEventListener("submit",e=>{
   e.preventDefault();
-  const f=e.target.dataset.form;
+  const f=e.target.dataset.form,el=e.target.elements;
   if(f==="zip"){
-    const v=document.getElementById("zip").value.trim();
+    const v=el.zip.value.trim();
     if(!/^\d{5}$/.test(v)){zipErr="Enter a 5-digit zip code, like 02139.";render();return}
-    zipErr="";const first=!S.zip;S.zip=v;
-    if(first&&!S.projects.length)S.projects.push({id:"example",name:"Backyard (example)",date:Date.now()-14*864e5,seed:5,found:["norway-maple","boxwood","black-eyed-susan"],light:"part",example:true});
-    save();reset("home");
+    zipErr="";zip=v;
+    const u=user();if(u){u.zip=el.keep.checked?v:"";save()}
+    reset("home");
   }
-  if(f==="light"){
-    if(!scan.light){scan.light="part"}
-    const id="p"+Date.now();
-    S.projects.unshift({id,name:"Yard scan "+(S.projects.filter(p=>!p.example).length+1),date:Date.now(),photo:scan.sample?"":scan.photo,seed:scan.seed,found:scan.found,light:scan.light,when:scan.when||""});
-    save();scan=null;
-    stack=[{v:"home"},{v:"yard"},{v:"project",id}];render(true);
+  if(f==="account"){
+    const em=el.email.value.trim().toLowerCase(),z=el.zip.value.trim();
+    acctDraft={email:em,zip:z};
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){acctErr="Enter a valid email address.";render();return}
+    if(z&&!/^\d{5}$/.test(z)){acctErr="A zip code is 5 digits. Or leave it blank.";render();return}
+    acctErr="";acctDraft={};
+    const u=D.users[em]||(D.users[em]={email:em,zip:"",projects:[exampleProject()],optIn:null});
+    if(z)u.zip=z;
+    D.me=em;D.seen=true;
+    if(u.zip)zip=u.zip;
+    let dest=[{v:"home"}];
+    if(guest){const pr={...guest,id:"p"+Date.now(),name:"Yard scan "+(u.projects.filter(p=>!p.example).length+1)};u.projects.unshift(pr);guest=null;dest=[{v:"home"},{v:"yard"},{v:"project",id:pr.id}]}
+    save();openKey=null;
+    stack=zip?dest:[{v:"zip"}];render(true);
   }
 });
 render();
