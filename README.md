@@ -9,7 +9,6 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 - `prototype/index.html` is one self-contained HTML/JS file with mock data. It has no build step.
 - Run it locally by opening `prototype/index.html` in a browser.
 - **Live:** https://bob-squad-biocity.netlify.app (Netlify project `bob-squad-biocity`).
-  - On 2026-11-01 the live site was deployed from commit `bc9d23d` on branch `multicolor_theme_and_quiz`. That branch isn't merged yet, so the live site is ahead of the code and notes on `main`.
 - `netlify.toml` publishes the `prototype/` folder as a static site with no build step.
 - **Deploys are manual on purpose:** run `netlify deploy --prod` from the repo root. Pushing to GitHub does not redeploy, and the owner does not want GitHub linked to Netlify.
 - **Look:** solid, multicolored theme in light and dark, using lighter tints of safety orange, Pantone yellow, NCS green and royal purple, plus teal, berry and red. The page background is a cartoon scene: a flat Argentinian blue (`#6CB4EE`) sky, plain white clouds in a band at the top, a plain yellow sun and rolling green hills at the bottom. Dark mode uses a night sky with stars and a crescent moon in place of the sun. Only the header and the phone tab bar's current-section oval are tied to the section.
@@ -45,9 +44,6 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 - Night clouds are silvery gray rather than white, so light text stays readable over them.
 - The time question uses water needs as a stand-in, and the wildlife matches rely on placeholder data. See "What's mocked" below.
 - About 10% of quiz answer combinations have no exact match because the plant list is small, so the app widens the search.
-
-**Next steps**
-- Commit the current work and deploy it when the owner asks. The live site doesn't have the changes made on 2026-11-01 until then.
 
 ### What's mocked in the prototype
 - **Plant ID:** it picks 3 random plants from `YARD_POOL`, one tree, one bush and one small plant. There is no real AI or database lookup. Match confidence rises with each extra close-up.
