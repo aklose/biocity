@@ -11,23 +11,50 @@
 <style>
 /* Layout: single phone-width column, sticky header with back, cards only where a thing is tappable */
 :root{
-  --bg:#edf1e8;--surface:#fafbf6;--sunken:#e2e8db;--ink:#1c2a1f;--muted:#566659;--line:#d0d9ca;
-  --moss:#2e6a3a;--moss-ink:#ffffff;--moss-soft:#d8e8d6;--pollen:#c98f12;--pollen-soft:#f6e6bb;
-  --invasive:#b23f2c;--invasive-soft:#f6dcd5;--nonnative:#5a5f9c;--nonnative-soft:#e1e2f2;
-  --sky:#cfe3e6;--grass:#9cc58a;--grass2:#7fb06f;--water:#b7d4e0;--road:#ffffff;
+  --bg:#eef8fe;--surface:#ffffff;--sunken:#f0ecf5;--ink:#241b35;--muted:#2f2840;--line:#e4ddea;
+  --green:#4fc79c;--orange:#ff9a5c;--yellow:#ffe75c;--sky:#a9dff3;--teal:#3fb8c4;--purple:#b093d8;--berry:#e288a6;--red:#f28e7c;
+  --green-deep:#00704c;--orange-deep:#a03e00;--yellow-deep:#756000;--teal-deep:#0f6570;--purple-deep:#5e3d8c;--berry-deep:#a32d54;--red-deep:#b8301e;
+  --green-soft:#d6f2e7;--orange-soft:#ffe6d6;--yellow-soft:#fff7c2;--teal-soft:#d4f1f4;--purple-soft:#ebe3f5;--berry-soft:#f9e0e8;--red-soft:#fbe0db;
+  --on-c:#1f0d35;--on-primary:#1f0d35;--focus:#1a6590;--recent-ink:#000;--sky-bg:#6cb4ee;--halo:0 0 3px #fff;--sun:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23ffd93d' stroke-width='6' stroke-linecap='round'%3E%3Cpath d='M60 4V12M60 108V116M4 60H12M108 60H116M20 20L26 26M94 94L100 100M20 100L26 94M94 26L100 20'/%3E%3C/g%3E%3Ccircle cx='60' cy='60' r='38' fill='%23ffd93d'/%3E%3C/svg%3E");--scene-x:calc(50% + 128px);--sun-pos:78px/128px 128px no-repeat;--stars:none;--hills:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='170'%3E%3Cpath fill='%237fd06a' d='M0 70C200 10 350 30 600 80S1000 130 1200 70V170H0Z'/%3E%3Cpath fill='none' stroke='%232f7d3a' stroke-width='4' d='M0 70C200 10 350 30 600 80S1000 130 1200 70'/%3E%3Cpath fill='%235fbf5a' d='M0 125C200 85 500 90 700 130S1000 165 1200 125V170H0Z'/%3E%3Cpath fill='none' stroke='%232f7d3a' stroke-width='4' d='M0 125C200 85 500 90 700 130S1000 165 1200 125'/%3E%3C/svg%3E");--err:#6e1408;--clouds:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='300'%3E%3Cg fill='%23ffffff'%3E%3Ccircle cx='122' cy='162' r='29'/%3E%3Ccircle cx='159' cy='142' r='37'/%3E%3Ccircle cx='208' cy='131' r='44'/%3E%3Ccircle cx='254' cy='153' r='33'/%3E%3Ccircle cx='282' cy='167' r='22'/%3E%3Crect x='93' y='160' width='211' height='31' rx='15'/%3E%3Ccircle cx='361' cy='152' r='25'/%3E%3Ccircle cx='393' cy='135' r='32'/%3E%3Ccircle cx='435' cy='125' r='38'/%3E%3Ccircle cx='475' cy='144' r='28'/%3E%3Ccircle cx='500' cy='156' r='19'/%3E%3Crect x='336' y='150' width='182' height='27' rx='13'/%3E%3Ccircle cx='716' cy='167' r='31'/%3E%3Ccircle cx='756' cy='146' r='41'/%3E%3Ccircle cx='809' cy='134' r='48'/%3E%3Ccircle cx='860' cy='158' r='36'/%3E%3Ccircle cx='891' cy='172' r='24'/%3E%3Crect x='684' y='165' width='230' height='34' rx='17'/%3E%3Ccircle cx='998' cy='154' r='26'/%3E%3Ccircle cx='1032' cy='136' r='34'/%3E%3Ccircle cx='1076' cy='126' r='40'/%3E%3Ccircle cx='1118' cy='146' r='30'/%3E%3Ccircle cx='1144' cy='158' r='20'/%3E%3Crect x='972' y='152' width='192' height='28' rx='14'/%3E%3C/g%3E%3C/svg%3E");--grass:#a9ddb0;--grass2:#86cfa0;--water:#87ceeb;--road:#ffffff;
+  --primary:var(--purple);--primary-soft:var(--purple-soft);--primary-deep:var(--purple-deep);
+  --pollen:var(--yellow);--pollen-soft:var(--yellow-soft);--invasive:var(--red-deep);--invasive-soft:var(--red-soft);
+  --h:var(--berry);--h-on:var(--on-primary);
+  --c:var(--purple);--c-on:var(--on-primary);--c-soft:var(--purple-soft);--c-deep:var(--purple-deep);
   --display:"Bricolage Grotesque",ui-rounded,"Avenir Next",system-ui,sans-serif;
   --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#111813;--surface:#19231b;--sunken:#0d130f;--ink:#e5ede2;--muted:#9bad9e;--line:#2b3a2e;
-  --moss:#83c991;--moss-ink:#0d1a10;--moss-soft:#22382a;--pollen:#efc55a;--pollen-soft:#3a3018;
-  --invasive:#f08f7b;--invasive-soft:#3e211b;--nonnative:#aeb3ec;--nonnative-soft:#272a45;
-  --sky:#1f3236;--grass:#2f4d2f;--grass2:#3b5f39;--water:#23414d;--road:#2a352c;color-scheme:dark}}
+  --bg:#141d38;--surface:#221d30;--sunken:#0f0d16;--ink:#f4f1fa;--muted:#e0dbeb;--line:#3a3350;
+  --green-deep:#5fd6ae;--orange-deep:#ff9e5c;--yellow-deep:#ffe766;--teal-deep:#6fd8e2;--purple-deep:#c4ade6;--berry-deep:#f08fae;--red-deep:#ff9a88;
+  --green-soft:#0b3b2b;--orange-soft:#4a260f;--yellow-soft:#423807;--teal-soft:#0e3a40;--purple-soft:#2e2148;--berry-soft:#451a2b;--red-soft:#4a1e17;
+  --focus:#a8ddf2;--err:#ffd2c9;--sun:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath fill='%23e6dca8' d='M74 18A44.3 44.3 0 1 0 102 74A34 34 0 0 1 74 18Z'/%3E%3C/svg%3E");--recent-ink:#f4f1fa;--sky-bg:#0f1c38;--halo:0 0 2px #0f1c38,0 0 4px #0f1c38,0 0 7px #0f1c38;--stars:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='300'%3E%3Cg fill='%23ffe9a0'%3E%3Cpath d='M60 53Q60 60 67 60Q60 60 60 67Q60 60 53 60Q60 60 60 53Z'/%3E%3Cpath d='M320 89Q320 95 326 95Q320 95 320 101Q320 95 314 95Q320 95 320 89Z'/%3E%3Cpath d='M450 245Q450 250 455 250Q450 250 450 255Q450 250 445 250Q450 250 450 245Z'/%3E%3Cpath d='M760 73Q760 80 767 80Q760 80 760 87Q760 80 753 80Q760 80 760 73Z'/%3E%3Cpath d='M930 265Q930 270 935 270Q930 270 930 275Q930 270 925 270Q930 270 930 265Z'/%3E%3Cpath d='M1160 64Q1160 70 1166 70Q1160 70 1160 76Q1160 70 1154 70Q1160 70 1160 64Z'/%3E%3Cpath d='M240 260Q240 265 245 265Q240 265 240 270Q240 265 235 265Q240 265 240 260Z'/%3E%3Cpath d='M1090 244Q1090 250 1096 250Q1090 250 1090 256Q1090 250 1084 250Q1090 250 1090 244Z'/%3E%3C/g%3E%3C/svg%3E");--hills:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='170'%3E%3Cpath fill='%231e4a38' d='M0 70C200 10 350 30 600 80S1000 130 1200 70V170H0Z'/%3E%3Cpath fill='none' stroke='%233b7a5e' stroke-width='4' d='M0 70C200 10 350 30 600 80S1000 130 1200 70'/%3E%3Cpath fill='%23173b2d' d='M0 125C200 85 500 90 700 130S1000 165 1200 125V170H0Z'/%3E%3Cpath fill='none' stroke='%233b7a5e' stroke-width='4' d='M0 125C200 85 500 90 700 130S1000 165 1200 125'/%3E%3C/svg%3E");--clouds:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='300'%3E%3Cg fill='%23596276'%3E%3Ccircle cx='122' cy='162' r='29'/%3E%3Ccircle cx='159' cy='142' r='37'/%3E%3Ccircle cx='208' cy='131' r='44'/%3E%3Ccircle cx='254' cy='153' r='33'/%3E%3Ccircle cx='282' cy='167' r='22'/%3E%3Crect x='93' y='160' width='211' height='31' rx='15'/%3E%3Ccircle cx='361' cy='152' r='25'/%3E%3Ccircle cx='393' cy='135' r='32'/%3E%3Ccircle cx='435' cy='125' r='38'/%3E%3Ccircle cx='475' cy='144' r='28'/%3E%3Ccircle cx='500' cy='156' r='19'/%3E%3Crect x='336' y='150' width='182' height='27' rx='13'/%3E%3Ccircle cx='716' cy='167' r='31'/%3E%3Ccircle cx='756' cy='146' r='41'/%3E%3Ccircle cx='809' cy='134' r='48'/%3E%3Ccircle cx='860' cy='158' r='36'/%3E%3Ccircle cx='891' cy='172' r='24'/%3E%3Crect x='684' y='165' width='230' height='34' rx='17'/%3E%3Ccircle cx='998' cy='154' r='26'/%3E%3Ccircle cx='1032' cy='136' r='34'/%3E%3Ccircle cx='1076' cy='126' r='40'/%3E%3Ccircle cx='1118' cy='146' r='30'/%3E%3Ccircle cx='1144' cy='158' r='20'/%3E%3Crect x='972' y='152' width='192' height='28' rx='14'/%3E%3C/g%3E%3C/svg%3E");--grass:#1e4a38;--grass2:#27604a;--water:#1f5570;--road:#443c5c;color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#111813;--surface:#19231b;--sunken:#0d130f;--ink:#e5ede2;--muted:#9bad9e;--line:#2b3a2e;
-  --moss:#83c991;--moss-ink:#0d1a10;--moss-soft:#22382a;--pollen:#efc55a;--pollen-soft:#3a3018;
-  --invasive:#f08f7b;--invasive-soft:#3e211b;--nonnative:#aeb3ec;--nonnative-soft:#272a45;
-  --sky:#1f3236;--grass:#2f4d2f;--grass2:#3b5f39;--water:#23414d;--road:#2a352c;color-scheme:dark}
+  --bg:#141d38;--surface:#221d30;--sunken:#0f0d16;--ink:#f4f1fa;--muted:#e0dbeb;--line:#3a3350;
+  --green-deep:#5fd6ae;--orange-deep:#ff9e5c;--yellow-deep:#ffe766;--teal-deep:#6fd8e2;--purple-deep:#c4ade6;--berry-deep:#f08fae;--red-deep:#ff9a88;
+  --green-soft:#0b3b2b;--orange-soft:#4a260f;--yellow-soft:#423807;--teal-soft:#0e3a40;--purple-soft:#2e2148;--berry-soft:#451a2b;--red-soft:#4a1e17;
+  --focus:#a8ddf2;--err:#ffd2c9;--sun:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath fill='%23e6dca8' d='M74 18A44.3 44.3 0 1 0 102 74A34 34 0 0 1 74 18Z'/%3E%3C/svg%3E");--recent-ink:#f4f1fa;--sky-bg:#0f1c38;--halo:0 0 2px #0f1c38,0 0 4px #0f1c38,0 0 7px #0f1c38;--stars:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='300'%3E%3Cg fill='%23ffe9a0'%3E%3Cpath d='M60 53Q60 60 67 60Q60 60 60 67Q60 60 53 60Q60 60 60 53Z'/%3E%3Cpath d='M320 89Q320 95 326 95Q320 95 320 101Q320 95 314 95Q320 95 320 89Z'/%3E%3Cpath d='M450 245Q450 250 455 250Q450 250 450 255Q450 250 445 250Q450 250 450 245Z'/%3E%3Cpath d='M760 73Q760 80 767 80Q760 80 760 87Q760 80 753 80Q760 80 760 73Z'/%3E%3Cpath d='M930 265Q930 270 935 270Q930 270 930 275Q930 270 925 270Q930 270 930 265Z'/%3E%3Cpath d='M1160 64Q1160 70 1166 70Q1160 70 1160 76Q1160 70 1154 70Q1160 70 1160 64Z'/%3E%3Cpath d='M240 260Q240 265 245 265Q240 265 240 270Q240 265 235 265Q240 265 240 260Z'/%3E%3Cpath d='M1090 244Q1090 250 1096 250Q1090 250 1090 256Q1090 250 1084 250Q1090 250 1090 244Z'/%3E%3C/g%3E%3C/svg%3E");--hills:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='170'%3E%3Cpath fill='%231e4a38' d='M0 70C200 10 350 30 600 80S1000 130 1200 70V170H0Z'/%3E%3Cpath fill='none' stroke='%233b7a5e' stroke-width='4' d='M0 70C200 10 350 30 600 80S1000 130 1200 70'/%3E%3Cpath fill='%23173b2d' d='M0 125C200 85 500 90 700 130S1000 165 1200 125V170H0Z'/%3E%3Cpath fill='none' stroke='%233b7a5e' stroke-width='4' d='M0 125C200 85 500 90 700 130S1000 165 1200 125'/%3E%3C/svg%3E");--clouds:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='300'%3E%3Cg fill='%23596276'%3E%3Ccircle cx='122' cy='162' r='29'/%3E%3Ccircle cx='159' cy='142' r='37'/%3E%3Ccircle cx='208' cy='131' r='44'/%3E%3Ccircle cx='254' cy='153' r='33'/%3E%3Ccircle cx='282' cy='167' r='22'/%3E%3Crect x='93' y='160' width='211' height='31' rx='15'/%3E%3Ccircle cx='361' cy='152' r='25'/%3E%3Ccircle cx='393' cy='135' r='32'/%3E%3Ccircle cx='435' cy='125' r='38'/%3E%3Ccircle cx='475' cy='144' r='28'/%3E%3Ccircle cx='500' cy='156' r='19'/%3E%3Crect x='336' y='150' width='182' height='27' rx='13'/%3E%3Ccircle cx='716' cy='167' r='31'/%3E%3Ccircle cx='756' cy='146' r='41'/%3E%3Ccircle cx='809' cy='134' r='48'/%3E%3Ccircle cx='860' cy='158' r='36'/%3E%3Ccircle cx='891' cy='172' r='24'/%3E%3Crect x='684' y='165' width='230' height='34' rx='17'/%3E%3Ccircle cx='998' cy='154' r='26'/%3E%3Ccircle cx='1032' cy='136' r='34'/%3E%3Ccircle cx='1076' cy='126' r='40'/%3E%3Ccircle cx='1118' cy='146' r='30'/%3E%3Ccircle cx='1144' cy='158' r='20'/%3E%3Crect x='972' y='152' width='192' height='28' rx='14'/%3E%3C/g%3E%3C/svg%3E");--grass:#1e4a38;--grass2:#27604a;--water:#1f5570;--road:#443c5c;color-scheme:dark}
+.tile:nth-child(6n+1),[data-c="0"],.group:nth-child(6n+1),.progress i:nth-child(6n+1){--c:var(--green);--c-on:var(--on-c);--c-soft:var(--green-soft);--c-deep:var(--green-deep)}
+.tile:nth-child(6n+2),[data-c="1"],.group:nth-child(6n+2),.progress i:nth-child(6n+2){--c:var(--orange);--c-on:var(--on-c);--c-soft:var(--orange-soft);--c-deep:var(--orange-deep)}
+.tile:nth-child(6n+3),[data-c="2"],.group:nth-child(6n+3),.progress i:nth-child(6n+3){--c:var(--teal);--c-on:var(--on-c);--c-soft:var(--teal-soft);--c-deep:var(--teal-deep)}
+.tile:nth-child(6n+4),[data-c="3"],.group:nth-child(6n+4),.progress i:nth-child(6n+4){--c:var(--yellow);--c-on:var(--on-c);--c-soft:var(--yellow-soft);--c-deep:var(--yellow-deep)}
+.tile:nth-child(6n+5),[data-c="4"],.group:nth-child(6n+5),.progress i:nth-child(6n+5){--c:var(--purple);--c-on:var(--on-primary);--c-soft:var(--purple-soft);--c-deep:var(--purple-deep)}
+.tile:nth-child(6n+6),[data-c="5"],.group:nth-child(6n+6),.progress i:nth-child(6n+6){--c:var(--berry);--c-on:var(--on-primary);--c-soft:var(--berry-soft);--c-deep:var(--berry-deep)}
+.app[data-sec="yard"],.app[data-sec="scan"]{--h:var(--green);--h-on:var(--on-c)}
+.app[data-sec="nearby"]{--h:var(--orange);--h-on:var(--on-c)}
+.app[data-sec="shops"]{--h:var(--teal);--h-on:var(--on-c)}
+.app[data-sec="plants"]{--h:var(--yellow);--h-on:var(--on-c)}
+.app[data-sec="pollinators"]{--h:var(--purple);--h-on:var(--on-primary)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--sun) var(--scene-x) var(--sun-pos),var(--stars) top center/1200px 300px repeat-x,var(--clouds) var(--scene-x) top/1200px 300px repeat-x,var(--hills) bottom center/1200px 170px repeat-x,var(--sky-bg)}
+@media (max-width:959px){:root{--scene-x:50%;--sun-pos:68px/122px 122px no-repeat}}
+:root:has(.app:not(.chrome)){--scene-x:50%}
+main,.proto{text-shadow:var(--halo)}
+.card,.item,.notice,.choice,.map,.qcard{text-shadow:none}
+.qcard{background:var(--c);color:var(--c-on);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 8px rgba(31,13,53,.14)}
+.qcard .eyebrow{color:var(--c-on)}
+.qcard .choice label{border-color:transparent;color:var(--ink)}
+.qcard .choice input{accent-color:var(--ink)}
+.qcard .choice label:has(input:checked){border:2.5px solid var(--ink);background:var(--c-soft)}
+.qcard .btn.primary{background:var(--ink);color:var(--surface)}
 html,body{height:100%}
 :root{padding-top:env(safe-area-inset-top,0px)}
 [hidden]{display:none!important}
@@ -36,9 +63,10 @@ body{margin:0;-webkit-text-size-adjust:100%;background:var(--bg);color:var(--ink
 *{box-sizing:border-box}
 .app{min-height:100%;display:flex;flex-direction:column}
 .content{flex:1;min-width:0;width:100%;max-width:560px;margin:0 auto;display:flex;flex-direction:column}
-header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--h);color:var(--h-on);display:flex;align-items:center;gap:8px;padding:12px 16px}
 header.bar h1{font-family:var(--display);font-weight:800;font-size:1.25rem;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .iconbtn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:40px;height:40px;border-radius:12px;display:grid;place-items:center;cursor:pointer;flex:none}
+.iconbtn.float{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:16px;z-index:6}
 .chip{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:.85rem;cursor:pointer;white-space:nowrap}
 main{flex:1;padding:20px 16px calc(40px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:20px}
 .has-tabs main{padding-bottom:24px}
@@ -50,97 +78,102 @@ p{margin:0}
 .eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .stack{display:flex;flex-direction:column;gap:12px}
 .btn{appearance:none;border:0;border-radius:14px;padding:14px 18px;font:inherit;font-weight:700;cursor:pointer;text-align:center;display:block;width:100%;text-decoration:none}
-.btn.primary{background:var(--moss);color:var(--moss-ink)}
-.btn.ghost{background:transparent;color:var(--moss);border:1.5px solid var(--moss)}
+.btn.primary{background:var(--c);color:var(--c-on)}
+.btn.ghost{background:var(--surface);color:var(--c-deep);border:2px solid var(--c)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
-button:focus-visible,a:focus-visible,input:focus-visible,label:focus-within{outline:3px solid var(--pollen);outline-offset:2px}
+button:focus-visible,a:focus-visible,input:focus-visible,label:focus-within{outline:3px solid var(--focus);outline-offset:2px}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.tile{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:18px;padding:16px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;font:inherit;min-height:140px}
-.tile .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--moss-soft);color:var(--moss)}
+.tile{appearance:none;border:0;background:var(--c);color:var(--c-on);box-shadow:0 2px 8px rgba(31,13,53,.14);transition:transform .15s;border-radius:18px;padding:16px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;font:inherit;min-height:140px}
+.tile .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.4);color:var(--c-on)}
+.tile:hover{transform:translateY(-3px)}
 .tile.wide{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center}
-.tile.feature{grid-column:1/-1;flex-direction:row;align-items:center;min-height:0;background:var(--moss);color:var(--moss-ink);border-color:var(--moss)}
-.tile.feature .ic{background:color-mix(in srgb,var(--moss-ink) 18%,transparent);color:var(--moss-ink)}
+.tile.feature{grid-column:1/-1;flex-direction:row;align-items:center;min-height:0}
 .tile b{font-family:var(--display);font-weight:800;font-size:1.1rem}
 .tile span{font-size:.85rem;opacity:.85}
-.row{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:16px;padding:12px;display:flex;gap:12px;align-items:center;cursor:pointer;text-align:left;font:inherit;width:100%}
+.row{appearance:none;border:2px solid var(--c);background:var(--surface);color:var(--ink);border-radius:16px;padding:12px;display:flex;gap:12px;align-items:center;cursor:pointer;text-align:left;font:inherit;width:100%}
 .row .txt{flex:1;min-width:0}
 .row .txt b{display:block}
 .thumb{width:64px;height:64px;border-radius:12px;object-fit:cover;flex:none;background:var(--sunken)}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
 .tag{font-size:.75rem;font-weight:700;border-radius:999px;padding:2px 9px}
-.tag.native{background:var(--moss-soft);color:var(--moss)}
-.tag.nonnative{background:var(--nonnative-soft);color:var(--nonnative)}
-.tag.invasive{background:var(--invasive-soft);color:var(--invasive)}
-.tag.pollinator{background:var(--pollen-soft);color:var(--pollen)}
+.tag.native{background:var(--green);color:var(--on-c)}
+.tag.nonnative{background:var(--sky);color:var(--on-c)}
+.tag.invasive{background:var(--red);color:var(--on-c)}
+.tag.pollinator{background:var(--yellow);color:var(--on-c)}
 .tag.example{background:var(--sunken);color:var(--muted)}
 .photo{width:100%;max-width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;background:var(--sunken);display:block}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--surface);border:2px solid var(--c);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
 .facts{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.9rem}
 .facts dt{color:var(--muted)}
 .facts dd{margin:0}
 .input{width:100%;font:inherit;font-size:1.75rem;font-family:var(--display);letter-spacing:.2em;text-align:center;padding:14px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-variant-numeric:tabular-nums}
-.err{color:var(--invasive);font-size:.9rem;min-height:1.4em}
+.err{color:var(--err);font-size:.9rem;min-height:1.4em}
 .choice{display:grid;gap:8px}
 .choice label{display:flex;gap:12px;align-items:center;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer}
-.choice input{accent-color:var(--moss);width:20px;height:20px}
-.choice label:has(input:checked){border-color:var(--moss);background:var(--moss-soft)}
+.choice input{accent-color:var(--green);width:20px;height:20px}
+.choice label:has(input:checked){border-color:var(--green);background:var(--green-soft)}
 .progress{display:flex;gap:6px}
 .progress i{flex:1;height:6px;border-radius:3px;background:var(--line)}
-.progress i.on{background:var(--moss)}
+.progress i.on{background:var(--c)}
 .tabs{display:flex;gap:6px;background:var(--sunken);padding:4px;border-radius:14px}
 .tabs button{flex:1;appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:700;padding:10px;border-radius:10px;cursor:pointer}
-.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink)}
+.tabs button[aria-selected="true"]{background:var(--c);color:var(--c-on)}
 .notice{border-left:4px solid var(--invasive);background:var(--invasive-soft);padding:10px 12px;border-radius:0 12px 12px 0;font-size:.9rem}
 .match{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.8rem;color:var(--muted)}
-.match em{font-style:normal;color:var(--moss);font-weight:700}
-.conf{font-variant-numeric:tabular-nums;font-weight:700;color:var(--moss)}
-.spinner{width:56px;height:56px;border-radius:50%;border:5px solid var(--moss-soft);border-top-color:var(--moss);animation:spin 1s linear infinite;margin:24px auto}
+.match em{font-style:normal;color:var(--green-deep);font-weight:700}
+.conf{font-variant-numeric:tabular-nums;font-weight:700;color:var(--green-deep)}
+.spinner{width:56px;height:56px;border-radius:50%;border:6px solid;border-color:var(--green) var(--orange) var(--yellow) var(--purple);animation:spin 1s linear infinite;margin:24px auto}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media (prefers-reduced-motion:reduce){.spinner{animation-duration:3s}}
+@media (prefers-reduced-motion:reduce){.spinner{animation-duration:3s}.tile{transition:none}.tile:hover{transform:none}}
 .upload{position:relative}
 .upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
 .map{width:100%;max-width:100%;aspect-ratio:6/5;border-radius:18px;border:1px solid var(--line);display:block;background:var(--grass)}
 .map .pin{cursor:pointer}
-.map .pin path{fill:var(--moss);stroke:var(--surface);stroke-width:2}
+.map .pin path{fill:var(--primary);stroke:var(--surface);stroke-width:2}
 .map .pin.sel path{fill:var(--pollen)}
-.map .pin text{fill:var(--moss-ink);font:700 11px var(--body)}
-.map .pin.sel text{fill:#1c2a1f}
+.map .pin text{fill:var(--on-primary);font:700 11px var(--body)}
+.map .pin.sel text{fill:var(--on-c)}
 .group{display:flex;flex-direction:column;gap:10px}
 .group>h3{display:flex;justify-content:space-between;align-items:baseline}
+.recent>h3,.recent>h3 small{color:var(--recent-ink)}
+.recent .row{background:var(--red);border-color:var(--red);color:#000}
+.recent .row .muted{color:#000}
 .group>h3 small{font-family:var(--body);font-weight:400;font-size:.85rem;color:var(--muted)}
 .proto{font-size:.75rem;text-align:center;color:var(--muted);padding:0 16px 16px}
 .hero-ill{width:100%;max-width:100%;border-radius:22px;display:block}
-.brand{font-family:var(--display);font-weight:800;font-size:3rem;line-height:1;letter-spacing:-.02em;color:var(--moss)}
+.brand,.side-brand{color:var(--primary-deep)}
+.brand{font-family:var(--display);font-weight:800;font-size:3rem;line-height:1;letter-spacing:-.02em;width:max-content}
 /* Shared layout helpers: single column on phones, grids on wide screens */
 .list{display:grid;gap:12px}
 .split{display:flex;flex-direction:column;gap:20px}
 .split>div{display:flex;flex-direction:column;gap:20px;min-width:0}
 .side{display:none}
-.side-brand{font-family:var(--display);font-weight:800;font-size:1.75rem;letter-spacing:-.02em;color:var(--moss);padding:4px 12px 20px}
+.side-brand{font-family:var(--display);font-weight:800;font-size:1.75rem;letter-spacing:-.02em;width:max-content;margin-left:12px;padding:4px 0 20px}
 .navitem{appearance:none;border:0;background:transparent;color:var(--ink);font:inherit;font-weight:700;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;cursor:pointer;text-align:left;width:100%}
-.navitem svg{color:var(--muted);flex:none}
-.navitem[aria-current="page"]{background:var(--moss-soft);color:var(--moss)}
-.navitem[aria-current="page"] svg{color:var(--moss)}
+.navitem svg{color:var(--ink);flex:none}
+.navitem[aria-current="page"]{background:var(--primary);color:var(--on-primary)}
+.navitem[aria-current="page"] svg{color:var(--on-primary)}
 .navitem:hover{background:var(--sunken)}
-.navitem[aria-current="page"]:hover{background:var(--moss-soft)}
+.navitem[aria-current="page"]:hover{background:var(--primary)}
 .side-foot{margin-top:auto;display:flex;flex-direction:column;gap:6px;padding:12px}
 .tabbar{position:sticky;bottom:0;z-index:5;display:flex;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
-.tabbar .navitem{flex:1;flex-direction:column;gap:2px;padding:6px 2px;font-size:.7rem;text-align:center;justify-content:center;border-radius:10px}
-.tabbar .navitem[aria-current="page"]{background:transparent}
+.tabbar .navitem{flex:1;min-width:0;flex-direction:column;gap:2px;padding:6px 2px;font-size:.7rem;text-align:center;justify-content:center;border-radius:10px}
+.tabbar .navitem[aria-current="page"],.tabbar .navitem[aria-current="page"]:hover{background:transparent;color:var(--ink)}
 .tabbar .navitem svg{padding:3px 14px;box-sizing:content-box;border-radius:999px}
-.tabbar .navitem[aria-current="page"] svg{background:var(--moss-soft)}
+.tabbar .navitem[aria-current="page"] svg{background:var(--h);color:var(--h-on)}
 .onboard{justify-content:center}
 .narrow{max-width:560px}
 .item{min-width:0;display:flex;flex-direction:column}
 .item>.row .chev{flex:none;color:var(--muted);transition:transform .2s}
-.item.open{grid-column:1/-1;background:var(--surface);border:1.5px solid var(--moss);border-radius:18px;overflow:hidden}
-.item.open>.row{border:0;border-radius:0;background:var(--moss-soft)}
-.item.open>.row .chev{transform:rotate(180deg);color:var(--moss)}
+.item.open{grid-column:1/-1;background:var(--surface);border:2px solid var(--c);border-radius:18px;overflow:hidden}
+.item.open>.row{border:0;border-radius:0;background:var(--c-soft)}
+.item.open>.row .chev{transform:rotate(180deg);color:var(--c-deep)}
 .item-body{padding:16px;display:grid;gap:16px}
 figure{margin:0}
 figcaption{font-size:.75rem;color:var(--muted);margin-top:6px}
 figcaption a{color:inherit}
 .chip.static{cursor:default}
+main .chip[data-c]{border-color:var(--c)}
 .minis{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
 .mini{display:flex;gap:10px;align-items:center;padding:6px;border:1px solid var(--line);border-radius:12px;background:var(--bg);min-width:0}
 .mini img{width:40px;height:40px;border-radius:8px;object-fit:cover;flex:none;background:var(--sunken)}
@@ -148,14 +181,14 @@ figcaption a{color:inherit}
 .strip{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
 .strip img{width:64px;height:64px;border-radius:10px;object-fit:cover;flex:none;background:var(--sunken)}
 .meter{height:8px;border-radius:4px;background:var(--sunken);overflow:hidden}
-.meter i{display:block;height:100%;background:var(--moss);border-radius:4px;transition:width .4s}
+.meter i{display:block;height:100%;background:var(--green);border-radius:4px;transition:width .4s}
 .placeholder{display:grid;place-items:center;color:var(--muted)}
 .map.sat{aspect-ratio:18/13;background:#4f6b3a}
 .map .pin.proj path{fill:var(--pollen)}
-.map .pin.proj text{fill:#1c2a1f}
+.map .pin.proj text{fill:var(--on-c)}
 .map .pin.near.sel path{stroke:var(--ink);stroke-width:3}
-.map .pin.near.sel:not(.proj) path{fill:var(--moss)}
-.map .pin.near.sel:not(.proj) text{fill:var(--moss-ink)}
+.map .pin.near.sel:not(.proj) path{fill:var(--primary)}
+.map .pin.near.sel:not(.proj) text{fill:var(--on-primary)}
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--muted)}
 .legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:1.5px solid var(--ink)}
 details summary{cursor:pointer;font-weight:700}
@@ -163,12 +196,12 @@ details ol{margin:8px 0 0;padding-left:22px;display:grid;gap:4px}
 .field{display:flex;flex-direction:column;gap:6px}
 .text{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
 .check{display:flex;gap:10px;align-items:center;cursor:pointer}
-.check input{accent-color:var(--moss);width:20px;height:20px}
-.linkbtn{appearance:none;border:0;background:none;padding:0;font:inherit;color:var(--moss);font-weight:700;text-decoration:underline;cursor:pointer}
+.check input{accent-color:var(--green);width:20px;height:20px}
+.linkbtn{appearance:none;border:0;background:none;padding:0;font:inherit;color:var(--ink);font-weight:700;text-decoration:underline;cursor:pointer}
 .switch{display:inline-flex;align-items:center;gap:10px;font-weight:700;cursor:pointer;flex:none}
 .switch input{appearance:none;width:52px;height:30px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;margin:0;transition:background .2s;flex:none}
 .switch input::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
-.switch input:checked{background:var(--moss)}
+.switch input:checked{background:var(--green)}
 .switch input:checked::after{transform:translateX(22px)}
 .optin.first{border-color:var(--pollen);background:var(--pollen-soft)}
 @media (min-width:720px){.item-body{grid-template-columns:minmax(0,2fr) minmax(0,3fr);align-items:start}}
@@ -178,7 +211,7 @@ details ol{margin:8px 0 0;padding-left:22px;display:grid;gap:4px}
   .tabbar,.hdr-zip,.hdr-acct,.iconbtn.top{display:none}
   .content{max-width:1180px}
   .content.narrow{max-width:680px}
-  header.bar{padding:18px 40px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px)}
+  header.bar{padding:18px 40px}
   header.bar h1{font-size:1.5rem}
   main{padding:32px 40px 64px;gap:28px}
   h2{font-size:2.25rem}
@@ -215,15 +248,18 @@ const PLANTS={
 "sweetspire":{n:"Virginia sweetspire",s:"Itea virginica",c:"Small bush",st:"native",p:1,sun:["full","part","shade"],w:"Medium–high",b:"Fragrant flower spikes in June feed bees and butterflies.",d:"Arching shrub with red-purple fall color. 3–5 ft.",loc:"Swamps, wet woods and stream banks.",sg:1,h:340,i:"8/8c/Itea_virginica_flowers_001.JPG"},
 "diervilla":{n:"Northern bush honeysuckle",s:"Diervilla lonicera",c:"Small bush",st:"native",p:1,sun:["full","part","shade"],w:"Low",b:"Long bloom season for bumble bees. Not one of the invasive honeysuckles.",d:"Yellow tubular flowers through summer; good on slopes. 2–4 ft.",loc:"Dry rocky woods, forest edges and roadside banks.",sg:1,h:55,i:"3/30/Northern_bush_honeysuckle.jpg"},
 "boxwood":{n:"Boxwood",s:"Buxus sempervirens",c:"Small bush",st:"nonnative",p:0,sun:["full","part","shade"],w:"Medium",b:"Evergreen structure, but little food for wildlife.",d:"Clipped European evergreen used for hedges.",loc:"Formal gardens and foundation plantings.",h:120,i:"f/fd/Buxus_sempervirens.jpg"},
-"butterfly-weed":{n:"Butterfly weed",s:"Asclepias tuberosa",c:"Small plant",st:"native",p:1,sun:["full"],w:"Low",b:"Monarch caterpillar host plant; bright nectar for butterflies.",d:"Orange flower clusters in July. Loves dry, sunny spots. 1–2 ft.",loc:"Dry fields, roadsides and sandy prairies.",sg:1,h:28,i:"2/26/Asclepias_tuberosa_interior.jpg"},
-"coneflower":{n:"Purple coneflower",s:"Echinacea purpurea",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Low",b:"Bees in summer; goldfinches eat the seeds in fall.",d:"Long-blooming purple daisies. 2–4 ft.",loc:"Prairies and open woodlands; widely planted in gardens.",sg:1,h:310,i:"8/8e/Echinacea_purpurea_Grandview_Prairie.jpg"},
-"bergamot":{n:"Wild bergamot",s:"Monarda fistulosa",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Low",b:"Top nectar plant for bumble bees, hummingbirds and hummingbird moths.",d:"Lavender pom-pom flowers, minty leaves. 2–4 ft.",loc:"Meadows, prairies, roadsides and woodland edges.",sg:1,h:290,i:"a/a8/Monarda_fistulosa_Arkansas.jpg"},
-"aster":{n:"New England aster",s:"Symphyotrichum novae-angliae",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Medium",b:"Late-season fuel for migrating monarchs and bees.",d:"Purple flowers Sept–Oct. 3–6 ft.",loc:"Wet meadows, fields, roadsides and ditches.",sg:1,h:270,i:"b/bd/Symphyotrichum_novae-angliae3.jpg"},
-"wild-geranium":{n:"Wild geranium",s:"Geranium maculatum",c:"Small plant",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Spring nectar for mason bees and early bumble bee queens.",d:"Pink-lavender flowers in woodland shade. 1–2 ft.",loc:"Deciduous woods and shady woodland edges.",sg:1,h:300,i:"b/bd/Geranium_maculatum_Leatherwood_Lake.jpg"},
-"foamflower":{n:"Foamflower",s:"Tiarella cordifolia",c:"Small plant",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Shade-garden flowers for small native bees.",d:"Frothy white spikes in spring; spreads as a groundcover. 6–12 in.",loc:"Rich, moist forests and shaded stream banks.",sg:1,h:150,i:"5/5d/Heartleaved_foamflower_%28Tiarella_cordifolia%29.jpg"},
-"black-eyed-susan":{n:"Black-eyed Susan",s:"Rudbeckia hirta",c:"Small plant",st:"native",p:1,sun:["full","part"],w:"Low",b:"Summer nectar for bees and butterflies; seeds for birds.",d:"Golden daisies with dark centers. 1–3 ft.",loc:"Fields, roadsides, meadows and disturbed ground.",h:45,i:"1/1f/Rudbeckia_hirta_kz03.jpg"},
-"lavender":{n:"Lavender",s:"Lavandula angustifolia",c:"Small plant",st:"nonnative",p:1,sun:["full"],w:"Low",b:"Heavily visited by bumble bees; not invasive.",d:"Mediterranean herb; needs sun and good drainage. 1–2 ft.",loc:"Herb gardens and sunny, dry borders.",sg:1,h:265,i:"7/7e/Single_lavender_flower02.jpg"},
-"catmint":{n:"Catmint",s:"Nepeta × faassenii",c:"Small plant",st:"nonnative",p:1,sun:["full","part"],w:"Low",b:"Long bloom season that bees visit heavily. A sterile hybrid, so it won't spread.",d:"Blue-violet flowers May–Sept. 1–2 ft.",loc:"Perennial borders and cottage gardens.",sg:1,h:250,i:"3/3f/Nepeta_faassenii6.jpg"},
+"butterfly-weed":{n:"Butterfly weed",s:"Asclepias tuberosa",c:"Flower",st:"native",p:1,sun:["full"],w:"Low",b:"Monarch caterpillar host plant; bright nectar for butterflies.",d:"Orange flower clusters in July. Loves dry, sunny spots. 1–2 ft.",loc:"Dry fields, roadsides and sandy prairies.",sg:1,h:28,i:"2/26/Asclepias_tuberosa_interior.jpg"},
+"coneflower":{n:"Purple coneflower",s:"Echinacea purpurea",c:"Flower",st:"native",p:1,sun:["full","part"],w:"Low",b:"Bees in summer; goldfinches eat the seeds in fall.",d:"Long-blooming purple daisies. 2–4 ft.",loc:"Prairies and open woodlands; widely planted in gardens.",sg:1,h:310,i:"8/8e/Echinacea_purpurea_Grandview_Prairie.jpg"},
+"bergamot":{n:"Wild bergamot",s:"Monarda fistulosa",c:"Flower",st:"native",p:1,sun:["full","part"],w:"Low",b:"Top nectar plant for bumble bees, hummingbirds and hummingbird moths.",d:"Lavender pom-pom flowers, minty leaves. 2–4 ft.",loc:"Meadows, prairies, roadsides and woodland edges.",sg:1,h:290,i:"a/a8/Monarda_fistulosa_Arkansas.jpg"},
+"aster":{n:"New England aster",s:"Symphyotrichum novae-angliae",c:"Flower",st:"native",p:1,sun:["full","part"],w:"Medium",b:"Late-season fuel for migrating monarchs and bees.",d:"Purple flowers Sept–Oct. 3–6 ft.",loc:"Wet meadows, fields, roadsides and ditches.",sg:1,h:270,i:"b/bd/Symphyotrichum_novae-angliae3.jpg"},
+"wild-geranium":{n:"Wild geranium",s:"Geranium maculatum",c:"Flower",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Spring nectar for mason bees and early bumble bee queens.",d:"Pink-lavender flowers in woodland shade. 1–2 ft.",loc:"Deciduous woods and shady woodland edges.",sg:1,h:300,i:"b/bd/Geranium_maculatum_Leatherwood_Lake.jpg"},
+"foamflower":{n:"Foamflower",s:"Tiarella cordifolia",c:"Flower",st:"native",p:1,sun:["part","shade"],w:"Medium",b:"Shade-garden flowers for small native bees.",d:"Frothy white spikes in spring; spreads as a groundcover. 6–12 in.",loc:"Rich, moist forests and shaded stream banks.",sg:1,h:150,i:"5/5d/Heartleaved_foamflower_%28Tiarella_cordifolia%29.jpg"},
+"black-eyed-susan":{n:"Black-eyed Susan",s:"Rudbeckia hirta",c:"Flower",st:"native",p:1,sun:["full","part"],w:"Low",b:"Summer nectar for bees and butterflies; seeds for birds.",d:"Golden daisies with dark centers. 1–3 ft.",loc:"Fields, roadsides, meadows and disturbed ground.",h:45,i:"1/1f/Rudbeckia_hirta_kz03.jpg"},
+"christmas-fern":{n:"Christmas fern",s:"Polystichum acrostichoides",c:"Small plant",st:"native",p:0,sun:["part","shade"],w:"Medium",b:"Evergreen fronds give toads and other small animals year-round cover.",d:"Tough, clump-forming fern that stays green through winter. About 2 ft.",loc:"Shady woods, rocky slopes and stream banks.",sg:1,h:130,i:"d/d9/Polystichum_acrostichoides_Massachusetts.jpg"},
+"pa-sedge":{n:"Pennsylvania sedge",s:"Carex pensylvanica",c:"Small plant",st:"native",p:0,sun:["part","shade"],w:"Low",b:"Host plant for several skipper butterflies; seeds for ground-feeding birds.",d:"Soft, grassy ground cover for dry shade. Under 1 ft, and a good lawn alternative.",loc:"Dry oak woods and woodland edges.",sg:1,h:90,i:"b/be/Carex_pensylvanica_-_Garden_in_the_Wood_-_Massachusetts.jpg"},
+"little-bluestem":{n:"Little bluestem",s:"Schizachyrium scoparium",c:"Small plant",st:"native",p:0,sun:["full"],w:"Low",b:"Host plant for skipper butterflies; winter seeds and cover for songbirds.",d:"Upright native bunchgrass that turns copper in fall. 2–4 ft.",loc:"Meadows, dunes and dry open fields.",sg:1,h:35,i:"c/cb/Schizachyrium_scoparium_2zz.jpg"},
+"lavender":{n:"Lavender",s:"Lavandula angustifolia",c:"Flower",st:"nonnative",p:1,sun:["full"],w:"Low",b:"Heavily visited by bumble bees; not invasive.",d:"Mediterranean herb; needs sun and good drainage. 1–2 ft.",loc:"Herb gardens and sunny, dry borders.",sg:1,h:265,i:"7/7e/Single_lavender_flower02.jpg"},
+"catmint":{n:"Catmint",s:"Nepeta × faassenii",c:"Flower",st:"nonnative",p:1,sun:["full","part"],w:"Low",b:"Long bloom season that bees visit heavily. A sterile hybrid, so it won't spread.",d:"Blue-violet flowers May–Sept. 1–2 ft.",loc:"Perennial borders and cottage gardens.",sg:1,h:250,i:"3/3f/Nepeta_faassenii6.jpg"},
 "hosta":{n:"Hosta",s:"Hosta spp.",c:"Small plant",st:"nonnative",p:0,sun:["part","shade"],w:"Medium",b:"Some nectar for hummingbirds, but little value for native insects.",d:"East Asian foliage plant common in shady yards.",loc:"Shady yards and foundation plantings.",h:100,i:"7/7d/Hosta_Bressingham_Blue.JPG"},
 "norway-maple":{n:"Norway maple",s:"Acer platanoides",c:"Tree",st:"invasive",p:0,sun:[],w:"",b:"",d:"Casts dense shade and spreads seedlings into woods, crowding out native trees.",x:"Replace over time with red maple or white oak. Pull seedlings while small.",loc:"Street trees, city parks and woods near towns.",h:75,i:"6/60/Spitz-Ahorn%28mbo%29.jpg"},
 "tree-of-heaven":{n:"Tree of heaven",s:"Ailanthus altissima",c:"Tree",st:"invasive",p:0,sun:[],w:"",b:"",d:"Fast-spreading tree and a favored host of the spotted lanternfly.",x:"Get professional help. Cutting alone causes root sprouts.",loc:"Vacant lots, rail lines, highway edges and cracks in pavement.",h:85,i:"e/eb/G%C3%B6tterbaum_%28Ailanthus_altissima%29.jpg"},
@@ -263,19 +299,24 @@ const NEARBY=[
 {id:"u4",k:"yard",n:"Lee family yard",x:312,y:76,mi:"1.2 mi",d:"Corner lot with a new serviceberry and redbud.",pl:["serviceberry","redbud","coneflower"]},
 {id:"u5",k:"yard",n:"Priya's yard",x:150,y:262,mi:"1.6 mi",d:"Sunny slope planted with drought-tolerant natives.",pl:["nj-tea","black-eyed-susan","witch-hazel"]}
 ];
-const CATS=["Tree","Small tree","Bush","Small bush","Small plant"];
+const CATS=["Tree","Small tree","Bush","Small bush","Flower","Small plant"];
+const CAT_NAMES={Tree:["Large tree","Large trees"],"Small tree":["Small tree","Small trees"],Bush:["Large shrub","Large shrubs"],"Small bush":["Small shrub","Small shrubs"],Flower:["Flower","Flowers"],"Small plant":["Small plant","Small plants"],Vine:["Vine","Vines"]};
 const YARD_POOL={Tree:["norway-maple","red-maple","arborvitae"],Bush:["burning-bush","lilac","boxwood","barberry"],"Small plant":["hosta","black-eyed-susan"]};
 const SPOT={Tree:"the tall tree near the back of the yard",Bush:"the shrub along the fence","Small bush":"the low shrub by the house","Small plant":"the low plants along the path"};
 const SHOT_TIPS=["The whole plant, from a few steps back","Leaves, up close","Flowers, fruit or buds","Bark or stems","The underside of a leaf","Any angle you haven't tried yet"];
 const LIGHT={full:"Full sun (6+ hours)",part:"Part sun (3–6 hours)",shade:"Mostly shade (under 3 hours)"};
 const REGIONS=["Northeast","Northeast","Mid-Atlantic","Southeast","Great Lakes","Upper Midwest","Central Plains","South Central","Mountain West","West Coast"];
 const YARD_PIC="9/9b/Natural-garden.JPG";
+const YARD_SAMPLES=[YARD_PIC,"6/64/Church_St_house_gate_and_drive_Henham_Essex_England.jpg","f/f8/Flower_beds_in_front_of_a_cottage_by_the_Walled_garden_-_geograph.org.uk_-_7063892.jpg","0/0d/Sledding_Path_Seminarstra%C3%9Fe_-_Hohe_Stra%C3%9Fe%2C_Pirna_125353900.jpg","0/05/Flickr_-_ronsaunders47_-_FLOWERY_PATH_IN_VENTNOR..jpg"];
+const CU_SAMPLES={"norway-maple":["b/bb/Acer_platanoides_%28Norway_maple%29_1_%2844511985950%29.jpg","a/ae/Acer_platanoides_%28Norway_maple%29_4_%2845416140045%29.jpg","f/f5/Acer_platanoides_%2804%29_-_Flickr_-_R%C3%BCdiger_Stehn.jpg"],"red-maple":["e/ee/Acer_rubrum_%28summertime%29.JPG","1/1e/Acer_rubrum_-_Morris_Arboretum_-_DSC00504.JPG","3/33/Acer_rubrum_%288058308745%29.jpg"],"arborvitae":["a/a6/Thuja_occidentalis_-_foliage_of_cultivated_plant.jpg","e/e5/Thuja_occidentalis_foliage%2C_Kungs%C3%A4ngen%2C_Sweden.jpg","a/a6/Eastern_Arborvitae_%28Thuja_occidentalis%29_bark_and_foliage.jpg"],"burning-bush":["5/56/Euonymus_alatus_kz02.jpg","a/a2/Euonymus_alatus_%27Compactus%27_Trzmielina_oskrzydlona_2023-10-30_02.jpg","8/82/Euonymus_alatus_kz05.jpg"],"lilac":["2/2d/2018-05-13_%28139%29_Syringa_vulgaris_%28common_lilac%29_at_Bichlh%C3%A4usl_in_Frankenfels%2C_Austria.jpg","d/d2/Syringa_vulgaris_%27Katherine_Havemeyer%27_flowers.jpg","1/1f/Syringa_vulgaris_2_beentree.jpg"],"boxwood":["1/10/Buxus_sempervirens_%27Bullata%27_kz01.jpg","c/c9/Buxus_sempervirens_%27Bullata%27_kz02.jpg","6/62/Buxus_sempervirens_%27Bullata%27_kz03.jpg"],"barberry":["a/a9/%28ms%29_Berberis_thunbergii_11.jpg","b/b6/Berberis_thunbergii5.jpg","9/9e/Berberis_thunbergii_%28bud%29.jpg"],"hosta":["f/fb/Hosta_%27Big_Mama%27_Funkia_2022-05-22_02.jpg","0/06/Hosta_%27Guacamole%27_5_2021_Plantain_Lily-_%2851188230414%29.jpg","2/28/Hosta_%27Royal_Standard%27_Leaf_2800px.jpg"],"black-eyed-susan":["d/d1/Black_eyed_susan_20040717_110754_2.1474.jpg","2/26/Rudbeckia_hirta_216602109.jpg","4/45/Rudbeckia_hirta_kz02.jpg"]};
 const COMMONS="https://upload.wikimedia.org/wikipedia/commons/";
 const fileName=i=>i.split("/").pop();
 const pic=(i,w=330)=>`${COMMONS}thumb/${i}/${w}px-${fileName(i)}`;
 const credit=i=>`<a href="https://commons.wikimedia.org/wiki/File:${fileName(i)}" target="_blank" rel="noopener">Photo: Wikimedia Commons</a>`;
 
 const ICON={
+sun:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+moon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
 home:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
 back:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
 yard:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M7 21v-5"/><circle cx="7" cy="11" r="4"/><path d="M15 21c0-4 2-6 5-7-3 0-5 1-5 3"/><path d="M15 21c0-3-1-5-4-6"/></svg>',
@@ -293,7 +334,7 @@ function yardSVG(seed=1){
   return 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#cfe6ec"/><circle cx="${320-r(1)*80}" cy="58" r="26" fill="#f6d96b"/><rect y="170" width="400" height="130" fill="#8fc07c"/><path d="M0 170 L400 170 L400 200 Q200 185 0 205Z" fill="#7aae69"/><g stroke="#b08a5a" stroke-width="4"><path d="M0 160 H400"/><path d="M0 140 H400"/></g><g fill="#c49a68">${Array.from({length:21},(_,i)=>`<rect x="${i*20-2}" y="128" width="6" height="44"/>`).join('')}</g><rect x="${70+r(2)*20}" y="95" width="14" height="90" fill="#6d4c31"/><circle cx="${77+r(2)*20}" cy="80" r="52" fill="#4f8c45"/><circle cx="${50+r(2)*20}" cy="100" r="30" fill="#5c9a50"/><ellipse cx="${250+r(3)*30}" cy="178" rx="48" ry="30" fill="#3f7a3a"/><ellipse cx="${330}" cy="186" rx="30" ry="20" fill="#5c9a50"/><path d="M180 300 Q200 230 230 205" stroke="#d9c9a3" stroke-width="22" fill="none"/>${Array.from({length:9},(_,i)=>`<circle cx="${120+i*12}" cy="${240+(i%2)*8}" r="5" fill="${i%3?'#e9b83a':'#7e4fa3'}"/>`).join('')}</svg>`);
 }
 function leafSVG(h){
-  return 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="hsl(${h},25%,86%)"/><g transform="translate(200 150) rotate(-25)"><path d="M0 -120 C80 -80 80 80 0 120 C-80 80 -80 -80 0 -120Z" fill="hsl(${h},45%,40%)"/><path d="M0 -115 V115" stroke="hsl(${h},35%,75%)" stroke-width="4"/>${[-70,-35,0,35,70].map(y=>`<path d="M0 ${y} L45 ${y-35} M0 ${y} L-45 ${y-35}" stroke="hsl(${h},35%,72%)" stroke-width="3"/>`).join('')}</g></svg>`);
+  return 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="hsl(${h},85%,86%)"/><g transform="translate(200 150) rotate(-25)"><path d="M0 -120 C80 -80 80 80 0 120 C-80 80 -80 -80 0 -120Z" fill="hsl(${h},75%,42%)"/><path d="M0 -115 V115" stroke="hsl(${h},35%,75%)" stroke-width="4"/>${[-70,-35,0,35,70].map(y=>`<path d="M0 ${y} L45 ${y-35} M0 ${y} L-45 ${y-35}" stroke="hsl(${h},35%,72%)" stroke-width="3"/>`).join('')}</g></svg>`);
 }
 
 const LOTS=[[0,90],[90,215],[215,300],[300,360]];
@@ -332,6 +373,10 @@ const KEY="biocity.v2";
 let D={users:{},me:"",seen:false};
 try{const raw=localStorage.getItem(KEY);if(raw)D=Object.assign(D,JSON.parse(raw))}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
+if(D.theme)document.documentElement.dataset.theme=D.theme;
+function isDark(){const t=document.documentElement.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme:dark)").matches}
+function themeLabel(){return `Switch to ${isDark()?"light":"dark"} mode`}
+function themeBtn(cls=""){return `<button class="iconbtn${cls}" data-act="theme" aria-label="${themeLabel()}" title="${themeLabel()}">${isDark()?ICON.sun:ICON.moon}</button>`}
 const user=()=>D.users[D.me]||null;
 
 let zip=user()?.zip||"";
@@ -339,7 +384,7 @@ let stack=[!D.seen?{v:"welcome"}:zip?{v:"home"}:{v:"zip"}];
 let scan=null,guest=null,libTab="native",selShop=null,selNear=null,nearFilter="all",zipErr="",acctErr="",acctDraft={},openKey=null,focusK=null,idTimer=0;
 const cur=()=>stack[stack.length-1];
 function go(v,p={}){openKey=null;stack.push({v,...p});render(true)}
-function back(){if(stack.length>1){openKey=null;stack.pop();render(true)}}
+function back(){if(cur().v==="scan"&&scan){if(scan.step==="photo"){scan.step="quiz";scan.qi=QSTEPS.length-1;render(true);return}if(scan.step==="quiz"&&scan.qi>0){const f=document.querySelector('[data-form="quiz"]');if(f)saveQuizStep(f);scan.qi--;render(true);return}}if(stack.length>1){openKey=null;stack.pop();render(true)}}
 function reset(v,p={}){openKey=null;stack=[{v,...p}];render(true)}
 
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -354,7 +399,7 @@ function strip(a){return a.length>1?`<div class="strip">${a.map(u=>`<img alt="" 
 
 function plantItem(id,extra=""){
   const p=PLANTS[id],k="p:"+id,open=openKey===k;
-  const head=`<button class="row" data-act="toggle" data-k="${k}" aria-expanded="${open}">${thumb(p)}<div class="txt"><b>${esc(p.n)}</b><span class="muted small"><i>${esc(p.s)}</i> · ${p.c}</span>${open?"":extra}${tags(p)}</div>${ICON.chev}</button>`;
+  const head=`<button class="row" data-act="toggle" data-k="${k}" aria-expanded="${open}">${thumb(p)}<div class="txt"><b>${esc(p.n)}</b><span class="muted small"><i>${esc(p.s)}</i> · ${CAT_NAMES[p.c][0]}</span>${open?"":extra}${tags(p)}</div>${ICON.chev}</button>`;
   if(!open)return `<article class="item">${head}</article>`;
   const pol=Object.values(POLL).filter(x=>x.pl.includes(id));
   return `<article class="item open">${head}<div class="item-body">
@@ -379,17 +424,46 @@ function pollItem(id){
     </div></div></article>`;
 }
 
-function suggestions(found){
-  const have=new Set(found);
-  const out={};
-  CATS.forEach(c=>{
-    const list=Object.entries(PLANTS).filter(([id,p])=>p.sg&&p.c===c&&p.st!=="invasive"&&!have.has(id))
-      .sort((a,b)=>(a[1].st==="native"?0:1)-(b[1].st==="native"?0:1)||b[1].p-a[1].p).slice(0,3);
-    if(list.length)out[c]=list.map(x=>x[0]);
-  });
-  return out;
+const QUIZ={
+  light:[["full","Full sun","6 or more hours a day"],["part","Part sun","3 to 6 hours a day"],["shade","Mostly shade","Less than 3 hours a day"],["any","Not sure","Show plants for any light"]],
+  types:[["tree","Large trees","Tall shade trees, over 40 ft",["Tree"]],["smalltree","Small trees","Up to about 30 ft",["Small tree"]],["shrub","Large shrubs","Usually over 5 ft",["Bush"]],["smallshrub","Small shrubs","Usually under 5 ft",["Small bush"]],["flower","Flowers","Native wildflowers and bloomers",["Flower"]],["smallplant","Small plants","Ferns, grasses and sedges",["Small plant"]]],
+  pollinators:[["bee","Bees","Bumble, mason and sweat bees",/\bbees?\b/i,"Bee"],["butterfly","Butterflies","Monarchs, swallowtails and more",/butterfl|monarch|swallowtail/i,"Butterfly"],["hummingbird","Hummingbirds","Ruby-throated hummingbirds",/hummingbird/i,"Bird"],["moth","Moths","Including day-flying clearwings",/\bmoths?\b/i,"Moth"]],
+  animals:[["songbird","Songbirds","Berries, seeds and nesting cover",/\bbirds?\b|goldfinch|songbird/i],["mammal","Squirrels and chipmunks","Acorns, nuts and berries",null,["white-oak","red-maple","serviceberry","dogwood","blueberry"]],["toad","Toads and frogs","Low, shady cover to shelter in",null,["christmas-fern","pa-sedge","foamflower","wild-geranium"]]],
+  time:[["low","A little","About an hour a month"],["some","Some","A few hours a month"],["lots","A lot","An hour or more a week"]]
+};
+const QSTEPS=[
+  {id:"light",type:"radio",c:"yellow",on:"on-c",t:"How much sun does your yard get?"},
+  {id:"types",type:"checkbox",c:"green",on:"on-c",t:"What would you like to plant?",h:"Pick as many as you like, or none to see everything."},
+  {id:"pollinators",type:"checkbox",c:"orange",on:"on-c",t:"Which pollinators do you want to attract?",h:"Pick as many as you like, or none to skip."},
+  {id:"animals",type:"checkbox",c:"teal",on:"on-c",t:"Which animals do you want to attract?",h:"Pick as many as you like, or none to skip."},
+  {id:"time",type:"radio",c:"purple",on:"on-primary",t:"How much time will you spend on your garden?"}
+];
+function quizLabel(k,v){const o=QUIZ[k].find(x=>x[0]===v);return o?o[1]:""}
+function fitsTime(p,t){return t==="low"?p.w==="Low"||p.w==="Medium":t==="some"?p.w!=="High":true}
+function fitsWants(id,q){
+  const pol=q.pollinators||[],ani=q.animals||[],p=PLANTS[id];
+  if(!pol.length&&!ani.length)return true;
+  return QUIZ.pollinators.some(([v,,,re,k])=>pol.includes(v)&&(re.test(p.b)||Object.values(POLL).some(x=>x.k===k&&x.pl.includes(id))))
+    ||QUIZ.animals.some(([v,,,re,ids])=>ani.includes(v)&&(re?re.test(p.b):ids.includes(id)));
 }
-
+function suggestions(found,q){
+  const have=new Set(found),any=()=>true;
+  const light=q&&q.light!=="any"&&q.light?p=>p.sun.includes(q.light):any;
+  const picked=q?QUIZ.types.filter(t=>(q.types||[]).includes(t[0])).flatMap(t=>t[3]):[];
+  const cats=picked.length?picked:CATS;
+  const time=q?p=>fitsTime(p,q.time):any,wants=q?(p,id)=>fitsWants(id,q):any;
+  const passes=[[light,cats,time,wants],[light,cats,any,wants],[light,cats,any,any],[light,CATS,any,any],[any,CATS,any,any]];
+  for(let i=0;i<passes.length;i++){
+    const [okLight,okCats,okTime,okWants]=passes[i],groups={};
+    CATS.filter(c=>okCats.includes(c)).forEach(c=>{
+      const list=Object.entries(PLANTS).filter(([id,p])=>p.sg&&p.c===c&&p.st!=="invasive"&&!have.has(id)&&okLight(p)&&okTime(p)&&okWants(p,id))
+        .sort((a,b)=>(q&&q.time==="low"?(a[1].w==="Low"?0:1)-(b[1].w==="Low"?0:1):0)||(a[1].st==="native"?0:1)-(b[1].st==="native"?0:1)||b[1].p-a[1].p).slice(0,3);
+      if(list.length)groups[c]=list.map(x=>x[0]);
+    });
+    if(Object.keys(groups).length)return {groups,relaxed:i>0};
+  }
+  return {groups:{},relaxed:false};
+}
 function exampleProject(){
   const t=Date.now()-14*864e5;
   const shots=[["yard","Yard photo 1",122,108],["yard","Yard photo 2",192,40],["yard","Yard photo 3",108,36],["closeup","Norway maple close-up 1",140,58],["closeup","Norway maple close-up 2",150,66],["closeup","Boxwood close-up 1",184,114],["closeup","Black-eyed Susan close-up 1",112,84],["closeup","Black-eyed Susan close-up 2",120,94]].map(([k,l,x,y],i)=>newShot(k,l,x,y,t+i*45e3));
@@ -398,20 +472,20 @@ function exampleProject(){
 
 function header(title,right=""){
   const b=stack.length>1?`<button class="iconbtn${stack.length===2&&chrome()?" top":""}" data-act="back" aria-label="Back">${ICON.back}</button>`:"";
-  return `<header class="bar">${b}<h1>${esc(title)}</h1>${right}</header>`;
+  return `<header class="bar">${b}<h1>${esc(title)}</h1>${right}${themeBtn()}</header>`;
 }
 
-function navList(){const u=user();return [["home","Home","Home",ICON.home],u?["yard","My Yard","My Yard",ICON.yard]:["scan","Scan a yard","Scan",ICON.cam],u&&["nearby","Yards near me","Nearby",ICON.people,1],["shops","Shops","Shops",ICON.shop],["plants","Plant Library","Plants",ICON.plant],["pollinators","Pollinator Library","Pollinators",ICON.bee]].filter(Boolean)}
+function navList(){const u=user();return [["home","Home","Home",ICON.home],u?["yard","My Yard","My Yard",ICON.yard]:["scan","Scan a yard","Scan",ICON.cam],u&&["nearby","Yards near me","Nearby",ICON.people],["shops","Shops","Shops",ICON.shop],["plants","Plant Library","Plants",ICON.plant],["pollinators","Pollinator Library","Pollinators",ICON.bee]].filter(Boolean)}
 function section(){const v=(stack[1]||stack[0]).v;if(v==="scan"||v==="project")return user()?"yard":"scan";return {zip:"home",account:"home"}[v]||v}
 function chrome(){const v=cur().v;return !(v==="welcome"||v==="scan"||(!zip&&(v==="zip"||v==="account")))}
-function navItems(short){const s=section();return navList().filter(n=>!(short&&n[4])).map(([v,long,sh,ic])=>`<button class="navitem" data-act="nav" data-v="${v}"${s===v?' aria-current="page"':""}>${ic}<span>${short?sh:long}</span></button>`).join("")}
+function navItems(short){const s=section(),l=navList();if(!short)l.push(l.shift());return l.map(([v,long,sh,ic])=>`<button class="navitem" data-act="nav" data-v="${v}"${s===v?' aria-current="page"':""}>${ic}<span>${short?sh:long}</span></button>`).join("")}
 function sidebar(){const u=user();return `<nav class="side" aria-label="Main"><div class="side-brand">BioCity</div>${navItems(false)}<div class="side-foot">
   <span class="eyebrow">Your area</span><span>${esc(zip)} · ${esc(region())} US</span><button class="chip" data-act="changezip" style="align-self:flex-start">Change zip code</button>
   <span class="eyebrow" style="margin-top:12px">Account</span>${u?`<span class="small" style="overflow-wrap:anywhere">${esc(u.email)}</span><button class="chip" data-act="account" style="align-self:flex-start">Account</button>`:`<span class="small muted">Browsing as a guest</span><button class="chip" data-act="account" style="align-self:flex-start">Sign in or sign up</button>`}
   </div></nav>`}
 
 const V={};
-V.welcome=()=>`<main class="onboard">
+V.welcome=()=>`${themeBtn(" float")}<main class="onboard">
   <img class="hero-ill" alt="A garden full of native plants" src="${pic(YARD_PIC,960)}" data-y="3">
   <div class="stack" style="gap:20px"><div class="stack"><div class="brand">BioCity</div>
   <h2>Turn your yard into habitat.</h2>
@@ -460,7 +534,7 @@ V.home=()=>{const u=user(),n=u?u.projects.length:0;return `${header("BioCity",`<
     <button class="tile" data-act="go" data-v="plants"><div class="ic">${ICON.plant}</div><b>Plant Library</b><span>Native and invasive plants</span></button>
     <button class="tile wide" data-act="go" data-v="pollinators"><div class="ic">${ICON.bee}</div><div><b>Pollinator Library</b><br><span>Local pollinators and the plants they need</span></div></button>
   </div>
-  ${u?(n?`<section class="group"><h3>Recent projects<small>${n}</small></h3><div class="list">${u.projects.slice(0,3).map(projectRow).join("")}</div></section>`:"")
+  ${u?(n?`<section class="group recent"><h3>Recent projects<small>${n}</small></h3><div class="list">${u.projects.slice(0,3).map(projectRow).join("")}</div></section>`:"")
   :`<div class="card" style="max-width:560px"><b>Browsing as a guest</b><p class="small muted">You can scan a yard, but scans aren't saved and you'll enter your zip code each visit. An account adds My Yard and Yards near me.</p><button class="btn primary" data-act="account" style="max-width:320px">Create a free account</button></div>`}
   </main>`};
 
@@ -469,18 +543,24 @@ V.yard=()=>{const u=user();if(!u)return V.account();return `${header("My Yard")}
   <div class="stack"><span class="eyebrow">Saved projects</span>
   ${u.projects.length?`<div class="list">${u.projects.map(projectRow).join("")}</div>`:`<p class="muted">No projects yet. Start one to scan your yard.</p>`}
   </div>
-  <button class="row" data-act="go" data-v="nearby" style="max-width:480px"><div class="ic" style="width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--moss-soft);color:var(--moss);flex:none">${ICON.people}</div><div class="txt"><b>Yards near me</b><span class="muted small">See nearby BioCity yards and projects</span></div></button>
+  <button class="row" data-act="go" data-v="nearby" style="max-width:480px"><div class="ic" style="width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--c-soft);color:var(--c-deep);flex:none">${ICON.people}</div><div class="txt"><b>Yards near me</b><span class="muted small">See nearby BioCity yards and projects</span></div></button>
   </main>`};
 
-function progress(){const i=scan.step==="closeup"?1:0;return `<div class="progress" aria-label="Step ${i+1} of 2"><i class="on"></i><i class="${i?"on":""}"></i></div>`}
+function progress(){const i=scan.step==="quiz"?0:scan.step==="closeup"?2:1;return `<div class="progress" aria-label="Step ${i+1} of 3">${[0,1,2].map(k=>`<i class="${k<=i?"on":""}"></i>`).join("")}</div>`}
+function quizQuestion(){const i=scan.qi||0,st=QSTEPS[i],q=scan.quiz||{},v=[].concat(q[st.id]||[]);return `<form class="qcard" data-form="quiz" role="group" aria-labelledby="q-title" style="--c:var(--${st.c});--c-on:var(--${st.on});--c-soft:var(--${st.c}-soft)">
+  <span class="eyebrow">Question ${i+1} of ${QSTEPS.length}</span><h2 id="q-title">${st.t}</h2>${st.h?`<p>${st.h}</p>`:""}
+  <div class="choice">${QUIZ[st.id].map(([val,l,d])=>`<label><input type="${st.type}" name="${st.id}" value="${val}"${st.type==="radio"?" required":""}${v.includes(val)?" checked":""}><span><b>${l}</b><br><span class="small muted">${d}</span></span></label>`).join("")}</div>
+  <button class="btn primary" type="submit">${i<QSTEPS.length-1?"Next":"Done"}</button></form>`}
+function saveQuizStep(form){const st=QSTEPS[scan.qi||0],checked=[...form.querySelectorAll(`[name="${st.id}"]:checked`)].map(x=>x.value);scan.quiz=scan.quiz||{types:[],pollinators:[],animals:[]};scan.quiz[st.id]=st.type==="radio"?checked[0]:checked}
 function idCard(p,c){return `<div class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><h3>${esc(p.n)}</h3><span class="conf">${c.conf}% match</span></div>
   <div class="meter" role="meter" aria-valuenow="${c.conf}" aria-valuemin="0" aria-valuemax="100" aria-label="Match confidence"><i style="width:${c.conf}%"></i></div>
-  <p class="muted small"><i>${esc(p.s)}</i> · ${p.c} · from ${c.photos.length} photo${c.photos.length>1?"s":""}</p>${tags(p)}
+  <p class="muted small"><i>${esc(p.s)}</i> · ${CAT_NAMES[p.c][0]} · from ${c.photos.length} photo${c.photos.length>1?"s":""}</p>${tags(p)}
   <div class="match"><span><em>✓</em> AI vision</span><span><em>✓</em> Plant database</span><span><em>✓</em> ${esc(region())} species list</span></div>
   ${p.st==="invasive"?`<div class="notice"><b>Invasive here.</b> ${esc(p.x)}</div>`:`<p class="small">${esc(p.b)}</p>`}
   <p class="small muted">${c.conf<92?"Add another angle to make the ID clearer.":"That's a clear ID. Add more photos, or tap I'm done."}</p></div>`}
 V.scan=()=>{
   const s=scan;
+  if(s.step==="quiz")return `${header("New project")}<main>${progress()}${(s.qi||0)===0?`<p class="muted">A few quick questions so we can suggest plants that fit your yard and your time.</p>`:""}${quizQuestion()}</main>`;
   if(s.step==="photo"){const n=s.photos.length;return `${header("New project")}<main>${progress()}
     <div class="stack"><h2>Take pictures of your yard</h2><p class="muted">Take as many as you can: from each corner, from the house and from the back fence. The more photos, the clearer the picture BioCity gets of what's growing.</p></div>
     ${n?`<img class="photo" alt="Your latest yard photo" src="${s.photos[n-1]}" data-y="${s.seed}">${strip(s.photos)}<p class="small"><b>${n} photo${n>1?"s":""}</b> · <span class="muted">${n<3?"Try a few more angles for a better scan.":"Great coverage. Add more, or tap I'm done."}</span></p>`:`<div class="photo placeholder">${ICON.cam}</div>`}
@@ -502,7 +582,7 @@ V.scan=()=>{
 
 V.project=({id})=>{
   const u=user(),isGuest=id==="guest",pr=isGuest?guest:u&&u.projects.find(p=>p.id===id);if(!pr)return V.home();
-  const sug=suggestions(pr.found);
+  const {groups:sug,relaxed}=suggestions(pr.found,pr.quiz),q=pr.quiz;
   const all=Object.values(sug).flat();
   const nat=all.filter(i=>PLANTS[i].st==="native").length,pol=all.filter(i=>PLANTS[i].p).length;
   const inv=pr.found.filter(i=>PLANTS[i].st==="invasive");
@@ -511,7 +591,7 @@ V.project=({id})=>{
     <img class="photo" alt="Yard photo" src="${pr.photo||pic(YARD_PIC,960)}" data-y="${pr.seed||1}">
     ${isGuest?`<div class="card" style="border-color:var(--pollen)"><b>This scan isn't saved.</b><p class="small muted">Guests can scan, but nothing is kept after you leave. Create a free account to save it to My Yard.</p><button class="btn primary" data-act="account">Create account to save</button></div>`:""}
     <div class="stack"><span class="eyebrow">Improve biodiversity</span><h2>${all.length} plants to add to your yard</h2>
-    <p class="muted">Picked for the ${esc(region())}. ${nat} are native and ${pol} feed pollinators. None of them are already in your yard. Tap a plant to see more.</p></div>
+    <p class="muted">Picked for the ${esc(region())}. ${nat} are native and ${pol} feed pollinators. None of them are already in your yard. Tap a plant to see more.</p>${q?`<p class="small muted"><b>Your answers:</b> ${[quizLabel("light",q.light)==="Not sure"?"Light not sure":quizLabel("light",q.light),(q.types||[]).map(t=>quizLabel("types",t)).filter(Boolean).join(", ")||"Any plant type",[...(q.pollinators||[]).map(v=>quizLabel("pollinators",v)),...(q.animals||[]).map(v=>quizLabel("animals",v))].join(", "),{low:"A little time",some:"Some time",lots:"A lot of time"}[q.time]].filter(Boolean).map(esc).join(" · ")}</p>`:""}${relaxed?`<p class="small muted">No plants matched all of your answers, so we widened the search to show the closest options.</p>`:""}</div>
     ${inv.length?`<div class="notice"><b>${inv.length} invasive plant${inv.length>1?"s":""} found:</b> ${inv.map(i=>esc(PLANTS[i].n)).join(", ")}. Replacing ${inv.length>1?"them":"it"} with plants from this list helps the most.</div>`:""}
     <section class="group"><h3>Photo locations<small>${pr.shots.length}</small></h3>${satMap(pr)}
       <div class="legend"><span><i style="background:#ffd640"></i>Yard photos</span><span><i style="background:#fff"></i>Close-ups</span><span><i style="background:transparent;border:2px dashed #c9a400;border-radius:3px"></i>Property line</span></div>
@@ -521,7 +601,7 @@ V.project=({id})=>{
     </section>
     </div>
     <div>
-    ${CATS.filter(c=>sug[c]).map(c=>`<section class="group"><h3>${c}<small>${sug[c].length}</small></h3><div class="list tight">${sug[c].map(i=>plantItem(i,`<p class="small" style="margin:4px 0">${esc(PLANTS[i].b)}</p>`)).join("")}</div></section>`).join("")}
+    ${CATS.filter(c=>sug[c]).map(c=>`<section class="group"><h3>${CAT_NAMES[c][1]}<small>${sug[c].length}</small></h3><div class="list tight">${sug[c].map(i=>plantItem(i,`<p class="small" style="margin:4px 0">${esc(PLANTS[i].b)}</p>`)).join("")}</div></section>`).join("")}
     <section class="group"><h3>Already in your yard<small>${pr.found.length}</small></h3><div class="list tight">${pr.found.map(i=>plantItem(i)).join("")}</div></section>
     <button class="btn ghost" data-act="go" data-v="shops">Find these at local shops</button>
     </div>
@@ -534,7 +614,7 @@ V.shops=()=>{
   <div class="pin-top">${baseMap("Map of plant shops near you",SHOPS.map((s,i)=>pinSVG(s,i,"shop",s.id===selShop)).join(""),YOU_DOT)}</div>
   <div>
   ${sel?`<div class="card"><h3>${esc(sel.n)}</h3><p class="muted small">${sel.mi} · ${sel.h}</p><p class="small">${esc(sel.t)}</p><a class="btn primary" href="https://example.com/" target="_blank" rel="noopener">Visit website</a><p class="muted small">Prototype: this opens a placeholder site.</p></div>`:`<p class="muted small">Tap a pin or a shop to see details. The yellow dot is you.</p>`}
-  <div class="stack">${SHOPS.map((s,i)=>`<button class="row" data-act="shop" data-id="${s.id}"><span class="ic" style="width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:${s.id===selShop?"var(--pollen)":"var(--moss)"};color:${s.id===selShop?"#1c2a1f":"var(--moss-ink)"};font-weight:700;flex:none">${i+1}</span><div class="txt"><b>${esc(s.n)}</b><span class="muted small">${s.mi} · ${esc(s.t)}</span></div></button>`).join("")}</div>
+  <div class="stack">${SHOPS.map((s,i)=>`<button class="row" data-act="shop" data-id="${s.id}"><span class="ic" style="width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:${s.id===selShop?"var(--pollen)":"var(--primary)"};color:${s.id===selShop?"var(--on-c)":"var(--on-primary)"};font-weight:700;flex:none">${i+1}</span><div class="txt"><b>${esc(s.n)}</b><span class="muted small">${s.mi} · ${esc(s.t)}</span></div></button>`).join("")}</div>
   </div>
   </div></main>`;
 };
@@ -544,11 +624,11 @@ V.nearby=()=>{
   const first=u.optIn==null,on=!!u.optIn;
   const list=NEARBY.filter(x=>nearFilter==="all"||x.k===nearFilter);
   const sel=list.find(x=>x.id===selNear);
-  const you=on?`<g transform="translate(180 150)"><circle r="12" fill="var(--pollen)" stroke="var(--surface)" stroke-width="3"/><text y="3.5" text-anchor="middle" style="font:700 9px var(--body);fill:#1c2a1f">You</text></g>`:`<circle cx="180" cy="150" r="9" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="3 3"/>`;
-  const badge=(x,i)=>`<span class="ic" style="width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:${x.k==="proj"?"var(--pollen)":"var(--moss)"};color:${x.k==="proj"?"#1c2a1f":"var(--moss-ink)"};font-weight:700;flex:none${x.id===selNear?";outline:3px solid var(--ink);outline-offset:1px":""}">${i+1}</span>`;
+  const you=on?`<g transform="translate(180 150)"><circle r="12" fill="var(--pollen)" stroke="var(--surface)" stroke-width="3"/><text y="3.5" text-anchor="middle" style="font:700 9px var(--body);fill:#1f0d35">You</text></g>`:`<circle cx="180" cy="150" r="9" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="3 3"/>`;
+  const badge=(x,i)=>`<span class="ic" style="width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:${x.k==="proj"?"var(--pollen)":"var(--primary)"};color:${x.k==="proj"?"var(--on-c)":"var(--on-primary)"};font-weight:700;flex:none${x.id===selNear?";outline:3px solid var(--ink);outline-offset:1px":""}">${i+1}</span>`;
   return `${header("Yards near me")}<main><div class="split">
   <div class="pin-top">${baseMap("Map of BioCity yards and projects near you",list.map((x,i)=>pinSVG(x,i,"near",x.id===selNear,"near"+(x.k==="proj"?" proj":""))).join(""),you)}
-    <div class="legend" style="margin-top:10px"><span><i style="background:var(--moss)"></i>Yards</span><span><i style="background:var(--pollen)"></i>Projects</span><span><i style="background:${on?"var(--pollen)":"transparent"};border-style:${on?"solid":"dashed"}"></i>You${on?"":" (hidden)"}</span></div>
+    <div class="legend" style="margin-top:10px"><span><i style="background:var(--primary)"></i>Yards</span><span><i style="background:var(--pollen)"></i>Projects</span><span><i style="background:${on?"var(--pollen)":"transparent"};border-style:${on?"solid":"dashed"}"></i>You${on?"":" (hidden)"}</span></div>
   </div>
   <div>
     <div class="card optin${first?" first":""}">
@@ -581,8 +661,10 @@ V.pollinators=()=>`${header("Pollinator Library")}<main>
 const app=document.getElementById("app");
 function render(top){
   const c=cur(),ch=chrome();
-  app.className="app"+(ch?" chrome has-tabs":"");
+  app.className="app"+(ch?" chrome has-tabs":"");app.dataset.sec=section();
   app.innerHTML=(ch?sidebar():"")+`<div class="content${["scan","zip","account"].includes(c.v)?" narrow":""}">${V[c.v](c)}<p class="proto">Prototype · sample data, no real plant identification · plant and pollinator photos from Wikimedia Commons</p>${ch?`<nav class="tabbar" aria-label="Main">${navItems(true)}</nav>`:""}</div>`;
+  app.querySelectorAll("main .btn,main .row:not(.item>.row),main .card,main .tabs,main .chip:not(.static)").forEach((e,i)=>e.dataset.c=i%6);
+  app.querySelectorAll("main .item").forEach((e,i)=>e.dataset.c=i%6);
   if(top)window.scrollTo(0,0);
   const z=document.getElementById("zip");if(z&&!zip)z.focus();
   if(focusK){const b=app.querySelector(`[data-k="${focusK}"]`);if(b){b.focus({preventScroll:true});if(b.parentElement.classList.contains("open"))b.parentElement.scrollIntoView({block:"nearest",behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}focusK=null}
@@ -605,7 +687,7 @@ function identify(urls){
 }
 function finish(){
   const u=user();
-  const pr={id:"p"+Date.now(),name:"",date:Date.now(),photo:scan.photos[0],seed:scan.seed,found:scan.found,shots:scan.shots};
+  const pr={id:"p"+Date.now(),name:"",date:Date.now(),photo:scan.photos[0],seed:scan.seed,found:scan.found,shots:scan.shots,quiz:scan.quiz};
   scan=null;openKey=null;
   if(u){pr.name="Yard scan "+(u.projects.filter(p=>!p.example).length+1);u.projects.unshift(pr);save();stack=[{v:"home"},{v:"yard"},{v:"project",id:pr.id}]}
   else{pr.name="Your yard scan";guest=pr;stack=[{v:"home"},{v:"project",id:"guest"}]}
@@ -615,6 +697,7 @@ function shrink(file){return new Promise((res,rej)=>{const r=new FileReader();r.
 
 const ACT={
   back,
+  theme:el=>{D.theme=isDark()?"light":"dark";document.documentElement.dataset.theme=D.theme;save();el.innerHTML=isDark()?ICON.sun:ICON.moon;el.title=themeLabel();el.setAttribute("aria-label",themeLabel())},
   next:()=>{D.seen=true;save();go("zip")},
   welcomeacct:()=>{D.seen=true;save();acctErr="";go("account")},
   account:()=>{acctErr="";acctDraft={};go("account")},
@@ -622,10 +705,10 @@ const ACT={
   changezip:()=>{zipErr="";go("zip")},
   go:el=>go(el.dataset.v),
   nav:el=>{const v=el.dataset.v;openKey=null;if(v==="scan"){stack=[{v:"home"}];ACT.newscan();return}stack=v==="home"?[{v:"home"}]:[{v:"home"},{v}];render(true)},
-  newscan:()=>{scan={step:"photo",photos:[],shots:[],seed:1+Math.floor(Math.random()*9)};go("scan")},
-  sampleyard:()=>addYard([pic(YARD_PIC,960)]),
+  newscan:()=>{scan={step:"quiz",qi:0,photos:[],shots:[],seed:1+Math.floor(Math.random()*9)};go("scan")},
+  sampleyard:()=>addYard([pic(YARD_SAMPLES[scan.photos.length%YARD_SAMPLES.length],960)]),
   analyze:startAnalyze,
-  samplecu:()=>identify([pic(PLANTS[scan.found[scan.i]].i,500)]),
+  samplecu:()=>{const id=scan.found[scan.i],l=[PLANTS[id].i,...(CU_SAMPLES[id]||[])];identify([pic(l[scan.cu.photos.length%l.length],500)])},
   nextcu:()=>{if(scan.i<scan.found.length-1){scan.i++;scan.cu={photos:[]};render(true)}else finish()},
   project:el=>go("project",{id:el.dataset.id}),
   toggle:el=>{const k=el.dataset.k;openKey=openKey===k?null:k;focusK=k;render()},
@@ -649,6 +732,7 @@ document.addEventListener("change",async e=>{
 document.addEventListener("submit",e=>{
   e.preventDefault();
   const f=e.target.dataset.form,el=e.target.elements;
+  if(f==="quiz"){saveQuizStep(e.target);if((scan.qi||0)<QSTEPS.length-1)scan.qi=(scan.qi||0)+1;else scan.step="photo";render(true);return}
   if(f==="zip"){
     const v=el.zip.value.trim();
     if(!/^\d{5}$/.test(v)){zipErr="Enter a 5-digit zip code, like 02139.";render();return}
