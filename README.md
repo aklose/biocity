@@ -9,6 +9,7 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 - `prototype/index.html` is one self-contained HTML/JS file with mock data. It has no build step.
 - Run it locally by opening `prototype/index.html` in a browser.
 - **Live:** https://bob-squad-biocity.netlify.app (Netlify project `bob-squad-biocity`).
+  - On 2026-11-01 the live site was deployed from commit `bc9d23d` on branch `multicolor_theme_and_quiz`. That branch isn't merged yet, so the live site is ahead of the code and notes on `main`.
 - `netlify.toml` publishes the `prototype/` folder as a static site with no build step.
 - **Deploys are manual on purpose:** run `netlify deploy --prod` from the repo root. Pushing to GitHub does not redeploy, and the owner does not want GitHub linked to Netlify.
 - **How it was checked:**
