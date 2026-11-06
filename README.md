@@ -38,6 +38,22 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 - The time question uses water needs as a stand-in, and the wildlife matches rely on placeholder data. See "What's mocked" below.
 - About 10% of quiz answer combinations have no exact match because the plant list is small, so the app widens the search.
 
+**To reconcile with `data/Biocity.html`** (features it has that this prototype doesn't; not started)
+- **Real Claude plant ID:** Claude finds up to 6 plants in the yard photo, then IDs each one from its close-ups. It gives a confidence level, native/invasive status, benefits and a tip for a better photo, with a Stop button and plain-language errors. It needs `window.claude`, so it only works inside a claude.ai artifact; on Netlify it would fall back to the mock data.
+- **Plant lists for any zip code:** Claude writes native, invasive and pollinator lists for the zip's area, saved on the device for each 3-digit zip prefix. It has the same claude.ai-only limit.
+- **Real nursery search:** a "Find real nurseries near [zip]" button that opens a Google Maps search. *(quick win)*
+- **Learn more links:** Wikipedia, iNaturalist and NWF Native Plant Finder links for each plant. *(quick win)*
+- **Extension-office footer:** a line saying to check with the local extension office before planting or removing anything. *(quick win)*
+- **Smaller touches:**
+  - a "When is it sunniest?" question (morning, afternoon or all day)
+  - moving keyboard focus to each new page's heading
+  - a "[zip] · change" chip in Home's header on phones
+  - a fixed color for each Home tile instead of colors by position
+
+**To do**
+- **Demo mode:** a mode that goes through the app's features by itself, as a hands-free tour for showing the app to people.
+- **QR code:** a QR code that links to https://bob-squad-biocity.netlify.app.
+
 ### What's mocked in the prototype
 - **Plant ID:** it picks 3 random plants from `YARD_POOL`, one tree, one bush and one small plant. There is no real AI or database lookup. Match confidence rises with each extra close-up.
 - **Accounts:** email only, no password or phone. The email is just a key in `localStorage`; no sign-in email is sent.
