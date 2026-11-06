@@ -57,6 +57,11 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 - **Shops:** fictional shops on a hand-drawn SVG map. "Visit website" opens `https://example.com/`.
 - **Storage:** accounts (email, optional zip, projects, opt-in) are saved in `localStorage` under `biocity.v2`. Data under the old `biocity.v1` key is ignored. Each project stores only its first yard photo, downscaled; other photos keep just their location.
 
+### Reference data (`data/`, not in git)
+`data/` holds large source files and is listed in `.gitignore`, so it exists only on the owner's machine. If a file is missing, download it again from the source given below.
+- `native-plants-for-willamette-valley-yards-booklet-high-res-20200107.pdf` (31 MB): "Native plants for Willamette Valley yards", a guide from Metro (the Portland-area regional government) and partners. It isn't used yet; it could supply data for a Pacific Northwest region.
+  - **Where to get it:** the booklet's last page says it can be downloaded for free at [oregonmetro.gov/nativeplants](https://www.oregonmetro.gov/nativeplants). Residents of the Portland area can also call Metro at 503-234-3000 for printed copies.
+
 ## Original request
 
 The design came from the user's Google Doc "Flowchart" (Drive file id `1N0rr7EZUIyLT7AGVlTYgbH6ShoqD46LXEwiwFJd7Pc8`), plus clarifications the user gave in chat.
