@@ -2,7 +2,7 @@
 
 An app that helps people make their yards more biodiverse. They scan the yard, AI identifies the plants, and the app suggests new native and pollinator-friendly plants to add. It also shows local plant shops and has libraries of local plants and pollinators.
 
-## Status (2026-11-01)
+## Status (2026-11-05)
 
 **Stage: clickable prototype only.** None of the real app has been built yet.
 
@@ -11,8 +11,9 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 - **Live:** https://bob-squad-biocity.netlify.app (Netlify project `bob-squad-biocity`).
 - `netlify.toml` publishes the `prototype/` folder as a static site with no build step.
 - **Deploys are manual on purpose:** run `netlify deploy --prod` from the repo root. Pushing to GitHub does not redeploy, and the owner does not want GitHub linked to Netlify.
-- **Look:** solid, multicolored theme in light and dark, using lighter tints of safety orange, Pantone yellow, NCS green and royal purple, plus teal, berry and red. The page background is a cartoon scene: a flat Argentinian blue (`#6CB4EE`) sky, plain white clouds in a band at the top, a plain yellow sun and rolling green hills at the bottom. Dark mode uses a night sky with stars and a crescent moon in place of the sun. Only the header and the phone tab bar's current-section oval are tied to the section.
+- **Look (2026-11-05):** a soft green garden theme in light and dark, adopted from another Claude session's version (see "Other versions" under Reference data). It uses Fredoka for headings and Nunito for body text, pill-shaped buttons and cards with chunky offset shadows, pastel tiles, faint color blobs in the page background, a round logo, a plant-pot mascot with a face, and floating emojis on the welcome, zip, account and Home pages. It replaced the multicolor sky look, which had a cartoon sky, sun, clouds and hills, and colored headers for each section.
 - **How it was checked:**
+  - 2026-11-05, after the soft green look: the inline script passes `node --check`. A Playwright script went from welcome to zip, Home, Plants, Shops and the first quiz question as a guest, in both modes at 390px and 1440px. It had no JS errors and no sideways scrolling. Not every page was checked.
   - The inline script passes `node --check`.
   - Home, a project page and Shops were screenshotted in dark mode at 390px and 1440px wide; none of them scrolled sideways.
   - 2026-10-25: a Playwright click-through (guest scan → sign up → Yards near me → libraries) at 390px and 1440px had no JS errors and no sideways scrolling. All Wikimedia photo URLs returned 200.
@@ -28,20 +29,12 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 ### Open items
 **Decisions for the owner**
 - **Home button:** it is now last in the desktop sidebar. Confirm that's what was meant, or give it more space under the logo instead.
-- **Header on large screens:** it stops at the content's maximum width, with sky on both sides. Running it full width is recommended.
-- **Moon behind text:** in dark mode on phones, pale text crosses the moon on some pages. Dim the moon or move it.
 - **Sample yard photos:** they show different gardens, not one yard from different angles. Keep them, or supply photos of one yard.
-- **Guest tile colors:** Home tiles go by position, so a guest's tiles don't always match the section headers. Fix each section's tile color for everyone, or leave it.
-- **Desktop sidebar:** the selected item is always purple. Match it to the header color, or leave it.
-- **Shops teal:** teal is close in brightness to the sky. Deepen it, or leave it.
-- **Non-native tag:** it stays sky blue so it doesn't look like the green native tag. Make it teal, or leave it.
 - **Nearby label:** the phone bar says "Nearby" because "Yards near me" doesn't fit on one line. Use a two-line label, or leave it.
-- **Recent projects red:** it is a soft coral because of the lighter palette. Use a stronger red, or leave it.
-- **`CLAUDE.md`:** consider adding a rule to check visual changes in both modes at phone and desktop widths, and a rule that text on the sky must stay readable over the clouds, sun and moon.
+- **`CLAUDE.md`:** consider adding a rule to check visual changes in both modes at phone and desktop widths.
 
 **Known limits**
 - At 320px wide, the Pollinators label sits tight against Plants in the phone bar.
-- Night clouds are silvery gray rather than white, so light text stays readable over them.
 - The time question uses water needs as a stand-in, and the wildlife matches rely on placeholder data. See "What's mocked" below.
 - About 10% of quiz answer combinations have no exact match because the plant list is small, so the app widens the search.
 
@@ -61,6 +54,7 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 `data/` holds large source files and is listed in `.gitignore`, so it exists only on the owner's machine. If a file is missing, download it again from the source given below.
 - `native-plants-for-willamette-valley-yards-booklet-high-res-20200107.pdf` (31 MB): "Native plants for Willamette Valley yards", a guide from Metro (the Portland-area regional government) and partners. It isn't used yet; it could supply data for a Pacific Northwest region.
   - **Where to get it:** the booklet's last page says it can be downloaded for free at [oregonmetro.gov/nativeplants](https://www.oregonmetro.gov/nativeplants). Residents of the Portland area can also call Metro at 503-234-3000 for printed copies.
+- **Other versions:** `Biocity.html` is another version of the site, made by a separate Claude session and based on an older version of this prototype. Its soft green look was copied into `prototype/index.html` on 2026-11-05. Unlike this prototype, it uses real Claude photo ID and builds plant lists for any zip code with `window.claude`, so those only work inside a claude.ai artifact. `Biocity.md` holds only its eight floating emojis. Neither file can be downloaded again if lost.
 
 ## Original request
 
@@ -146,7 +140,6 @@ This was drafted with the user, but they chose to start with the prototype.
 - **Navigation:** the sidebar and tab bar use `ACT.nav`, which resets the stack to `[home, section]`. `navList()` changes with sign-in: guests get "Scan a yard" in place of My Yard. "Yards near me" appears in the phone tab bar as "Nearby" for signed-in users, giving them 6 items; guests have 5. `section()` decides which nav item is highlighted. `navItems()` lists Home last in the sidebar and first in the tab bar.
 - **State:** `D` is persisted (`users`, `me`, `seen`), and `user()` is the signed-in account. `zip` is per session: it is loaded from the account if one is saved, otherwise asked for again. `guest` holds an unsaved guest scan, which is saved to the account if the guest signs up from it.
 - **Expanding cards:** `plantItem()` and `pollItem()` render collapsed rows. `openKey` (`p:<id>` / `b:<id>`) picks the one shown expanded, spanning the full grid row.
-- **Recent projects:** the Home section uses a fixed red through `.recent`, outside the color rotation.
 - **Dark/light toggle:** `themeBtn()` draws the button at the right of every header, and as a floating button on the welcome screen. The choice is saved as `D.theme` and sets `data-theme` on the root. Until someone picks, the app follows the device setting. The handler updates the button in place instead of calling `render()`, so typed form input isn't lost.
 - **Event handling:** delegated through `data-act` attributes, which map to handlers in `ACT`.
 - **Forms:** `data-form` = `zip` or `account`. The opt-in switch is `data-toggle="optin"`.
@@ -155,7 +148,7 @@ This was drafted with the user, but they chose to start with the prototype.
 - **Maps:** `baseMap()` draws the shared mock map for Shops and Yards near me, and `pinSVG()` draws its pins. `satMap(pr)` draws the property satellite view with photo pins. `geojson(pr)` builds the "Export locations for a light app" download.
 - **Quiz:** `QUIZ` holds the options and `QSTEPS` the question order and colors. `scan.qi` is the current question, and `scan.quiz` is saved on the project as `pr.quiz`. Back steps through the questions with answers kept, and back from the photo step returns to the last question.
 - **Suggestions:** `suggestions(found,quiz)` returns `{groups,relaxed}` with at most 3 plants per category. It excludes plants already found and all invasives, and puts natives first. With quiz answers, it filters by light, type, time, and wanted pollinators and animals. If nothing matches, it drops time, then wanted pollinators and animals, then type, then light, and sets `relaxed`. Projects with no quiz are unfiltered.
-- **Colors:** named colors (`--green`, `--orange`, `--teal`, `--yellow`, `--purple`, `--berry`, `--red`) each have `-soft` and `-deep` versions, redefined for dark mode. `--sky` is only for the non-native tag. Royal purple is `--primary`, used for the selected nav item and map pins. The color of the header and the phone tab bar's current-section oval (`--h`, `--h-on`) changes by section through `data-sec` on `.app`: berry for Home, green for My Yard and scans, orange for Yards near me, teal for Shops, yellow for Plants and purple for Pollinators. Tiles and groups rotate through the colors by position using `--c`, `--c-on`, `--c-soft` and `--c-deep`. Buttons, standalone rows, cards, segmented tabs and chips inside `main` get a rotating `data-c` from `render()`, so one page mixes colors. Plant and pollinator cards get their own rotation, so opening one doesn't recolor the others. All fills are light enough for dark text (`--on-c`, `--on-primary`). The scene is a fixed `body::before` using `--sky-bg` and the inline SVGs in `--sun`, `--stars`, `--clouds` and `--hills`. `--scene-x` centers the sun over the content area, allowing for the sidebar on wide screens. Text sitting directly on the scene gets a soft `--halo` text shadow so it stays readable over the scene. The clouds use the same `--scene-x`, and their image leaves its middle empty, so they never overlap the sun at any screen width.
+- **Colors:** tokens on `:root` (`--bg`, `--surface`, `--sunken`, `--ink`, `--muted`, `--line`, `--leaf`, `--leaf-ink`, `--leaf2`, `--pollen`, `--pot`, and pastel `--tint-*` fills), redefined for dark mode. Chunky shadows use `--shadow` as a solid `0 4px 0` offset. Home tiles cycle through the pastel tints by position. Quiz cards keep their own color per question through `QSTEPS[].c`; `--green`, `--yellow`, `--orange`, `--teal` and `--purple` are now aliases for the pastel tints. `logo(k)` draws the round logo (shown in the sidebar, and in the header when there's no back button), and `buddy(cls)` draws the plant-pot mascot (welcome page, and an empty My Yard). The floating emojis are the static `#floaters` element; `render()` shows it only on welcome, zip, account and Home. The loading spinner is three bouncing dots (`DOTS`).
 - **Responsive layouts:**
   - **Phone (under 960px):** a single column with a bottom tab bar.
   - **Web (960px and up):** a left sidebar for navigation (`sidebar()`) and wider content. Lists use `.list` grids, and detail pages use the two-column `.split` layout.
