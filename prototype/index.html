@@ -252,6 +252,23 @@ details ol{margin:8px 0 0;padding-left:22px;display:grid;gap:4px}
   .onboard .buddy{width:320px;justify-self:center}
   .onboard .brand{font-size:4.2rem}
 }
+.demo-shield{position:fixed;inset:0;z-index:50;cursor:pointer}
+.demo-bar{position:fixed;left:50%;width:max-content;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:52;display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--bg);border-radius:999px;padding:8px 8px 8px 16px;box-shadow:0 4px 0 var(--shadow);max-width:calc(100vw - 32px);overflow:hidden;font-weight:800}
+.demo-bar .demo-cap{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.demo-bar .demo-dot{width:10px;height:10px;border-radius:50%;background:var(--pollen);flex:none;animation:demopulse 1.2s ease-in-out infinite}
+.demo-bar .demo-stop{appearance:none;border:0;border-radius:999px;background:var(--bg);color:var(--ink);font:inherit;font-weight:800;padding:6px 14px;min-height:36px;cursor:pointer;flex:none}
+.demo-bar .demo-prog{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--pollen);transition:width .8s ease}
+.demo-cur{position:fixed;left:-14px;top:-14px;z-index:51;pointer-events:none;transition-property:transform;transition-timing-function:cubic-bezier(.4,0,.2,1)}
+.demo-cur i{display:block;width:28px;height:28px;border-radius:50%;background:rgba(255,201,51,.55);border:3px solid var(--ink);box-shadow:0 0 0 3px var(--surface);transition:transform .15s}
+.demo-cur.press i{transform:scale(.7)}
+.demo-cur.ready i{animation:demoring 1.2s ease-out infinite}
+@keyframes demoring{0%{box-shadow:0 0 0 3px var(--surface),0 0 0 3px var(--pollen)}100%{box-shadow:0 0 0 3px var(--surface),0 0 0 18px transparent}}
+@keyframes demopulse{50%{opacity:.35}}
+@media (min-width:960px){.demo-bar{bottom:24px}}
+@media (prefers-reduced-motion:reduce){.demo-bar .demo-dot,.demo-cur.ready i{animation:none}}
+.share{flex-direction:row;align-items:center;gap:16px;max-width:560px}
+.share .qr{width:128px;height:128px;flex:none;border-radius:12px;background:#fff}
+.share a{overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -412,16 +429,18 @@ const YOU_DOT='<circle cx="180" cy="150" r="8" fill="var(--pollen)" stroke="var(
 const KEY="biocity.v2";
 let D={users:{},me:"",seen:false};
 try{const raw=localStorage.getItem(KEY);if(raw)D=Object.assign(D,JSON.parse(raw))}catch(e){}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
+function save(){if(demo)return;try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
 if(D.theme)document.documentElement.dataset.theme=D.theme;
 function isDark(){const t=document.documentElement.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme:dark)").matches}
 function themeLabel(){return `Switch to ${isDark()?"light":"dark"} mode`}
 function themeBtn(cls=""){return `<button class="iconbtn${cls}" data-act="theme" aria-label="${themeLabel()}" title="${themeLabel()}">${isDark()?ICON.sun:ICON.moon}</button>`}
+const SITE="https://bob-squad-biocity.netlify.app";
+const QR=`<svg class="qr" viewBox="0 0 37 37" role="img" aria-label="QR code for ${SITE}"><rect width="37" height="37" fill="#fff"/><path transform="translate(4 4)" fill="#1B3A2D" d="M0 0h7v1h-7zM8 0h1v1h-1zM12 0h1v1h-1zM14 0h1v1h-1zM16 0h5v1h-5zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM11 1h1v1h-1zM14 1h1v1h-1zM17 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM11 2h1v1h-1zM13 2h1v1h-1zM16 2h1v1h-1zM18 2h1v1h-1zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h3v1h-3zM12 3h1v1h-1zM15 3h3v1h-3zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM14 4h6v1h-6zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM10 5h1v1h-1zM12 5h2v1h-2zM18 5h3v1h-3zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM8 7h2v1h-2zM11 7h2v1h-2zM14 7h1v1h-1zM17 7h1v1h-1zM19 7h1v1h-1zM0 8h1v1h-1zM2 8h2v1h-2zM5 8h3v1h-3zM13 8h1v1h-1zM16 8h3v1h-3zM22 8h1v1h-1zM25 8h1v1h-1zM27 8h2v1h-2zM0 9h1v1h-1zM4 9h1v1h-1zM8 9h2v1h-2zM11 9h3v1h-3zM16 9h2v1h-2zM19 9h2v1h-2zM22 9h3v1h-3zM28 9h1v1h-1zM3 10h2v1h-2zM6 10h2v1h-2zM10 10h1v1h-1zM13 10h1v1h-1zM17 10h1v1h-1zM26 10h2v1h-2zM0 11h2v1h-2zM5 11h1v1h-1zM7 11h1v1h-1zM10 11h2v1h-2zM15 11h1v1h-1zM18 11h2v1h-2zM21 11h1v1h-1zM23 11h2v1h-2zM28 11h1v1h-1zM0 12h2v1h-2zM3 12h1v1h-1zM5 12h4v1h-4zM10 12h3v1h-3zM14 12h1v1h-1zM17 12h3v1h-3zM25 12h2v1h-2zM0 13h1v1h-1zM3 13h2v1h-2zM7 13h1v1h-1zM9 13h3v1h-3zM14 13h2v1h-2zM19 13h1v1h-1zM21 13h3v1h-3zM26 13h3v1h-3zM2 14h1v1h-1zM4 14h1v1h-1zM6 14h2v1h-2zM9 14h3v1h-3zM13 14h1v1h-1zM17 14h3v1h-3zM22 14h1v1h-1zM24 14h1v1h-1zM26 14h3v1h-3zM0 15h1v1h-1zM4 15h1v1h-1zM7 15h2v1h-2zM14 15h2v1h-2zM18 15h2v1h-2zM24 15h1v1h-1zM27 15h1v1h-1zM0 16h1v1h-1zM2 16h1v1h-1zM4 16h1v1h-1zM6 16h2v1h-2zM9 16h1v1h-1zM11 16h1v1h-1zM14 16h3v1h-3zM18 16h1v1h-1zM20 16h2v1h-2zM23 16h3v1h-3zM27 16h1v1h-1zM2 17h2v1h-2zM7 17h5v1h-5zM14 17h2v1h-2zM17 17h1v1h-1zM20 17h2v1h-2zM23 17h1v1h-1zM25 17h3v1h-3zM0 18h1v1h-1zM5 18h4v1h-4zM10 18h1v1h-1zM12 18h4v1h-4zM17 18h1v1h-1zM20 18h1v1h-1zM23 18h1v1h-1zM26 18h1v1h-1zM2 19h1v1h-1zM4 19h1v1h-1zM7 19h1v1h-1zM9 19h3v1h-3zM13 19h5v1h-5zM21 19h1v1h-1zM24 19h1v1h-1zM26 19h1v1h-1zM1 20h2v1h-2zM5 20h3v1h-3zM11 20h1v1h-1zM13 20h2v1h-2zM16 20h3v1h-3zM20 20h7v1h-7zM8 21h1v1h-1zM10 21h3v1h-3zM16 21h1v1h-1zM18 21h1v1h-1zM20 21h1v1h-1zM24 21h5v1h-5zM0 22h7v1h-7zM8 22h1v1h-1zM11 22h1v1h-1zM14 22h1v1h-1zM16 22h5v1h-5zM22 22h1v1h-1zM24 22h2v1h-2zM27 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h2v1h-2zM13 23h2v1h-2zM16 23h1v1h-1zM18 23h3v1h-3zM24 23h2v1h-2zM27 23h2v1h-2zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM11 24h1v1h-1zM17 24h1v1h-1zM20 24h5v1h-5zM26 24h1v1h-1zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM8 25h2v1h-2zM11 25h1v1h-1zM15 25h4v1h-4zM20 25h2v1h-2zM23 25h3v1h-3zM28 25h1v1h-1zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM8 26h3v1h-3zM12 26h2v1h-2zM16 26h1v1h-1zM18 26h1v1h-1zM23 26h1v1h-1zM26 26h1v1h-1zM28 26h1v1h-1zM0 27h1v1h-1zM6 27h1v1h-1zM11 27h6v1h-6zM18 27h1v1h-1zM20 27h2v1h-2zM25 27h1v1h-1zM27 27h1v1h-1zM0 28h7v1h-7zM8 28h5v1h-5zM15 28h1v1h-1zM18 28h4v1h-4zM23 28h1v1h-1zM27 28h1v1h-1z"/></svg>`;
 const user=()=>D.users[D.me]||null;
 
 let zip=user()?.zip||"";
 let stack=[!D.seen?{v:"welcome"}:zip?{v:"home"}:{v:"zip"}];
-let scan=null,guest=null,libTab="native",selShop=null,selNear=null,nearFilter="all",zipErr="",acctErr="",acctDraft={},openKey=null,focusK=null,idTimer=0;
+let scan=null,guest=null,libTab="native",selShop=null,selNear=null,nearFilter="all",zipErr="",acctErr="",acctDraft={},openKey=null,focusK=null,idTimer=0,demo=null;
 const cur=()=>stack[stack.length-1];
 function go(v,p={}){openKey=null;stack.push({v,...p});render(true)}
 function back(){if(cur().v==="scan"&&scan){if(scan.step==="photo"){scan.step="quiz";scan.qi=QSTEPS.length-1;render(true);return}if(scan.step==="quiz"&&scan.qi>0){const f=document.querySelector('[data-form="quiz"]');if(f)saveQuizStep(f);scan.qi--;render(true);return}}if(stack.length>1){openKey=null;stack.pop();render(true)}}
@@ -531,7 +550,8 @@ V.welcome=()=>`${themeBtn(" float")}<main class="onboard">
   <h2>Turn your yard into habitat.</h2>
   <p class="muted lede">Scan your yard, find out what's growing there, and get a list of native plants that bring in more bees, butterflies and birds.</p></div>
   <button class="btn primary" data-act="next">Next</button>
-  <button class="btn ghost" data-act="welcomeacct">Sign in or create an account</button></div></main>`;
+  <button class="btn ghost" data-act="welcomeacct">Sign in or create an account</button>
+  <button class="linkbtn" data-act="demo" style="align-self:center">▶ Watch a demo</button></div></main>`;
 
 V.zip=()=>{const u=user(),ch=!!zip;return `${header(ch?"Change zip code":"Your area")}<main>
   <div class="stack"><h2>What's your zip code?</h2>
@@ -574,8 +594,10 @@ V.home=()=>{const u=user(),n=u?u.projects.length:0;return `${header("BioCity",`<
     <button class="tile" data-act="go" data-v="plants"><div class="ic">${ICON.plant}</div><b>Plant Library</b><span>Native and invasive plants</span></button>
     <button class="tile wide" data-act="go" data-v="pollinators"><div class="ic">${ICON.bee}</div><div><b>Pollinator Library</b><br><span>Local pollinators and the plants they need</span></div></button>
   </div>
+  <button class="chip" data-act="demo" style="align-self:flex-start">▶ Watch a demo</button>
   ${u?(n?`<section class="group recent"><h3>Recent projects<small>${n}</small></h3><div class="list">${u.projects.slice(0,3).map(projectRow).join("")}</div></section>`:"")
   :`<div class="card" style="max-width:560px"><b>Browsing as a guest</b><p class="small muted">You can scan a yard, but scans aren't saved and you'll enter your zip code each visit. An account adds My Yard and Yards near me.</p><button class="btn primary" data-act="account" style="max-width:320px">Create a free account</button></div>`}
+  <div class="card share">${QR}<div class="stack" style="gap:6px"><b>Open BioCity on your phone</b><p class="small muted">Scan the code with your camera, or share the link.</p><a class="small" href="${SITE}" target="_blank" rel="noopener">${SITE.replace("https://","")}</a></div></div>
   </main>`};
 
 V.yard=()=>{const u=user();if(!u)return V.account();return `${header("My Yard")}<main>
@@ -713,6 +735,7 @@ function pick(a){return a[Math.floor(Math.random()*a.length)]}
 function startAnalyze(){
   scan.step="analyzing";render(true);
   setTimeout(()=>{
+    if(!scan||scan.step!=="analyzing")return;
     scan.found=[pick(YARD_POOL.Tree),pick(YARD_POOL.Bush),pick(YARD_POOL["Small plant"])];
     scan.i=0;scan.cu={photos:[]};scan.step="closeup";render(true);
   },1800);
@@ -754,7 +777,8 @@ const ACT={
   shop:el=>{selShop=el.dataset.id;render()},
   near:el=>{selNear=el.dataset.id;render()},
   nfilter:el=>{nearFilter=el.dataset.f;render()},
-  tab:el=>{libTab=el.dataset.t;openKey=null;render()}
+  tab:el=>{libTab=el.dataset.t;openKey=null;render()},
+  demo:()=>runDemo()
 };
 document.addEventListener("click",e=>{const el=e.target.closest("[data-act]");if(el&&ACT[el.dataset.act]){e.preventDefault();ACT[el.dataset.act](el)}});
 document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("g[data-act]")){e.preventDefault();ACT[e.target.dataset.act](e.target)}});
@@ -795,6 +819,68 @@ document.addEventListener("submit",e=>{
     stack=zip?dest:[{v:"zip"}];render(true);
   }
 });
+
+const STOP={};
+function dWait(ms){const run=demo;return new Promise((res,rej)=>setTimeout(()=>demo===run&&run?res():rej(STOP),ms))}
+const shown=el=>el.getClientRects().length>0;
+async function dFind(sel,tries=50){for(let i=0;i<tries;i++){const el=[...document.querySelectorAll(sel)].find(shown);if(el)return el;await dWait(100)}throw STOP}
+async function dPoint(el,ms=450){
+  let r=el.getBoundingClientRect();
+  if(r.top<70||r.bottom>innerHeight-150){el.scrollIntoView({block:"center",behavior:"smooth"});await dWait(450);r=el.getBoundingClientRect()}
+  demo.cur.style.transitionDuration=ms+"ms";demo.cur.style.transform=`translate(${r.left+Math.min(r.width/2,60)}px,${r.top+r.height/2}px)`;await dWait(ms+60);
+}
+function dTap(){const run=demo;if(run.pending){run.pending=false;return Promise.resolve()}run.cur.classList.add("ready");return new Promise((res,rej)=>{run.next=()=>{run.next=null;run.cur.classList.remove("ready");demo===run?res():rej(STOP)};run.cancel=()=>rej(STOP)})}
+async function dClick(sel,after=300,ms){
+  let el=await dFind(sel);await dPoint(el,ms);await dTap();
+  if(!el.isConnected)el=await dFind(sel);
+  demo.cur.classList.add("press");await dWait(160);demo.cur.classList.remove("press");
+  if(!el.isConnected)el=await dFind(sel);
+  el.click();await dWait(after);
+}
+async function dType(sel,text){const el=await dFind(sel);await dPoint(el);el.value="";for(const ch of text){el.value+=ch;await dWait(110)}}
+function dSay(t,pct){demo.cap.textContent=t;demo.prog.style.width=pct+"%"}
+async function demoScript(){
+  dSay("Tap anywhere to go on",2);await dWait(600);
+  await dClick('[data-act="next"]');
+  dSay("Set your area",7);await dType("#zip","02139");await dClick('[data-form="zip"] [type=submit]',400);
+  dSay("Home",12);await dClick('.tile[data-v="yard"]',400);
+  dSay("Start a yard project",16);await dClick('[data-act="newscan"]',400);
+  dSay("A few quick questions",20);
+  for(const v of ["full","flower","butterfly","songbird","some"]){await dClick(`label:has(input[value="${v}"])`,150,300);await dClick('[data-form="quiz"] [type=submit]',350,300)}
+  dSay("Photograph the yard",36);await dClick('[data-act="sampleyard"]',300);await dClick('[data-act="sampleyard"]',300,300);await dClick('[data-act="analyze"]',0);
+  dSay("AI looks for plants",42);await dFind('[data-act="samplecu"]');
+  for(let i=0;i<3;i++){dSay(`Close-ups: plant ${i+1} of 3`,46+i*6);await dClick('[data-act="samplecu"]',0);await dFind('[data-act="nextcu"]:not([disabled])');await dClick('[data-act="nextcu"]',300)}
+  dSay("New plants for your yard",64);await dWait(400);await dClick('.split>div:last-child [data-act="toggle"]',400);
+  dSay("Local plant shops",72);await dClick('[data-act="nav"][data-v="shops"]',400);await dClick('.row[data-act="shop"]:nth-child(2)',400);
+  dSay("Plant Library",80);await dClick('[data-act="nav"][data-v="plants"]',400);await dClick('[data-act="tab"][data-t="invasive"]',400);await dClick('.list [data-act="toggle"]',400);
+  dSay("Pollinator Library",88);await dClick('[data-act="nav"][data-v="pollinators"]',400);await dClick('.list [data-act="toggle"]',400);
+  dSay("Yards near me",94);await dClick('[data-act="nav"][data-v="nearby"]',400);await dClick('.row[data-act="near"]:nth-child(2)',400);
+  dSay("That's BioCity! 🌱",100);await dClick('[data-act="nav"][data-v="home"]',300);
+  dSay("That's BioCity! 🌱 Tap to finish",100);await dTap();
+}
+async function runDemo(){
+  if(demo)return;
+  const run={snap:{D:JSON.stringify(D),zip,stack,scan,guest,libTab,selShop,selNear,nearFilter,openKey}};
+  const ui=document.createElement("div");
+  ui.innerHTML=`<div class="demo-shield"></div><div class="demo-cur"><i></i></div><div class="demo-bar" role="status"><span class="demo-dot"></span><span class="demo-cap">Demo</span><button class="demo-stop" type="button">Stop</button><i class="demo-prog"></i></div>`;
+  document.body.append(ui);
+  Object.assign(run,{ui,cur:ui.querySelector(".demo-cur"),cap:ui.querySelector(".demo-cap"),prog:ui.querySelector(".demo-prog")});
+  run.cur.style.transform=`translate(${innerWidth/2}px,${innerHeight/2}px)`;
+  ui.querySelector(".demo-stop").onclick=()=>endDemo(run);
+  ui.querySelector(".demo-shield").onclick=()=>run.next?run.next():run.pending=true;
+  demo=run;
+  D={users:{"demo@biocity.app":{email:"demo@biocity.app",zip:"",projects:[exampleProject()],optIn:true}},me:"demo@biocity.app",seen:false,theme:D.theme};
+  zip="";scan=null;guest=null;libTab="native";selShop=null;selNear=null;nearFilter="all";openKey=null;stack=[{v:"welcome"}];render(true);
+  try{await demoScript()}catch(e){if(e!==STOP)console.error(e)}
+  endDemo(run);
+}
+function endDemo(run){
+  if(!run||demo!==run)return;
+  demo=null;run.cancel&&run.cancel();run.ui.remove();clearTimeout(idTimer);
+  const s=run.snap;D=JSON.parse(s.D);({zip,stack,scan,guest,libTab,selShop,selNear,nearFilter,openKey}=s);
+  render(true);
+}
+document.addEventListener("keydown",e=>{if(!demo)return;if(e.key==="Escape")endDemo(demo);else if([" ","Enter","ArrowRight"].includes(e.key)){e.preventDefault();demo.next?demo.next():demo.pending=true}},true);
 render();
 </script>
 
