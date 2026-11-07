@@ -12,7 +12,10 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 - `netlify.toml` publishes the `prototype/` folder as a static site with no build step.
 - **Deploys are manual on purpose:** run `netlify deploy --prod` from the repo root. Pushing to GitHub does not redeploy, and the owner does not want GitHub linked to Netlify.
 - **Look (2026-11-05):** a soft green garden theme in light and dark, adopted from another Claude session's version (see "Other versions" under Reference data). It uses Fredoka for headings and Nunito for body text, pill-shaped buttons and cards with chunky offset shadows, pastel tiles, faint color blobs in the page background, a round logo, a plant-pot mascot with a face, and floating emojis on the welcome, zip, account and Home pages. It replaced the multicolor sky look, which had a cartoon sky, sun, clouds and hills, and colored headers for each section.
+- **Demo mode (2026-11-06):** a "▶ Watch a demo" button on the welcome page and Home starts a guided tour. Each tap anywhere on the page (or Space, Enter or →) moves a highlighted cursor to the next thing and clicks it, about 35 taps from welcome through a full scan, the libraries, Shops and Yards near me. Stop or Esc ends it, and the app goes back to exactly how it was; nothing from the demo is saved.
+- **QR code (2026-11-06):** a card at the bottom of Home shows a QR code and link to the live site, for opening BioCity on a phone. The code is a fixed inline SVG (`QR`, generated for `SITE`); if the URL changes, it must be regenerated.
 - **How it was checked:**
+  - 2026-11-06, demo mode: a Playwright script tapped through the whole demo at 390px and 1440px with no JS errors, and checked that Stop, Esc and the end of the demo all restore the signed-in account, zip and page, with nothing written to `localStorage`.
   - 2026-11-05, after the soft green look: the inline script passes `node --check`. A Playwright script went from welcome to zip, Home, Plants, Shops and the first quiz question as a guest, in both modes at 390px and 1440px. It had no JS errors and no sideways scrolling. Not every page was checked.
   - The inline script passes `node --check`.
   - Home, a project page and Shops were screenshotted in dark mode at 390px and 1440px wide; none of them scrolled sideways.
@@ -50,9 +53,6 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
   - a "[zip] · change" chip in Home's header on phones
   - a fixed color for each Home tile instead of colors by position
 
-**To do**
-- **Demo mode:** a mode that goes through the app's features by itself, as a hands-free tour for showing the app to people.
-- **QR code:** a QR code that links to https://bob-squad-biocity.netlify.app.
 
 ### What's mocked in the prototype
 - **Plant ID:** it picks 3 random plants from `YARD_POOL`, one tree, one bush and one small plant. There is no real AI or database lookup. Match confidence rises with each extra close-up.
@@ -165,6 +165,7 @@ This was drafted with the user, but they chose to start with the prototype.
 - **Quiz:** `QUIZ` holds the options and `QSTEPS` the question order and colors. `scan.qi` is the current question, and `scan.quiz` is saved on the project as `pr.quiz`. Back steps through the questions with answers kept, and back from the photo step returns to the last question.
 - **Suggestions:** `suggestions(found,quiz)` returns `{groups,relaxed}` with at most 3 plants per category. It excludes plants already found and all invasives, and puts natives first. With quiz answers, it filters by light, type, time, and wanted pollinators and animals. If nothing matches, it drops time, then wanted pollinators and animals, then type, then light, and sets `relaxed`. Projects with no quiz are unfiltered.
 - **Colors:** tokens on `:root` (`--bg`, `--surface`, `--sunken`, `--ink`, `--muted`, `--line`, `--leaf`, `--leaf-ink`, `--leaf2`, `--pollen`, `--pot`, and pastel `--tint-*` fills), redefined for dark mode. Chunky shadows use `--shadow` as a solid `0 4px 0` offset. Home tiles cycle through the pastel tints by position. Quiz cards keep their own color per question through `QSTEPS[].c`; `--green`, `--yellow`, `--orange`, `--teal` and `--purple` are now aliases for the pastel tints. `logo(k)` draws the round logo (shown in the sidebar, and in the header when there's no back button), and `buddy(cls)` draws the plant-pot mascot (welcome page, and an empty My Yard). The floating emojis are the static `#floaters` element; `render()` shows it only on welcome, zip, account and Home. The loading spinner is three bouncing dots (`DOTS`).
+- **Demo mode:** `runDemo()` snapshots `D` and the view state, swaps in a temporary `demo@biocity.app` user, and runs `demoScript()`. `save()` does nothing while `demo` is set. Each `dClick(selector)` moves the `.demo-cur` cursor to the first visible match, waits for a tap on `.demo-shield` (`dTap()`, which also buffers early taps), then clicks it. `dSay()` sets the caption and progress bar in `.demo-bar`. `endDemo()` restores the snapshot.
 - **Responsive layouts:**
   - **Phone (under 960px):** a single column with a bottom tab bar.
   - **Web (960px and up):** a left sidebar for navigation (`sidebar()`) and wider content. Lists use `.list` grids, and detail pages use the two-column `.split` layout.
