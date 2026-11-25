@@ -14,7 +14,9 @@ An app that helps people make their yards more biodiverse. They scan the yard, A
 - **Look (2026-11-05):** a soft green garden theme in light and dark, adopted from another Claude session's version (see "Other versions" under Reference data). It uses Fredoka for headings and Nunito for body text, pill-shaped buttons and cards with chunky offset shadows, pastel tiles, faint color blobs in the page background, a round logo, a plant-pot mascot with a face, and floating emojis on the welcome, zip, account and Home pages. It replaced the multicolor sky look, which had a cartoon sky, sun, clouds and hills, and colored headers for each section.
 - **Demo mode (2026-11-06):** a "▶ Watch a demo" button on the welcome page and Home starts a guided tour. Each tap anywhere on the page (or Space, Enter or →) moves a highlighted cursor to the next thing and clicks it, about 35 taps from welcome through a full scan, the libraries, Shops and Yards near me. Stop or Esc ends it, and the app goes back to exactly how it was; nothing from the demo is saved.
 - **QR code (2026-11-06):** a card at the bottom of Home shows a QR code and link to the live site, for opening BioCity on a phone. The code is a fixed inline SVG (`QR`, generated for `SITE`); if the URL changes, it must be regenerated.
+- **Skip the zip (2026-11-25):** the first-use zip prompt has a **Skip for now** button that goes straight to Home. The skip is saved (`D.skipZip`), so later visits open on Home too. With no zip, the Home header chip and the sidebar say "Add zip code", Shops is titled "Shops near you", and the region label falls back to Northeast.
 - **How it was checked:**
+  - 2026-11-25, skip zip: a Playwright script went welcome → Next → Skip for now → Home, reloaded and landed on Home again, and opened Shops, with no JS errors.
   - 2026-11-06, demo mode: a Playwright script tapped through the whole demo at 390px and 1440px with no JS errors, and checked that Stop, Esc and the end of the demo all restore the signed-in account, zip and page, with nothing written to `localStorage`.
   - 2026-11-05, after the soft green look: the inline script passes `node --check`. A Playwright script went from welcome to zip, Home, Plants, Shops and the first quiz question as a guest, in both modes at 390px and 1440px. It had no JS errors and no sideways scrolling. Not every page was checked.
   - The inline script passes `node --check`.
@@ -113,6 +115,7 @@ These override the earlier flow where they conflict.
 - **Zip code:**
   - It is used to find local shops and to set the region for native and invasive plant status.
   - The Next step and the zip prompt only appear on first use.
+  - The zip prompt can be skipped; once skipped, it is not asked again on later visits. It can be added any time from the "Add zip code" chip.
 - **Saved projects:** yards are saved. My Yard lists all previous projects plus an option to start a new one.
 - **Plant identification:**
   - Done with AI plus searches of reputable plant databases.
@@ -154,7 +157,7 @@ This was drafted with the user, but they chose to start with the prototype.
   - `YARD_POOL`: plants the mock scan can "find".
 - **Routing:** an in-memory `stack` of `{v, ...params}`. Each view is a function `V.<view>` that returns HTML.
 - **Navigation:** the sidebar and tab bar use `ACT.nav`, which resets the stack to `[home, section]`. `navList()` changes with sign-in: guests get "Scan a yard" in place of My Yard. "Yards near me" appears in the phone tab bar as "Nearby" for signed-in users, giving them 6 items; guests have 5. `section()` decides which nav item is highlighted. `navItems()` lists Home last in the sidebar and first in the tab bar.
-- **State:** `D` is persisted (`users`, `me`, `seen`), and `user()` is the signed-in account. `zip` is per session: it is loaded from the account if one is saved, otherwise asked for again. `guest` holds an unsaved guest scan, which is saved to the account if the guest signs up from it.
+- **State:** `D` is persisted (`users`, `me`, `seen`, `skipZip`), and `user()` is the signed-in account. `zip` is per session: it is loaded from the account if one is saved, otherwise asked for again unless `D.skipZip` is set. `guest` holds an unsaved guest scan, which is saved to the account if the guest signs up from it.
 - **Expanding cards:** `plantItem()` and `pollItem()` render collapsed rows. `openKey` (`p:<id>` / `b:<id>`) picks the one shown expanded, spanning the full grid row.
 - **Dark/light toggle:** `themeBtn()` draws the button at the right of every header, and as a floating button on the welcome screen. The choice is saved as `D.theme` and sets `data-theme` on the root. Until someone picks, the app follows the device setting. The handler updates the button in place instead of calling `render()`, so typed form input isn't lost.
 - **Event handling:** delegated through `data-act` attributes, which map to handlers in `ACT`.
