@@ -439,7 +439,7 @@ const QR=`<svg class="qr" viewBox="0 0 37 37" role="img" aria-label="QR code for
 const user=()=>D.users[D.me]||null;
 
 let zip=user()?.zip||"";
-let stack=[!D.seen?{v:"welcome"}:zip?{v:"home"}:{v:"zip"}];
+let stack=[!D.seen?{v:"welcome"}:zip||D.skipZip?{v:"home"}:{v:"zip"}];
 let scan=null,guest=null,libTab="native",selShop=null,selNear=null,nearFilter="all",zipErr="",acctErr="",acctDraft={},openKey=null,focusK=null,idTimer=0,demo=null;
 const cur=()=>stack[stack.length-1];
 function go(v,p={}){openKey=null;stack.push({v,...p});render(true)}
@@ -539,7 +539,7 @@ function section(){const v=(stack[1]||stack[0]).v;if(v==="scan"||v==="project")r
 function chrome(){const v=cur().v;return !(v==="welcome"||v==="scan"||(!zip&&(v==="zip"||v==="account")))}
 function navItems(short){const s=section(),l=navList();if(!short)l.push(l.shift());return l.map(([v,long,sh,ic])=>`<button class="navitem" data-act="nav" data-v="${v}"${s===v?' aria-current="page"':""}>${ic}<span>${short?sh:long}</span></button>`).join("")}
 function sidebar(){const u=user();return `<nav class="side" aria-label="Main"><div class="side-brand">${logo("s")}<span>BioCity</span></div>${navItems(false)}<div class="side-foot">
-  <span class="eyebrow">Your area</span><span>${esc(zip)} · ${esc(region())} US</span><button class="chip" data-act="changezip" style="align-self:flex-start">Change zip code</button>
+  <span class="eyebrow">Your area</span><span>${zip?`${esc(zip)} · ${esc(region())} US`:"Zip code not set"}</span><button class="chip" data-act="changezip" style="align-self:flex-start">${zip?"Change":"Add"} zip code</button>
   <span class="eyebrow" style="margin-top:12px">Account</span>${u?`<span class="small" style="overflow-wrap:anywhere">${esc(u.email)}</span><button class="chip" data-act="account" style="align-self:flex-start">Account</button>`:`<span class="small muted">Browsing as a guest</span><button class="chip" data-act="account" style="align-self:flex-start">Sign in or sign up</button>`}
   </div></nav>`}
 
@@ -556,13 +556,14 @@ V.welcome=()=>`${themeBtn(" float")}<main class="onboard">
 V.zip=()=>{const u=user(),ch=!!zip;return `${header(ch?"Change zip code":"Your area")}<main>
   <div class="stack"><h2>What's your zip code?</h2>
   <p class="muted lede">BioCity uses it to find plant shops near you and to work out which plants are native or invasive in your region.</p>
-  ${ch?"":u?`<p class="small muted">Tick "Save to my account" and BioCity won't ask again.</p>`:`<p class="small muted">Guests enter a zip code each visit. <button class="linkbtn" data-act="account">Sign in or create an account</button> to save it.</p>`}</div>
+  ${ch?"":u?`<p class="small muted">Tick "Save to my account" and BioCity won't ask again.</p>`:`<p class="small muted">Guests' zip codes aren't saved between visits. <button class="linkbtn" data-act="account">Sign in or create an account</button> to save it.</p>`}</div>
   <form class="stack" data-form="zip" style="max-width:420px">
     <label for="zip" class="eyebrow">Zip code</label>
     <input class="input" id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="02139" value="${esc(zip)}">
     ${u?`<label class="check"><input type="checkbox" name="keep" ${u.zip?"checked":""}>Save to my account</label>`:""}
     <div class="err" role="alert">${esc(zipErr)}</div>
     <button class="btn primary" type="submit">${ch?"Save":"Continue"}</button>
+    ${ch?"":`<button class="btn ghost" type="button" data-act="skipzip">Skip for now</button>`}
   </form></main>`};
 
 V.account=()=>{const u=user();
@@ -584,7 +585,7 @@ V.account=()=>{const u=user();
 
 function projectRow(p){return `<button class="row" data-act="project" data-id="${p.id}"><img class="thumb" alt="" src="${p.photo||pic(YARD_PIC)}" data-y="${p.seed||1}"><div class="txt"><b>${esc(p.name)}</b><span class="muted small">${fmtDate(p.date)} · ${p.found.length} plants found · ${p.shots.length} photos</span>${p.example?'<div class="tags"><span class="tag example">Example</span></div>':""}</div></button>`}
 
-V.home=()=>{const u=user(),n=u?u.projects.length:0;return `${header("BioCity",`<button class="chip hdr-zip" data-act="changezip" aria-label="Change zip code">${esc(zip)} · change</button><button class="iconbtn hdr-acct" data-act="account" aria-label="${u?"Account":"Sign in or sign up"}">${ICON.user}</button>`)}<main>
+V.home=()=>{const u=user(),n=u?u.projects.length:0;return `${header("BioCity",`<button class="chip hdr-zip" data-act="changezip" aria-label="${zip?"Change":"Add"} zip code">${zip?`${esc(zip)} · change`:"Add zip code"}</button><button class="iconbtn hdr-acct" data-act="account" aria-label="${u?"Account":"Sign in or sign up"}">${ICON.user}</button>`)}<main>
   <div class="stack"><span class="eyebrow">${esc(region())} US</span><h2>What would you like to do?</h2></div>
   <div class="tiles">
     ${u?`<button class="tile feature" data-act="go" data-v="yard"><div class="ic">${ICON.yard}</div><div><b>My Yard</b><br><span>${n?`${n} saved project${n>1?"s":""}`:"Scan your yard"}</span></div></button>
@@ -596,7 +597,7 @@ V.home=()=>{const u=user(),n=u?u.projects.length:0;return `${header("BioCity",`<
   </div>
   <button class="chip" data-act="demo" style="align-self:flex-start">▶ Watch a demo</button>
   ${u?(n?`<section class="group recent"><h3>Recent projects<small>${n}</small></h3><div class="list">${u.projects.slice(0,3).map(projectRow).join("")}</div></section>`:"")
-  :`<div class="card" style="max-width:560px"><b>Browsing as a guest</b><p class="small muted">You can scan a yard, but scans aren't saved and you'll enter your zip code each visit. An account adds My Yard and Yards near me.</p><button class="btn primary" data-act="account" style="max-width:320px">Create a free account</button></div>`}
+  :`<div class="card" style="max-width:560px"><b>Browsing as a guest</b><p class="small muted">You can scan a yard, but your scans and zip code aren't saved between visits. An account adds My Yard and Yards near me.</p><button class="btn primary" data-act="account" style="max-width:320px">Create a free account</button></div>`}
   <div class="card share">${QR}<div class="stack" style="gap:6px"><b>Open BioCity on your phone</b><p class="small muted">Scan the code with your camera, or share the link.</p><a class="small" href="${SITE}" target="_blank" rel="noopener">${SITE.replace("https://","")}</a></div></div>
   </main>`};
 
@@ -672,7 +673,7 @@ V.project=({id})=>{
 
 V.shops=()=>{
   const sel=SHOPS.find(s=>s.id===selShop);
-  return `${header("Shops near "+zip)}<main><div class="split">
+  return `${header(zip?"Shops near "+zip:"Shops near you")}<main><div class="split">
   <div class="pin-top">${baseMap("Map of plant shops near you",SHOPS.map((s,i)=>pinSVG(s,i,"shop",s.id===selShop)).join(""),YOU_DOT)}</div>
   <div>
   ${sel?`<div class="card"><h3>${esc(sel.n)}</h3><p class="muted small">${sel.mi} · ${sel.h}</p><p class="small">${esc(sel.t)}</p><a class="btn primary" href="https://example.com/" target="_blank" rel="noopener">Visit website</a><p class="muted small">Prototype: this opens a placeholder site.</p></div>`:`<p class="muted small">Tap a pin or a shop to see details. The yellow dot is you.</p>`}
@@ -763,8 +764,9 @@ const ACT={
   next:()=>{D.seen=true;save();go("zip")},
   welcomeacct:()=>{D.seen=true;save();acctErr="";go("account")},
   account:()=>{acctErr="";acctDraft={};go("account")},
-  signout:()=>{D.me="";save();guest=null;reset(zip?"home":"zip")},
+  signout:()=>{D.me="";save();guest=null;reset(zip||D.skipZip?"home":"zip")},
   changezip:()=>{zipErr="";go("zip")},
+  skipzip:()=>{D.skipZip=true;save();zipErr="";reset("home")},
   go:el=>go(el.dataset.v),
   nav:el=>{const v=el.dataset.v;openKey=null;if(v==="scan"){stack=[{v:"home"}];ACT.newscan();return}stack=v==="home"?[{v:"home"}]:[{v:"home"},{v}];render(true)},
   newscan:()=>{scan={step:"quiz",qi:0,photos:[],shots:[],seed:1+Math.floor(Math.random()*9)};go("scan")},
@@ -816,7 +818,7 @@ document.addEventListener("submit",e=>{
     let dest=[{v:"home"}];
     if(guest){const pr={...guest,id:"p"+Date.now(),name:"Yard scan "+(u.projects.filter(p=>!p.example).length+1)};u.projects.unshift(pr);guest=null;dest=[{v:"home"},{v:"yard"},{v:"project",id:pr.id}]}
     save();openKey=null;
-    stack=zip?dest:[{v:"zip"}];render(true);
+    stack=zip||D.skipZip?dest:[{v:"zip"}];render(true);
   }
 });
 
