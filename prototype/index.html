@@ -556,7 +556,7 @@ V.welcome=()=>`${themeBtn(" float")}<main class="onboard">
 V.zip=()=>{const u=user(),ch=!!zip;return `${header(ch?"Change zip code":"Your area")}<main>
   <div class="stack"><h2>What's your zip code?</h2>
   <p class="muted lede">BioCity uses it to find plant shops near you and to work out which plants are native or invasive in your region.</p>
-  ${ch?"":u?`<p class="small muted">Tick "Save to my account" and BioCity won't ask again.</p>`:`<p class="small muted">Guests enter a zip code each visit. <button class="linkbtn" data-act="account">Sign in or create an account</button> to save it.</p>`}</div>
+  ${ch?"":u?`<p class="small muted">Tick "Save to my account" and BioCity won't ask again.</p>`:`<p class="small muted">Guests' zip codes aren't saved between visits. <button class="linkbtn" data-act="account">Sign in or create an account</button> to save it.</p>`}</div>
   <form class="stack" data-form="zip" style="max-width:420px">
     <label for="zip" class="eyebrow">Zip code</label>
     <input class="input" id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="02139" value="${esc(zip)}">
@@ -597,7 +597,7 @@ V.home=()=>{const u=user(),n=u?u.projects.length:0;return `${header("BioCity",`<
   </div>
   <button class="chip" data-act="demo" style="align-self:flex-start">▶ Watch a demo</button>
   ${u?(n?`<section class="group recent"><h3>Recent projects<small>${n}</small></h3><div class="list">${u.projects.slice(0,3).map(projectRow).join("")}</div></section>`:"")
-  :`<div class="card" style="max-width:560px"><b>Browsing as a guest</b><p class="small muted">You can scan a yard, but scans aren't saved and you'll enter your zip code each visit. An account adds My Yard and Yards near me.</p><button class="btn primary" data-act="account" style="max-width:320px">Create a free account</button></div>`}
+  :`<div class="card" style="max-width:560px"><b>Browsing as a guest</b><p class="small muted">You can scan a yard, but your scans and zip code aren't saved between visits. An account adds My Yard and Yards near me.</p><button class="btn primary" data-act="account" style="max-width:320px">Create a free account</button></div>`}
   <div class="card share">${QR}<div class="stack" style="gap:6px"><b>Open BioCity on your phone</b><p class="small muted">Scan the code with your camera, or share the link.</p><a class="small" href="${SITE}" target="_blank" rel="noopener">${SITE.replace("https://","")}</a></div></div>
   </main>`};
 
